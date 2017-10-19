@@ -295,24 +295,47 @@ function signUpForm(){
         </div>
         <div class="form-group">
           <label for="researchInterest" class="col-sm-4 col-sm-offset-1">Research Summary</label>
-          <textarea id="researchInterest" rows="10" class="col-sm-offset-1" >Research Summary</textarea>
+          <textarea id="researchInterest" rows="10" class="col-sm-6 " >Research Summary</textarea>
+        </div>
+
+      </fieldset>
+
+      <fieldset>
+         <legend>Login Account</legend>
+         <div class="form-group">
+          <label for="email" class="col-sm-4 col-md-offset-1">Email</label>
+          <input type="email" name="" class="col-sm-6 " id="email"  required >
         </div>
         <div class="form-group">
-          <input type="file" name="" class="col-md-offset-2" id="speciality" value="Upload CV" required >
-        </div> <div class="form-group">
-          <input type="file" name="" class="col-md-offset-2" id="speciality" value="Upload CV" required >
+          <label for="password" class="col-sm-4 col-md-offset-1">Password</label>
+          <input type="password" name="" class="col-sm-6 " id="password"  required >
         </div>
+        <div class="form-group">
+          <label for="repassword" class="col-sm-4 col-md-offset-1">Re-Password</label>
+          <input type="password" name="" class="col-sm-6 " id="repassword"  required >
+        </div>
+        
+        <div class="form-group">
+          <button type="submit" class="btn btn-default col-sm-6 col-md-offset-5 "> Submit</button>
+        </div> 
 
       </fieldset>
     </form>
   </div>
 
   <div class="col-sm-4 profileImage">
-    <div class="profileImgUpload">
-
-    </div>
     <button type="image" class="btn btn-primary">Upload profile picture</button> 
+    <div class="profileImgUpload"> 
+      
+    </div>
+    <div class="form-group">
+      <input type="file" name=""  id="speciality" value="Upload CV" required >
+    </div>
+    <div class="form-group">
+      <button  class="btn btn-default"> Add Personal link </button> 
+    </div>  
   </div>
+
 </div>
 
   `

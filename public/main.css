@@ -1,81 +1,82 @@
 
-    /* Remove the navbar's default margin-bottom and rounded borders */ 
-    .navbar {
-      margin-bottom: 0;
-      border-radius: 0;
-    }
-    
-    /* Set height of the grid so .sidenav can be 100% (adjust as needed) */
-    .row.content {
-      height: 550px;
-    }
-    
-    /* Set gray background color and 100% height */
-    .sidenav {
-      padding-top: 20px;
-      background-color: #7046de;
-      height: 100%;
-    }
-    /* set the input submit button */
-    .searchButton {
-      width: 200px;
-    }
+/* Remove the navbar's default margin-bottom and rounded borders */ 
+.navbar {
+  margin-bottom: 0;
+  border-radius: 0;
+}
 
-    fieldset{
-      border:1px solid black;
-    }
+/* Set height of the grid so .sidenav can be 100% (adjust as needed) */
+.row.content {
+  height: 850px;
+}
 
-    .signUp textarea{
-      width: 85%;
-    }
+/* Set gray background color and 100% height */
+.sidenav {
+  padding-top: 20px;
+  background-color: #0033cc;
+  height: 100%;
+}
+/* set the input submit button */
+.searchButton {
+  width: 200px;
+}
 
-    /* image Upload */
-    .profileImgUpload{
-        width: 250px;
-        height:250px;
-        border:2px solid black;
-        margin-bottom: 10px;
-    }
+fieldset{
+  border:1px solid black;
+}
+
+/*sign up */
+.signUp textarea{
+  width: 100%;
+}
+.profileImgUpload{
+  width: 250px;
+  height:250px;
+  border:2px solid black;
+  margin-bottom: 10px;
+}
+
+
 /* contact us*/
-  .contactContainer{
-     width: 90%;
-      margin-right: auto;
-      margin-left: auto;
-  }
-  #subject{
-    width: 60%;
-  }
-  #message{
-    width: 100%;
-  }
-  
-  #sendmail{
-    width: 200px;
-  }
+.contactContainer{
+ width: 90%;
+ margin-right: auto;
+ margin-left: auto;
+}
+#subject{
+  width: 60%;
+}
+#message{
+  width: 100%;
+}
+
+#sendmail{
+  width: 200px;
+}
 
 /* style sign in  */
-    .loginContainer{
-      width: 50%;
-      margin-right: auto;
-      margin-left: auto;
-    }
+.loginContainer{
+  width: 50%;
+  margin-right: auto;
+  margin-left: auto;
+}
 
-    .loginContainer button{
-      width: 200px;
-    }
-    
-    /* Set black background color, white text and some padding */
-    footer {
-      background-color: #555;
-      color: white;
-      padding: 15px;
-    }
-    
-    /* On small screens, set height to 'auto' for sidenav and grid */
-    @media screen and (max-width: 767px) {
-      .sidenav {
-        height: auto;
-        padding: 15px;
-      }
-      .row.content {height:auto;} 
-    }
+.loginContainer button{
+  width: 200px;
+}
+
+
+footer {
+  background-color: #555;
+  color: white;
+  padding: 15px;
+}
+
+/* On small screens, set height to 'auto' for sidenav and grid */
+@media screen and (max-width: 767px) {
+  .sidenav {
+    height: auto;
+    padding: 15px;
+  }
+  .row.content {height:auto;} 
+}
