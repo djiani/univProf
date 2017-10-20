@@ -5,12 +5,19 @@
   border-radius: 0;
 }
 
-/* Set height of the grid so .sidenav can be 100% (adjust as needed) */
+/*main container stylle*/
 .row.content {
   height: 850px;
 }
 
-/* Set gray background color and 100% height */
+.js_user{
+  display: inline-block;
+  width: 25%;
+  border:1px solid black;
+  margin:5px;
+}
+
+/*side container style*/
 .sidenav {
   padding-top: 20px;
   background-color: #0033cc;

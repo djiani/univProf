@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 
 //create a schema for the database
 
-const univProfSchemna = mongoose.Schema({
+const univProfSchema = mongoose.Schema({
   name: {
     firstName:{type: String, required:true},
     lastName:{type: String, required:true},
@@ -13,15 +13,15 @@ const univProfSchemna = mongoose.Schema({
   state: {type: String, required:true},
   university: {type: String, required:true},
   speciality: {type: String, required:true},
-  researchSum: type: String,
+  researchSum: String,
   created: {type:Date, default:Date.now}
 })
 
-univProfSchemna.virtual('userName').get(function(){
+univProfSchema.virtual('userName').get(function(){
   return `${this.name.firstName} ${this.name.lastName}`.trim();
 });
 
-univProfSchemna.methods.aprRepr= function(){
+univProfSchema.methods.apiRepr= function(){
   return {
     id : this._id,
     name: this.userName,
@@ -36,5 +36,5 @@ univProfSchemna.methods.aprRepr= function(){
 
 }
 
-const UnivProf = mongoose.model('univprofs', univProfSchemna);
+const UnivProf = mongoose.model('univprofs', univProfSchema);
 module.exports = {UnivProf};
