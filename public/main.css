@@ -13,6 +13,8 @@
 .js_user{
   display: inline-block;
   width: 25%;
+  height: 300px;
+  overflow: auto;
   border:1px solid black;
   margin:5px;
 }
