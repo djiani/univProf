@@ -295,7 +295,7 @@ function signUpForm(){
             <input type="text" name="" class="col-sm-6 " id="speciality"  required >
           </div>
           <div class="form-group">
-            <label for="researchInterest" class="col-sm-2 col-sm-offset-1">Research Summary</label>
+            <label for="researchInterest" class="col-sm-2 col-sm-offset-1" >Research Summary</label>
             <textarea id="researchInterest" rows="10" class="col-sm-6 "placeholder="brief description of your research interest here" >
             </textarea>
           </div>
@@ -454,10 +454,11 @@ function handleAddUser(){
         lastName: $(event.currentTarget).find('#lastName').val()
       },
       email: $(event.currentTarget).find('#email').val(),
-      country: $("#country").filter(":selected").text(),
+      country: $("#country").val(),
       state: $(event.currentTarget).find('#state').val(),
       university: $(event.currentTarget).find('#university').val(),
-      researchSum: $(event.currentTarget).find('#researchSum').val(),
+      speciality: $(event.currentTarget).find('#speciality').val(),
+      researchSum: $(event.currentTarget).find('#researchInterest').val(),
       password: $(event.currentTarget).find('#password').val()
     }
     console.log('check new user:')
