@@ -6,28 +6,28 @@ function signUpForm(){
   <div class="container-fluid">
     <div class="rows">
       <div class="col-sm-8">
-        <form class="form-horizontal">
+        <form class="form-horizontal" id='submitSignUpForm'>
           <fieldset>
             <legend>Contact</legend>
             <div class="form-group">
-              <label for="firstName" class="col-sm-4 col-md-offset-1">First Name</label>
+              <label for="firstName" class="col-sm-2 col-md-offset-1">First Name</label>
               <input type="text" name="" class="col-sm-6 " id="firstName"  required >
             </div>
             <div class="form-group">
-              <label for="fastName" class="col-sm-4 col-md-offset-1">Last Name</label>
+              <label for="fastName" class="col-sm-2 col-md-offset-1">Last Name</label>
               <input type="text" name="" class="col-sm-6"id="lastName" required>
             </div>
             <div class="form-group">
-              <label for="email" class="col-sm-4 col-md-offset-1">Email</label>
+              <label for="email" class="col-sm-2 col-md-offset-1">Email</label>
               <input type="email" name="" class="col-sm-6" id="email" required>
             </div>
             <div class="form-group">
-              <label for="tel" class="col-sm-4 col-md-offset-1">Phone Number</label>
-              <input type="tel" name=""  class="col-sm-6"id="tel" required>
+              <label for="tel" class="col-sm-2 col-md-offset-1">Phone Number</label>
+              <input type="tel" name=""  class="col-sm-6"id="tel" >
             </div>
             <div class="form-group">
-              <label for="country" class="col-sm-4 col-sm-offset-1">Country</label>
-              <select name="country" class="col-sm-6">
+              <label for="country" class="col-sm-2 col-sm-offset-1">Country</label>
+              <select name="country" id="country" class="col-sm-6">
                 <option value="">Country...</option>
                 <option value="Afganistan">Afghanistan</option>
                 <option value="Albania">Albania</option>
@@ -279,24 +279,25 @@ function signUpForm(){
               </select>
             </div>
             <div class="form-group">
-              <label for="tel" class="col-sm-4 col-sm-offset-1">region or State</label>
-              <input type="text" name=""  class="col-sm-6"id="tel" required>
+              <label for="state" class="col-sm-2 col-sm-offset-1">region or State</label>
+              <input type="text" name=""  class="col-sm-6" id="state" required>
             </div>
 
           </fieldset>
           <fieldset>
            <legend>Speciality</legend>
            <div class="form-group">
-            <label for="university" class="col-sm-4 col-md-offset-1">University</label>
+            <label for="university" class="col-sm-2 col-md-offset-1">University</label>
             <input type="text" name="" class="col-sm-6 " id="university"  required >
           </div>
           <div class="form-group">
-            <label for="speciality" class="col-sm-4 col-md-offset-1">Speciality</label>
+            <label for="speciality" class="col-sm-2 col-md-offset-1">Speciality</label>
             <input type="text" name="" class="col-sm-6 " id="speciality"  required >
           </div>
           <div class="form-group">
-            <label for="researchInterest" class="col-sm-4 col-sm-offset-1">Research Summary</label>
-            <textarea id="researchInterest" rows="10" class="col-sm-6 " >Research Summary</textarea>
+            <label for="researchInterest" class="col-sm-2 col-sm-offset-1">Research Summary</label>
+            <textarea id="researchInterest" rows="10" class="col-sm-6 "placeholder="brief description of your research interest here" >
+            </textarea>
           </div>
 
         </fieldset>
@@ -304,20 +305,20 @@ function signUpForm(){
         <fieldset>
            <legend>Login Account</legend>
            <div class="form-group">
-            <label for="email" class="col-sm-4 col-md-offset-1">Email</label>
+            <label for="email" class="col-sm-2 col-md-offset-1">Email</label>
             <input type="email" name="" class="col-sm-6 " id="email"  required >
           </div>
           <div class="form-group">
-            <label for="password" class="col-sm-4 col-md-offset-1">Password</label>
+            <label for="password" class="col-sm-2 col-md-offset-1">Password</label>
             <input type="password" name="" class="col-sm-6 " id="password"  required >
           </div>
           <div class="form-group">
-            <label for="repassword" class="col-sm-4 col-md-offset-1">Re-Password</label>
+            <label for="repassword" class="col-sm-2 col-md-offset-1">Re-Password</label>
             <input type="password" name="" class="col-sm-6 " id="repassword"  required >
           </div>
           
           <div class="form-group">
-            <button type="submit" class="btn btn-default col-sm-6 col-md-offset-5 "> Submit</button>
+            <button type="submit" class="btn btn-default col-sm-6 col-md-offset-2 " > Submit</button>
           </div> 
 
         </fieldset>
@@ -333,7 +334,7 @@ function signUpForm(){
         <input type="file" name=""  id="speciality" value="Upload CV" required >
       </div>
       <div class="form-group">
-        <button  class="btn btn-default"> Add Personal link </button> 
+        <button  class="btn btn-default js_personalLink"> Add Personal link </button> 
       </div>  
     </div>
 
@@ -425,6 +426,46 @@ function getandDisplayUsers(){
     $('.mainContainer').html(usersElts);
   })
 }
+
+function addUser(user){
+  console.log('Adding a new user '+ user);
+  $.ajax({
+    method: 'POST',
+    url: USERS_URL,
+    data: JSON.stringify(user),
+    success: function(data){
+      getandDisplayUsers();
+    },
+    dataType: 'json',
+    contentType: 'application/json'
+  })
+}
+
+function handleAddUser(){
+  $(".mainContainer").on('click', '.js_personalLink', function(event){
+    alert("add personal link test!");
+  })
+  $(".mainContainer").on('submit','form#submitSignUpForm', function(event){
+    event.preventDefault();
+    //alert("test submit");
+    let user = {
+       name: {
+        firstName: $(event.currentTarget).find('#firstName').val(),
+        lastName: $(event.currentTarget).find('#lastName').val()
+      },
+      email: $(event.currentTarget).find('#email').val(),
+      country: $("#country").filter(":selected").text(),
+      state: $(event.currentTarget).find('#state').val(),
+      university: $(event.currentTarget).find('#university').val(),
+      researchSum: $(event.currentTarget).find('#researchSum').val(),
+      password: $(event.currentTarget).find('#password').val()
+    }
+    console.log('check new user:')
+    console.log(user);
+    addUser(user);
+  })
+
+}
 /* main function called when DOM has be load and ready*/
 $(function(){
   //populate the interface with the data initial
@@ -465,6 +506,9 @@ $(function(){
   });
 
 
+
+  //post sign up form
+  handleAddUser();
 
   //set active class to nav bar
   $('.nav li').click(function(){
