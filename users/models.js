@@ -1,7 +1,9 @@
 const mongoose = require('mongoose');
+const bcrypt = require('bcrypt');
+
+mongoose.Promise = global.Promise;
 
 //create a schema for the database
-
 const univProfSchema = mongoose.Schema({
   name: {
     firstName:{type: String, required:true},
@@ -35,6 +37,14 @@ univProfSchema.methods.apiRepr= function(){
   };
 
 }
+
+univProfSchema.methods.validatePassword = function(password) {
+    return bcrypt.compare(password, this.password);
+};
+
+univProfSchema.statics.hashPassword = function(password) {
+    return bcrypt.hash(password, 10);
+};
 
 const UnivProf = mongoose.model('univprofs', univProfSchema);
 module.exports = {UnivProf};
