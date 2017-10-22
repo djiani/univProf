@@ -1,3 +1,44 @@
+const passport = require('passport')
+LocalStrategy = require('passport-local').Strategy;
+
+
+const {Users} = require('../users/models');
+//const {JWT_SECRET} = require('../config');
+
+passport.serializeUser(function(user, done) {
+  done(null, user.id);
+});
+
+passport.deserializeUser(function(id, done) {
+  User.findById(id, function(err, user) {
+    done(err, user);
+  });
+});
+
+
+const localStrategy = new LocalStrategy({
+    usernameField: 'email',
+    passwordField: 'password',
+  },
+  function(username, password, done) {
+    Users.findOne({ username: username }, function (err, user) {
+      console.log('test strategies'+ user)
+      if (err) { return done(err); }
+      if (!user) {
+        return done(null, false, { message: 'Incorrect username.' });
+      }
+      if (!user.validPassword(password)) {
+        return done(null, false, { message: 'Incorrect password.' });
+      }
+      return done(null, user);
+    });
+  }
+);
+
+
+
+
+/*
 const passport = require('passport');
 const {BasicStrategy} = require('passport-http');
 const {
@@ -8,12 +49,12 @@ const {
     ExtractJwt
 } = require('passport-jwt');
 
-const {User} = require('../users/models');
+const {Users} = require('../users/models');
 const {JWT_SECRET} = require('../config');
 
 const basicStrategy = new BasicStrategy((email, password, callback) => {
     let user;
-    User.findOne({email: email})
+    Users.findOne({email: email})
         .then(_user => {
             user = _user;
             if (!user) {
@@ -55,5 +96,5 @@ const jwtStrategy = new JwtStrategy(
         done(null, payload.user);
     }
 );
-
-module.exports = {basicStrategy, jwtStrategy};
+*/
+module.exports = {localStrategy};

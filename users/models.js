@@ -46,5 +46,5 @@ univProfSchema.statics.hashPassword = function(password) {
     return bcrypt.hash(password, 10);
 };
 
-const UnivProf = mongoose.model('univprofs', univProfSchema);
-module.exports = {UnivProf};
+const Users = mongoose.model('univprofs', univProfSchema);
+module.exports = {Users};

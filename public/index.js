@@ -1,5 +1,7 @@
 const USERS_URL = '/api/users';
+const AUTH_URL_LOGIN = '/api/auth/login';
 
+/*
 function signUpForm(){
   return  `
   <h2>Please, Fill the form below!</h2>
@@ -16,10 +18,6 @@ function signUpForm(){
             <div class="form-group">
               <label for="fastName" class="col-sm-2 col-md-offset-1">Last Name</label>
               <input type="text" name="" class="col-sm-6"id="lastName" required>
-            </div>
-            <div class="form-group">
-              <label for="email" class="col-sm-2 col-md-offset-1">Email</label>
-              <input type="email" name="" class="col-sm-6" id="email" required>
             </div>
             <div class="form-group">
               <label for="tel" class="col-sm-2 col-md-offset-1">Phone Number</label>
@@ -313,8 +311,8 @@ function signUpForm(){
             <input type="password" name="" class="col-sm-6 " id="password"  required >
           </div>
           <div class="form-group">
-            <label for="repassword" class="col-sm-2 col-md-offset-1">Re-Password</label>
-            <input type="password" name="" class="col-sm-6 " id="repassword"  required >
+            <label for="ReEnterpassword" class="col-sm-2 col-md-offset-1">ReEnter-Password</label>
+            <input type="password" name="" class="col-sm-6 " id="reEnterpassword"  required >
           </div>
           
           <div class="form-group">
@@ -384,6 +382,7 @@ function contactusForm(){
       </div> 
   `
 }
+*/
 
 /*take care of this direct message sending */
 function sendEmail() {
@@ -442,8 +441,12 @@ function addUser(user){
 }
 
 function handleAddUser(){
+    let url_photo= '';
+    let url_cv = '';
+    let personal_link = [];
+
   $(".mainContainer").on('click', '.js_personalLink', function(event){
-    alert("add personal link test!");
+    display();
   })
   $(".mainContainer").on('submit','form#submitSignUpForm', function(event){
     event.preventDefault();
@@ -467,6 +470,53 @@ function handleAddUser(){
   })
 
 }
+
+function logginUser(login){
+    console.log('user is about to log in!');
+    $.ajax({
+        method: 'POST',
+        url: AUTH_URL_LOGIN,
+        data: JSON.stringify(login),
+        success: function(data){
+            console.log('successful login! welcome To this website');
+            console.log(data);
+
+            //display account user here!
+        },
+        error: function(err){
+            console.log('fail to sent api url');
+            console.log(err);
+        },
+        dataType: 'json',
+        contentType: 'application/json'
+
+    })
+}
+
+function handleLoginUser(){
+    $(".mainContainer").on('submit','form#submitSignInForm', function(event){
+        event.preventDefault();
+        alert("test sign in form");
+        let login = {
+         email: $(event.currentTarget).find('#email').val(),
+         password: $(event.currentTarget).find('#password').val()
+        }
+        console.log(login)
+        logginUser(login);
+    });
+
+}
+
+function handleSignOut(){
+    $(".js_signOutNav").click(function(event){
+        alert("signout test passed!");
+        $.get('/api/auth/signout', function(data, status){
+            console.log("successful sign out" + status);
+        })
+    })
+}
+
+
 /* main function called when DOM has be load and ready*/
 $(function(){
   //populate the interface with the data initial
@@ -474,10 +524,12 @@ $(function(){
 
   $(".js_signUpNav").on("click", function(){
     $(".mainContainer").html(signUpForm);
+    setCountryValue($(".js_signUpNav"));
   });
   $(".mainContainer").on('click', '.js_signUp2', function(event){
     event.preventDefault();
     $(".mainContainer").html(signUpForm);
+    setCountryValue();
   })
 
   $(".js_signInNav").on("click", function(){
@@ -510,7 +562,9 @@ $(function(){
 
   //post sign up form
   handleAddUser();
-
+  //post siggn form
+  handleLoginUser();
+  handleSignOut();
   //set active class to nav bar
   $('.nav li').click(function(){
     $('.nav li').removeClass('active');

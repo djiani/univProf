@@ -6,11 +6,11 @@ const router = express.Router();
 const jsonParser = bodyParser.json();
 
 
-const {UnivProf} = require('./models');
+const {Users} = require('./models');
 
-//get back all users if get on the root
+//get back all users  on GET endpoint
 router.get('/', (req, res)=>{
-  UnivProf
+  Users
   .find()
   .then(result =>{
     res.status(200).json({
@@ -24,7 +24,7 @@ router.get('/', (req, res)=>{
 });
 
 
-//post to register a new user in db
+//register a new user in db on POST
 router.post('/', jsonParser, (req, res)=>{
   const requiredFields = ['name', 'email', 'password', 'country', 'state', 'university', 'speciality', 'researchSum'];
   for(let i=0; i < requiredFields.length; i++){
@@ -35,8 +35,10 @@ router.post('/', jsonParser, (req, res)=>{
       res.status(400).send(message);
     }
   }
-  email = req.email.trim();
-  return UnivProf.find({email})
+  let email = req.body.email;
+  email = email.trim();
+  console.log(email);
+  return Users.find({email})
   .count()
   .then(count => {
     if(count > 0){
@@ -47,14 +49,14 @@ router.post('/', jsonParser, (req, res)=>{
         location: 'email'
       });
     }
-    return UnivProf.hasPassword(req.password);
+    return Users.hashPassword(req.body.password);
   })
   .then(hash => {
-    return UnivProf
+    return Users
     .create({
       name:req.body.name,
       email:req.body.email,
-      password: req.body.password,
+      password: hash,
       country: req.body.country,
       state: req.body.state,
       university: req.body.university,
@@ -69,6 +71,7 @@ router.post('/', jsonParser, (req, res)=>{
     if(err.reason === 'ValidatorError'){
       return res.status(err.code).json(err);
     }
+    console.log(err)
     res.status(500).json({message:'Internal server error'});
   });
 });
@@ -78,4 +81,4 @@ router.post('/', jsonParser, (req, res)=>{
 
 
 
-module.exports= router;
+module.exports= {router};

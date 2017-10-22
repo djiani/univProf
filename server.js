@@ -4,10 +4,15 @@ const morgan = require('morgan');
 const mongoose = require('mongoose')
 const bodyParser = require('body-parser');
 const passport = require('passport');
+const expressSession = require('express-session')
+const cookieParser = require('cookie-parser');
+const flash = require('connect-flash');
+
+//const favicon = require('static-favicon');
 
 
-const {router: userRouter} = require('./users');
-const {router:authRouter, basicStrategy, jwtStrategy} = require('./auth');
+const {router: usersRouter} = require('./users');
+const {router: authRouter, localStrategy} = require('./auth');
 
 // configure mongoose to use ES6 promisses
 mongoose.Promise = global.Promise;
@@ -16,10 +21,23 @@ const app = express();
 const {PORT, DATABASE_URL} = require('./config');
 
 //import static file
-app.use(express.static('public'));
-
+//app.use(express.static('public'));
 // log the http layer
+//app.use(morgan('common'));
+
+//new added for local strategies
+
+app.use(express.static('public'));
 app.use(morgan('common'));
+app.use(cookieParser());
+app.use(bodyParser.json());
+app.use(flash());
+
+app.use(expressSession({secret: 'mySecretKey'}));
+app.use(passport.initialize());
+app.use(passport.session());
+
+
 
 // CORS
 app.use(function(req, res, next) {
@@ -38,9 +56,9 @@ app.get('/', (req, res) => {
   res.sendFile(__dirname + '/views/index.html');
 });
 
-app.use(passport.initialize());
-passport.use(basicStrategy);
-passport.use(jwtStrategy);
+//app.use(passport.initialize());
+passport.use(localStrategy);
+//passport.use(jwtStrategy);
 
 app.use('/api/users/', usersRouter);
 app.use('/api/auth/', authRouter);
