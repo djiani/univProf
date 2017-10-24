@@ -6,8 +6,8 @@ mongoose.Promise = global.Promise;
 //create a schema for the database
 const univProfSchema = mongoose.Schema({
   name: {
-    firstName:{type: String, required:true},
-    lastName:{type: String, required:true},
+    firstName: {type: String, required:true},
+    lastName: {type: String, required:true}
   },
   email: {type: String, required:true},
   password: {type: String, required:true},
@@ -31,6 +31,7 @@ univProfSchema.methods.apiRepr= function(){
     password: this.password,
     country: this.country,
     state: this.state,
+    university:this.university,
     speciality:this.speciality,
     researchSum: this.researchSum,
     created: this.created

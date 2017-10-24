@@ -23,7 +23,29 @@ router.get('/', (req, res)=>{
   })
 });
 
+//get back all users  on GET endpoint
+router.get('/:searchTerm', (req, res)=>{
+  console.log(req.params)
+  Users
+  .find({$or:[
+    {speciality:{$regex: '.*' + req.params.searchTerm + '.*', $options: 'i' }},
+    {country: {$regex: '.*' + req.params.searchTerm + '.*', $options: 'i' }},
+    {'name.firstName': {$regex: '.*' + req.params.searchTerm + '.*', $options: 'i' }},
+    {'name.lastName': {$regex: '.*' + req.params.searchTerm + '.*', $options: 'i' }}
+  ]})
+  .then(result =>{
+    res.status(200).json({
+      'users':result.map(user => user.apiRepr())
+    });
+  })
+  .catch(err =>{
+    console.error(err);
+    res.status(500).json({message:'Internal server error'})
+  })
+});
+/*
 
+*/
 //register a new user in db on POST
 router.post('/', jsonParser, (req, res)=>{
   const requiredFields = ['name', 'email', 'password', 'country', 'state', 'university', 'speciality', 'researchSum'];

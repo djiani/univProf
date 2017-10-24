@@ -1,8 +1,11 @@
 ////////////////////////////////////////////////////////////////////////////
 // city_state.js ///////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////
+var region= Object();
+region = ['Africa', 'Antarctica', 'Asia', 'Australia', 'Caribbean', 'Central America', 'Europe', 'Islands', 'Middle East', 'North America', 'South America'];
 
 var countries = Object();
+
 
 countries['Africa'] = '|Algeria|Angola|Benin|Botswana|Burkina Faso|Burundi|Cameroon|Cape Verde|Central African Republic|Chad|Comoros|Congo, Dem.|Congo, Rep.|Djibouti|Egypt|Equatorial Guinea|Eritrea|Ethiopia|Gabon|Gambia|Ghana|Guinea|Guinea-Bissau|Kenya|Lesotho|Liberia|Libya|Madagascar|Malawi|Mali|Mauritania|Mauritius|Morocco|Mozambique|Namibia|Niger|Nigeria|Rwanda|Sao Tome/Principe|Senegal|Seychelles|Sierra Leone|Somalia|South Africa|Sudan|Swaziland|Tanzania|Togo|Tunisia|Uganda|Zambia|Zimbabwe';
 countries['Antarctica'] = '|Amundsen-Scott';
@@ -347,11 +350,12 @@ function setCountryValue(target)
 
   $("#country").change(function(event){
     let targetCountry= event.currentTarget;
-    $("#city_state").html(set_city_state(targetCountry));
+    $("#state").html(set_city_state(targetCountry));
   });
 
-  $("#city_state").change(function(event){
+  $("#state").change(function(event){
     let targetState = event.currentTarget;
-    print_city_state(targetState);
+    //print_city_state(targetState);
   });
 }
+

@@ -30,8 +30,8 @@ function signUpForm(){
               <select name="country" id="country" class="col-sm-6"> </select>
             </div>
             <div class="form-group">
-              <label for="city_state" class="col-sm-2 col-sm-offset-1">State/City</label>
-              <select name="city_state" id="city_state" class="col-sm-6"> </select>
+              <label for="state" class="col-sm-2 col-sm-offset-1">State/City</label>
+              <select name="state" id="state" class="col-sm-6"> </select>
             </div>
           </fieldset>
 
@@ -135,3 +135,11 @@ function contactusForm(){
       </div> 
   `
 }
+
+function userTemplate(){
+  return `
+    <div class="js_user"> 
+      <ul class="js_user_info"> </ul>
+    </div>`
+}
+  

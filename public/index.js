@@ -397,23 +397,15 @@ function sendEmail() {
   updateMailString();
 }
 
-//make ajax call to api/users
-const userTemplate = (
-  '<div class="js_user"> '+
-    '<ul class="js_user_info"> </ul>'
-  +'</div>'
-  );
 
-function getandDisplayUsers(){
-  console.log('Retrieve users');
-  $.getJSON(USERS_URL, function(data){
-    console.log('Rendering users infos');
-    console.log(data);
-    let usersElts = data.users.map(function(user){
-      let element = $(userTemplate);
+function renderUsers(data){
+   let usersElts = data.users.map(function(user){
+      let element = $(userTemplate());
+      //alert(element);
       element.find('.js_user_info').append(
         `<li>Name: ${user.name} </li>
         <li>Email: ${user.email} </li>
+        <li>university: ${user.university} </li>
         <li>Speciality: ${user.speciality} </li>
         <li>Country: ${user.country} </li>
         <li>State: ${user.state} </li>
@@ -421,11 +413,23 @@ function getandDisplayUsers(){
         <li>Created on : ${user.created} </li>
         `);
       return element;
-    });
+  });
+
+   return usersElts;
+}
+
+
+function getandDisplayUsers(){
+  console.log('Retrieve users');
+  $.getJSON(USERS_URL, function(data){
+    console.log('Rendering users infos');
+    console.log(data);
+    let usersElts = renderUsers(data);
     $('.mainContainer').html(usersElts);
   })
 }
 
+//adding to new user to db using a signup forms
 function addUser(user){
   console.log('Adding a new user '+ user);
   $.ajax({
@@ -444,7 +448,7 @@ function handleAddUser(){
     let url_photo= '';
     let url_cv = '';
     let personal_link = [];
-
+// get picture link and website link of the new user
   $(".mainContainer").on('click', '.js_personalLink', function(event){
     display();
   })
@@ -471,6 +475,7 @@ function handleAddUser(){
 
 }
 
+//sign in a new users
 function logginUser(login){
     console.log('user is about to log in!');
     $.ajax({
@@ -516,11 +521,30 @@ function handleSignOut(){
     })
 }
 
+function handleSearch(){
+    $(".submitSearch").submit(function(event){
+        event.preventDefault();
+        let searchName = $("#searchInput").val();
+        //alert(searchName);
+        $.getJSON(USERS_URL+'/'+ searchName, function(data){
+            console.log('Rendering users search infos');
+            console.log(data);
+           let usersElts = renderUsers(data);
+            $('.mainContainer').html(usersElts);
+        })
+    })
+}
+
+//settings up affix
+function settingUpAffix(){
+    alert('');
+}
 
 /* main function called when DOM has be load and ready*/
 $(function(){
   //populate the interface with the data initial
-  getandDisplayUsers();
+  //getandDisplayUsers();
+  handleSearch();
 
   $(".js_signUpNav").on("click", function(){
     $(".mainContainer").html(signUpForm);
@@ -550,8 +574,7 @@ $(function(){
   })
 
    $(".js_searchNav").click(function(event){
-    alert("Need some help??? we still working on it!");
-     $(".mainContainer").html('<h1>Search strategies has been implemented yet</h1>');
+    
   })
 
   $(".mainContainer").on('click','#mail-link', function(event){

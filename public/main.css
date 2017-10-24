@@ -1,14 +1,49 @@
 
-/* Remove the navbar's default margin-bottom and rounded borders */ 
+body{
+  height: 100%;
+}
+.jumbotron{
+  margin-bottom: 0;
+  background-color: #0033cc;
+  padding-top: 15px;
+  padding-bottom: 15px;
+}
+.jumbotron div {
+  display:inline-block;
+}
 .navbar {
   margin-bottom: 0;
   border-radius: 0;
 }
+.navbar.affix {
+      top: 0;
+      width: 100%;
+}
+.leftSidenav.affix{
+  top: 50px;
+  left: 0px;
+}
+.rightSidenav.affix{
+  top: 50px;
+  right: 0px;
+}
 
 /*main container stylle*/
 .row.content {
-  height: 850px;
+  /*height: 850px;*/
 }
+.mainContainer{
+  height: 400px;
+  overflow: auto;
+  margin-right: auto;
+  margin-left: auto;
+  border:2px solid black;
+}
+.mainContainerAffix{
+  position: relative;
+  left:205px;
+}
+
 
 .js_user{
   display: inline-block;
@@ -23,7 +58,6 @@
 .sidenav {
   padding-top: 20px;
   background-color: #0033cc;
-  height: 100%;
 }
 /* set the input submit button */
 .searchButton {
