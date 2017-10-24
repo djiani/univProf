@@ -39,10 +39,6 @@ body{
   margin-left: auto;
   border:2px solid black;
 }
-.mainContainerAffix{
-  position: relative;
-  left:205px;
-}
 
 
 .js_user{
@@ -58,6 +54,10 @@ body{
 .sidenav {
   padding-top: 20px;
   background-color: #0033cc;
+}
+
+.pager{
+  border-top: 4px solid black;
 }
 /* set the input submit button */
 .searchButton {

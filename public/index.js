@@ -386,36 +386,103 @@ function contactusForm(){
 
 /*take care of this direct message sending */
 function sendEmail() {
-  var mailString;
-  function updateMailString() {
-    mailString = '?subject=' + encodeURIComponent($('#subject').val())
-    + '&body=' + encodeURIComponent($('#message').val());
-    $('#mail-link').attr('href',  'mailto:djiasara@gmail.com' + mailString);
-  }
-  $( "#subject" ).focusout(function() { updateMailString(); });
-  $( "#message" ).focusout(function() { updateMailString(); });
-  updateMailString();
+    var mailString;
+    function updateMailString() {
+        mailString = '?subject=' + encodeURIComponent($('#subject').val())
+        + '&body=' + encodeURIComponent($('#message').val());
+        $('#mail-link').attr('href',  'mailto:djiasara@gmail.com' + mailString);
+    }
+    $( "#subject" ).focusout(function() { updateMailString(); });
+    $( "#message" ).focusout(function() { updateMailString(); });
+    updateMailString();
 }
 
 
 function renderUsers(data){
-   let usersElts = data.users.map(function(user){
-      let element = $(userTemplate());
-      //alert(element);
-      element.find('.js_user_info').append(
-        `<li>Name: ${user.name} </li>
-        <li>Email: ${user.email} </li>
-        <li>university: ${user.university} </li>
-        <li>Speciality: ${user.speciality} </li>
-        <li>Country: ${user.country} </li>
-        <li>State: ${user.state} </li>
-        <li>ResearchInterest: ${user.researchSum} </li>
-        <li>Created on : ${user.created} </li>
-        `);
-      return element;
-  });
+    if (data.length > 0){
+       let usersElts = data.map(function(user){
+          let element = $(userTemplate());
+          element.find('.js_user_info').append(
+            `<li>Name: ${user.name} </li>
+            <li>Email: ${user.email} </li>
+            <li>university: ${user.university} </li>
+            <li>Speciality: ${user.speciality} </li>
+            <li>Country: ${user.country} </li>
+            <li>State: ${user.state} </li>
+            <li>ResearchInterest: ${user.researchSum} </li>
+            <li>Created on : ${user.created} </li>
+            `);
+          return element;
+        });
+        $('.js_displayUsers').html(usersElts);
+        $('.pager').show();
+    }
+    else{
+        let html = '<h2> No data were found </h2>';
+        $('.js_displayUsers').html(html);
+        $('.pager').hide();
+    }
+}
 
-   return usersElts;
+function renderUsers2(data){
+    let min = 0;
+    let stepSize = 2;
+    let max = stepSize;
+    console.log('1-min: '+min+' max: '+max +' len: '+data.length);
+    if(data.length > max){
+        $(".pager").show();
+        if(min === 0){
+            $(".previous").hide();
+        }else{
+           $(".previous").show(); 
+        }
+        let data1 = data.slice(min, max);
+        renderUsers(data1);
+        min = max;
+        max +=stepSize;
+    }else{
+        //console.log('2-min: '+min+' max: '+max +' len: '+data.length);
+        renderUsers(data);
+        $(".pager").hide();
+    }
+
+    $(".next").click(function(event){
+        console.log('3-min: '+min+' max: '+max +' len: '+data.length);
+        if(max >= data.length){
+            max = data.length;
+            let data1 = data.slice(min);
+            console.log('test 3-1'+data1)
+            renderUsers(data1);
+            $('.next').hide();
+            $(".previous").show();
+        }else{
+            console.log('test 3-2')
+            let data1 = data.slice(min, max);
+            console.log('test 3-2'+ data1);
+            renderUsers(data1);
+            $('.next').show();
+            $(".previous").show();
+            min = max;
+            max += stepSize;
+        }
+    })
+
+    $(".previous").click(function(event){
+        max = min;
+        min -= stepSize;
+        if(min <= 0){
+            min = 0;
+            $(".previous").hide();
+        }else{
+            $(".previous").show();
+        }
+
+        $(".next").show();
+        let data1 = data.slice(min, max);
+        renderUsers(data1);
+    })
+    
+
 }
 
 
@@ -424,8 +491,7 @@ function getandDisplayUsers(){
   $.getJSON(USERS_URL, function(data){
     console.log('Rendering users infos');
     console.log(data);
-    let usersElts = renderUsers(data);
-    $('.mainContainer').html(usersElts);
+    renderUsers2(data.users);
   })
 }
 
@@ -450,8 +516,14 @@ function handleAddUser(){
     let personal_link = [];
 // get picture link and website link of the new user
   $(".mainContainer").on('click', '.js_personalLink', function(event){
-    display();
+    
   })
+ $(".mainContainer").on('click', '#UploadImage', function(event){
+    alert($("#UploadImage").value())
+  })
+  
+
+
   $(".mainContainer").on('submit','form#submitSignUpForm', function(event){
     event.preventDefault();
     //alert("test submit");
@@ -468,6 +540,7 @@ function handleAddUser(){
       researchSum: $(event.currentTarget).find('#researchInterest').val(),
       password: $(event.currentTarget).find('#password').val()
     }
+
     console.log('check new user:')
     console.log(user);
     addUser(user);
@@ -529,8 +602,7 @@ function handleSearch(){
         $.getJSON(USERS_URL+'/'+ searchName, function(data){
             console.log('Rendering users search infos');
             console.log(data);
-           let usersElts = renderUsers(data);
-            $('.mainContainer').html(usersElts);
+            renderUsers2(data.users);
         })
     })
 }

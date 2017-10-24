@@ -77,7 +77,7 @@ function signUpForm(){
     </div>
 
     <div class="col-sm-4 profileImage">
-      <button type="image" class="btn btn-primary">Upload profile picture</button> 
+      <input type="file"  id="UploadImage" value="Upload Image" accept="image/*">
       <div class="profileImgUpload"> 
         
       </div>
@@ -138,8 +138,10 @@ function contactusForm(){
 
 function userTemplate(){
   return `
-    <div class="js_user"> 
-      <ul class="js_user_info"> </ul>
-    </div>`
+      <div class="js_user"> 
+        <ul class="js_user_info"> </ul>
+      </div>
+  `
+
 }
   
