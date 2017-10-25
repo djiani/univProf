@@ -28,13 +28,18 @@ router.get('/loginSuccess' , function(req, res, next){
     res.send('Successfully authenticated');
 });
 
-router.post('/login', passport.authenticate('local', {
+/*
+router.post('/login',
+    passport.authenticate('local', {
     successRedirect: '/loginSuccess',
     failureRedirect: '/api/auth/login',
     failureFlash: true,
     successFlash: true
 }));
-
+*/
+router.post('/login', passport.authenticate('local'), function(req, res){
+    res.send('Successfully authenticated');
+})
 
 /* Handle Logout */
 router.get('/signout', function(req, res) {

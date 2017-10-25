@@ -176,9 +176,6 @@ function logginUser(login){
     $.ajax({
         method: 'POST',
         url: AUTH_URL_LOGIN,
-        headers: {
-            Authorization: `basic ${token}`;
-        }
         data: JSON.stringify(login),
         success: function(data){
             console.log('successful login! welcome To this website');
