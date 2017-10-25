@@ -57,7 +57,7 @@ body{
 }
 
 .pager{
-  border-top: 4px solid black;
+  border-top: 4px solid black
 }
 /* set the input submit button */
 .searchButton {
@@ -72,13 +72,16 @@ fieldset{
 .signUp textarea{
   width: 100%;
 }
-.profileImgUpload{
+#profileImgUpload{
   width: 250px;
   height:250px;
   border:2px solid black;
   margin-bottom: 10px;
 }
-
+#imgsrc{
+  width: 250px;
+  height: 250px;
+}
 
 /* contact us*/
 .contactContainer{

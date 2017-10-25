@@ -77,12 +77,32 @@ function signUpForm(){
     </div>
 
     <div class="col-sm-4 profileImage">
-      <input type="file"  id="UploadImage" value="Upload Image" accept="image/*">
-      <div class="profileImgUpload"> 
+      <input type="file"  id="UploadImage" value="Upload Image" accept="image/*" onchange="myFunction3()">
+      <script>
+      function myFunction3(){
         
+      }
+        function myFunction(){
+          var x = document.getElementById("UploadImage")
+          if ('files' in x){
+            var file = x.files[0];
+            
+            
+            var reader = new FileReader();
+            reader.onload = function(e){
+              console.log(e.target.result);
+              document.getElementById("profileImgUpload").src = e.target.result;
+            };
+            reader.readAsDataURL(file);
+      
+          }
+        }
+      </script>
+      <div id="profileImgUpload"> 
+        <img src="http://www.cameraegg.org/wp-content/uploads/2016/01/Nikon-D500-Sample-Images-2.jpg" alt="profile picture" id="imgsrc">
       </div>
       <div class="form-group">
-        <input type="file" name=""  id="speciality" value="Upload CV" required >
+        <input type="file" name=""  id="speciality" value="Upload CV" accept="image/*" required >
       </div>
       <div class="form-group">
         <button  class="btn btn-default js_personalLink"> Add Personal link </button> 
