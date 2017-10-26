@@ -1,43 +1,28 @@
-require('dotenv').config(); // import the config file
-const express = require('express');
-const morgan = require('morgan');
-const mongoose = require('mongoose')
+require('dotenv').config();
 const bodyParser = require('body-parser');
+const express = require('express');
+const mongoose = require('mongoose');
+const morgan = require('morgan');
 const passport = require('passport');
-const expressSession = require('express-session')
-const cookieParser = require('cookie-parser');
-const flash = require('connect-flash');
 
-//const favicon = require('static-favicon');
-
-
+// Here we use destructuring assignment with renaming so the two variables
+// called router (from ./users and ./auth) have different names
+// For example:
+// const actorSurnames = { james: "Stewart", robert: "De Niro" };
+// const { james: jimmy, robert: bobby } = actorSurnames;
+// console.log(jimmy); // Stewart - the variable name is jimmy, not james
+// console.log(bobby); // De Niro - the variable name is bobby, not robert
 const {router: usersRouter} = require('./users');
-const {router: authRouter, localStrategy} = require('./auth');
+const {router: authRouter, basicStrategy, jwtStrategy} = require('./auth');
 
-// configure mongoose to use ES6 promisses
 mongoose.Promise = global.Promise;
 
-const app = express();
 const {PORT, DATABASE_URL} = require('./config');
 
-//import static file
-//app.use(express.static('public'));
-// log the http layer
-//app.use(morgan('common'));
+const app = express();
 
-//new added for local strategies
-
-app.use(express.static('public'));
+// Logging
 app.use(morgan('common'));
-app.use(cookieParser());
-app.use(bodyParser.json());
-app.use(flash());
-
-app.use(expressSession({secret: 'mySecretKey'}));
-app.use(passport.initialize());
-app.use(passport.session());
-
-
 
 // CORS
 app.use(function(req, res, next) {
@@ -48,7 +33,7 @@ app.use(function(req, res, next) {
         return res.send(204);
     }
     next();
-});
+})
 
 //initial endpoint at the base of the app to log the index.html file
 app.get('/', (req, res) => {
@@ -56,9 +41,9 @@ app.get('/', (req, res) => {
   res.sendFile(__dirname + '/views/index.html');
 });
 
-//app.use(passport.initialize());
-passport.use(localStrategy);
-//passport.use(jwtStrategy);
+app.use(passport.initialize());
+passport.use(basicStrategy);
+passport.use(jwtStrategy);
 
 app.use('/api/users/', usersRouter);
 app.use('/api/auth/', authRouter);

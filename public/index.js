@@ -114,6 +114,7 @@ function getandDisplayUsers(){
 }
 
 //adding to new user to db using a signup forms
+/**** SIGN UP *****/
 function addUser(user){
   console.log('Adding a new user '+ user);
   $.ajax({
@@ -170,6 +171,7 @@ function handleAddUser(){
 }
 
 //sign in a new users
+/**** SIGN IN *****/
 function logginUser(login){
     console.log('user is about to log in!');
     const token = btoa(`${login.email}:${login.password}`);
@@ -177,7 +179,9 @@ function logginUser(login){
         method: 'POST',
         url: AUTH_URL_LOGIN,
         data: JSON.stringify(login),
+
         success: function(data){
+          alert("successful login")
             console.log('successful login! welcome To this website');
             console.log(data);
 

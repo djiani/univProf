@@ -1,53 +1,3 @@
-const passport = require('passport')
-LocalStrategy = require('passport-local').Strategy;
-
-
-const {Users} = require('../users/models');
-//const {JWT_SECRET} = require('../config');
-
-
-
-
-const localStrategy = new LocalStrategy({
-    usernameField: 'email',
-    passwordField: 'password',
-  },
-  function(username, password, done) {
-    Users.findOne({ username: username }, function (err, user) {
-      console.log('test strategies'+ user)
-      if (err) { return done(err); }
-      if (!user) {
-        return done(null, false, { message: 'Incorrect username.' });
-      }
-      if (!user.validPassword(password)) {
-        return done(null, false, { message: 'Incorrect password.' });
-      }
-      return done(null, user);
-    });
-  }
-);
-
-
-// Configure Passport authenticated session persistence.
-//
-// In order to restore authentication state across HTTP requests, Passport needs
-// to serialize users into and deserialize users out of the session.  The
-// typical implementation of this is as simple as supplying the user ID when
-// serializing, and querying the user record by ID from the database when
-// deserializing.
-passport.serializeUser(function(user, done) {
-  done(null, user.id);
-});
-
-passport.deserializeUser(function(id, done) {
-  User.findById(id, function(err, user) {
-    done(err, user);
-  });
-});
-
-
-
-/*
 const passport = require('passport');
 const {BasicStrategy} = require('passport-http');
 const {
@@ -105,5 +55,5 @@ const jwtStrategy = new JwtStrategy(
         done(null, payload.user);
     }
 );
-*/
-module.exports = {localStrategy};
+
+module.exports = {basicStrategy, jwtStrategy};
