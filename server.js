@@ -23,6 +23,7 @@ const app = express();
 
 // Logging
 app.use(morgan('common'));
+app.use(express.static('public'))
 
 // CORS
 app.use(function(req, res, next) {
