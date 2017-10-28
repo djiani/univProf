@@ -1,4 +1,41 @@
+function homeForm(){
+  return `
+  <div>
+  <!-- http://www.quandora.com/10-reasons-to-share-knowledge/ -->
+  <h1>Welcome to Research Exchange Platform</h1>
+  <p>This platform is reserve to university professors: 
+  <ul>
+  <li>who love to share their researchs to the rest of the world</li>
+  <li>who love to Collaborate with others professionels in the field</li>
+  <li>who love to share their exprience</li>
+  <li>who love ...</li>
+  </ul>
+  Some benefits on sharing and collabrating on projects:
+  <ul>
+  <li>It helps you grow</li>
+  <li>It helps you stay motivated</li>
+  <li>Getting top talent access</li>
+  <li>Recognition</li>
+  <li>Generating new ideas</li>
+  <li>Future leaders discovery</li>
+  <li>Limiting the skill gap</li>
+  <li>Team cementing and silo breaking</li>
+  <li>Sense of purpose</li>
+  <li>Operational efficiency</li>
+  </ul>
 
+  <q>
+  When you dream of conquering the world and you fill your agenda with daunting projects, 
+  it’s often necessary to equip yourself with a large mug of coffee and with the right people. 
+  Any successful project, be it big or small, has one thing at its core: effective collaboration,
+  and you can achieve it with knowledge sharing
+  </q>
+
+  </p>
+
+  </div>
+  `;
+}
 
 function signUpForm(){
   return  `

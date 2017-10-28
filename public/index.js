@@ -1,6 +1,10 @@
+
+//import {saveAuthToken, clearAuthToken, loadAuthToken} from './local-storage';
+
 const USERS_URL = '/api/users';
 const AUTH_URL_LOGIN = '/api/auth/login';
-
+//const config = require('../config');
+//import {loadAuthToken, saveAuthToken, clearAuthToken} = from '../local-storage';
 
 /*take care of this direct message sending */
 function sendEmail() {
@@ -146,7 +150,7 @@ function handleAddUser(){
 
 
 
-  $(".mainContainer").on('cha','form#submitSignUpForm', function(event){
+  $(".mainContainer").on('click','form#submitSignUpForm', function(event){
     event.preventDefault();
     //alert("test submit");
     let user = {
@@ -178,17 +182,23 @@ function logginUser(login){
     $.ajax({
         method: 'POST',
         url: AUTH_URL_LOGIN,
-        data: JSON.stringify(login),
-
-        success: function(data){
-          alert("successful login")
+        headers: {
+                // Provide our username and password as login credentials
+                Authorization: `Basic ${token}`
+            },
+        success: function(authtoken){
             console.log('successful login! welcome To this website');
-            console.log(data);
-
-            //display account user here!
+            console.log(authtoken);
+            //save this to the local storage
+            saveAuthToken(authtoken);
+            $(".js_signInNav").hide();
+            $(".js_signUpNav").hide();
+            $(".js_accountNav").removeClass('hidden');
+            $(".js_displayUsers").html(homeForm());
         },
+
         error: function(err){
-            console.log('fail to sent api url');
+            console.log('login fail');
             console.log(err);
         },
         dataType: 'json',
@@ -205,17 +215,27 @@ function handleLoginUser(){
          email: $(event.currentTarget).find('#email').val(),
          password: $(event.currentTarget).find('#password').val()
         }
-        console.log(login)
+        console.log(login);
         logginUser(login);
     });
 
 }
 
+
 function handleSignOut(){
     $(".js_signOutNav").click(function(event){
-        alert("signout test passed!");
-        $.get('/api/auth/signout', function(data, status){
-            console.log("successful sign out" + status);
+        $.get('/api/auth/logout', function(data, status){
+          if (status == 'success'){
+            const token = loadAuthToken('authtoken');
+            clearAuthToken(token);
+            console.log("successful sign out " + status);
+            console.log('data: ' + data);
+            $(".js_signInNav").show();
+            $(".js_signUpNav").show();
+            $(".js_accountNav").addClass('hidden');
+            $(".js_displayUsers").html(homeForm());
+          }
+          
         })
     })
 }
@@ -245,30 +265,36 @@ $(function(){
   handleSearch();
 
   $(".js_signUpNav").on("click", function(){
-    $(".mainContainer").html(signUpForm);
+    $('.pager').hide();
+    $(".js_displayUsers").html(signUpForm());
     setCountryValue($(".js_signUpNav"));
   });
   $(".mainContainer").on('click', '.js_signUp2', function(event){
     event.preventDefault();
-    $(".mainContainer").html(signUpForm);
+    $('.pager').hide();
+    $(".js_displayUsers").html(signUpForm());
     setCountryValue();
   })
 
   $(".js_signInNav").on("click", function(){
-    $(".mainContainer").html(signInForm);
+    $('.pager').hide();
+    $(".js_displayUsers").html(signInForm());
   });
 
   $(".js_homeNav").click(function(event){
-    getandDisplayUsers();
+    $('.pager').hide();
+    $(".js_displayUsers").html(homeForm());
   });
 
   $(".js_contactusNav").click(function(event){
    // alert("test constactUs");
-     $(".mainContainer").html(contactusForm());
+   $('.pager').hide();
+     $(".js_displayUsers").html(contactusForm());
   })
+
   $(".js_helpNav").click(function(event){
-    alert("Need some help??? we still working on it!");
-    $(".mainContainer").html('<h1> Please, come back later, we are still working on it! </h1>');
+    $('.pager').hide();
+    $(".js_displayUsers").html('<h1> Please, come back later, we are still working on it! </h1>');
   })
 
    $(".js_searchNav").click(function(event){
@@ -276,6 +302,7 @@ $(function(){
   })
 
   $(".mainContainer").on('click','#mail-link', function(event){
+    $('.pager').hide();
     sendEmail();
   });
 
@@ -286,6 +313,7 @@ $(function(){
   //post siggn form
   handleLoginUser();
   handleSignOut();
+
   //set active class to nav bar
   $('.nav li').click(function(){
     $('.nav li').removeClass('active');
