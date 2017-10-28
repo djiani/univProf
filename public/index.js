@@ -1,10 +1,8 @@
 
-//import {saveAuthToken, clearAuthToken, loadAuthToken} from './local-storage';
-
 const USERS_URL = '/api/users';
 const AUTH_URL_LOGIN = '/api/auth/login';
-//const config = require('../config');
-//import {loadAuthToken, saveAuthToken, clearAuthToken} = from '../local-storage';
+const URL_PROTECTED = '/api/protected';
+
 
 /*take care of this direct message sending */
 function sendEmail() {
@@ -50,7 +48,7 @@ function renderUsers2(data){
     let min = 0;
     let stepSize = 2;
     let max = stepSize;
-    console.log('1-min: '+min+' max: '+max +' len: '+data.length);
+    //console.log('1-min: '+min+' max: '+max +' len: '+data.length);
     if(data.length > max){
         $(".pager").show();
         if(min === 0){
@@ -69,18 +67,18 @@ function renderUsers2(data){
     }
 
     $(".next").click(function(event){
-        console.log('3-min: '+min+' max: '+max +' len: '+data.length);
+        //console.log('3-min: '+min+' max: '+max +' len: '+data.length);
         if(max >= data.length){
             max = data.length;
             let data1 = data.slice(min);
-            console.log('test 3-1'+data1)
+            //console.log('test 3-1'+data1)
             renderUsers(data1);
             $('.next').hide();
             $(".previous").show();
         }else{
-            console.log('test 3-2')
+            //console.log('test 3-2')
             let data1 = data.slice(min, max);
-            console.log('test 3-2'+ data1);
+            //console.log('test 3-2'+ data1);
             renderUsers(data1);
             $('.next').show();
             $(".previous").show();
@@ -186,13 +184,14 @@ function logginUser(login){
                 // Provide our username and password as login credentials
                 Authorization: `Basic ${token}`
             },
-        success: function(authtoken){
+        success: function(authData){
             console.log('successful login! welcome To this website');
-            console.log(authtoken);
+            //console.log(authData);
             //save this to the local storage
-            saveAuthToken(authtoken);
+            saveAuthToken(authData);
             $(".js_signInNav").hide();
             $(".js_signUpNav").hide();
+            $(".profileName").html(authData.lastName);
             $(".js_accountNav").removeClass('hidden');
             $(".js_displayUsers").html(homeForm());
         },
@@ -229,7 +228,6 @@ function handleSignOut(){
             const token = loadAuthToken('authtoken');
             clearAuthToken(token);
             console.log("successful sign out " + status);
-            console.log('data: ' + data);
             $(".js_signInNav").show();
             $(".js_signUpNav").show();
             $(".js_accountNav").addClass('hidden');
@@ -253,10 +251,35 @@ function handleSearch(){
     })
 }
 
-//settings up affix
-function settingUpAffix(){
-    alert('');
+function viewProfileUsers(){
+  $(".js_profileNav").click(function(){
+    const authData = loadAuthToken('authtoken');
+    $.ajax({
+      method: 'GET',
+      url: '/api/protected',
+      headers: {
+              // Provide our username and password as login credentials
+        Authorization: `bearer ${authData.authtoken}`
+      },
+      success: function(data){
+        console.log('successful access authentification data');
+        console.log(data);
+          // get user form  the data based with id. 
+        $(".js_displayUsers").html('<p> Access protected data '+data+' <p>');
+      },
+
+      error: function(err){
+        console.log('Acess denied: Unauthorized users');
+        console.log(err);
+      },
+      dataType: 'json',
+      contentType: 'application/json'     
+
+    })
+  })
+  
 }
+
 
 /* main function called when DOM has be load and ready*/
 $(function(){
@@ -269,6 +292,7 @@ $(function(){
     $(".js_displayUsers").html(signUpForm());
     setCountryValue($(".js_signUpNav"));
   });
+
   $(".mainContainer").on('click', '.js_signUp2', function(event){
     event.preventDefault();
     $('.pager').hide();
@@ -313,7 +337,7 @@ $(function(){
   //post siggn form
   handleLoginUser();
   handleSignOut();
-
+  viewProfileUsers();
   //set active class to nav bar
   $('.nav li').click(function(){
     $('.nav li').removeClass('active');

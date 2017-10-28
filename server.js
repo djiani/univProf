@@ -56,7 +56,8 @@ app.get(
     passport.authenticate('jwt', {session: false}),
     (req, res) => {
         return res.json({
-            data: 'rosebud'
+            data: 'rosebud',
+            user: req.user
         });
     }
 );

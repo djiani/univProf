@@ -23,6 +23,16 @@ router.get('/', (req, res)=>{
   })
 });
 
+//get back post with a given id 
+router.get('/:id', jsonParser, (req, res)=>{
+  Users.findById(req.params.id)
+  .then(user => res.json(user))
+  .catch(err =>{
+    console.error(err);
+    res.status(500).json({message:"Internal server error"})
+  })
+});
+
 //get back all users  on GET endpoint
 router.get('/:searchTerm', (req, res)=>{
   console.log(req.params)
