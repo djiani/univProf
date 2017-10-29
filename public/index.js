@@ -2,7 +2,8 @@
 const USERS_URL = '/api/users';
 const AUTH_URL_LOGIN = '/api/auth/login';
 const URL_PROTECTED = '/api/protected';
-
+const USERS_URL_SPECIALITY = '/api/users/speciality'
+const USERS_URL_COUNTRY = '/api/users/country'
 
 /*take care of this direct message sending */
 function sendEmail() {
@@ -238,19 +239,6 @@ function handleSignOut(){
     })
 }
 
-function handleSearch(){
-    $(".submitSearch").submit(function(event){
-        event.preventDefault();
-        let searchName = $("#searchInput").val();
-        //alert(searchName);
-        $.getJSON(USERS_URL+'/'+ searchName, function(data){
-            console.log('Rendering users search infos');
-            console.log(data);
-            renderUsers2(data.users);
-        })
-    })
-}
-
 function viewProfileUsers(){
   $(".js_profileNav").click(function(){
     const authData = loadAuthToken('authtoken');
@@ -280,6 +268,88 @@ function viewProfileUsers(){
   
 }
 
+
+function handleSearch(){
+    $(".submitSearch").submit(function(event){
+        event.preventDefault();
+        let searchName = $("#searchInput").val();
+        //alert(searchName);
+        $.getJSON(USERS_URL+'/'+ searchName, function(data){
+            console.log('Rendering users search infos');
+            console.log(data);
+            renderUsers2(data.users);
+        })
+    })
+}
+
+
+function getUsersByCountry(){
+   $.getJSON(USERS_URL+'/country', function(data){
+    console.log('Rendering list of country');
+    console.log(data);
+    const listCountry= [];
+    let optHtml = "";
+    for(let i=0; i<data.users.length-1; i++){
+      if(i===0){
+       // listCountry.push(data.users[i].country);
+        optHtml += `<option value= ${data.users[i+1].country}> ${data.users[i+1].country} </option>`;
+      }
+      else if(data.users[i].country != data.users[i+1].country){
+        //listCountry.push(data.users[i+1].country);
+        optHtml += `<option value= ${data.users[i+1].country}> ${data.users[i+1].country} </option>`;
+      }
+    }
+    $("#modal_country").html(optHtml);
+
+  })
+}
+
+function getUsersBySpecialization(){
+  $.getJSON(USERS_URL+'/speciality', function(data){
+    console.log('Rendering list of speciality');
+    console.log(data);
+    const listCountry= [];
+    let optHtml = "";
+    for(let i=0; i<data.users.length-1; i++){
+      if(i===0){
+       // listCountry.push(data.users[i].country);
+        optHtml += `<option value= ${data.users[i+1].speciality}> ${data.users[i+1].speciality} </option>`;
+      }
+      else if(data.users[i].speciality != data.users[i+1].speciality){
+        //listCountry.push(data.users[i+1].country);
+        optHtml += `<option value= ${data.users[i+1].speciality}> ${data.users[i+1].speciality} </option>`;
+      }
+    }
+    $("#modal_specialization").html(optHtml);
+  })
+}
+
+
+function getUsersBySpeciality_search(){
+
+  //let targetSpeciality = $("#modal_specialization")
+  let speciality = document.getElementById("modal_specialization").value;
+  console.log("speciality: "+ speciality)
+  $.getJSON(USERS_URL_SPECIALITY+'/'+speciality, function(data){  
+      console.log('Rendering search by speciality');
+      console.log(data);
+      renderUsers2(data.users);
+  })
+  
+}
+
+function getUsersByCountry_search(){
+
+  //let targetSpeciality = $("#modal_specialization")
+  let country = document.getElementById("modal_country").value;
+  console.log("country: "+ country)
+  $.getJSON(USERS_URL_COUNTRY+'/'+ country, function(data){  
+      console.log('Rendering search by country');
+      console.log(data);
+      renderUsers2(data.users);
+  })
+  
+}
 
 /* main function called when DOM has be load and ready*/
 $(function(){
@@ -338,6 +408,31 @@ $(function(){
   handleLoginUser();
   handleSignOut();
   viewProfileUsers();
+  //Displayed users
+  $(".js_getAllUsers").click(function(event){
+    getandDisplayUsers();
+  })
+
+  $(".js_getUsersByCountry").click(function(event){
+    getUsersByCountry();
+    $("#modal_searchByCountry").modal({backdrop: "true"});
+  })
+
+  $(".js_getUsersBySpeciality").click(function(event){
+    getUsersBySpecialization();
+    $("#modal_searchBySpeciality").modal({backdrop: "true"});
+  })
+
+  $(".js_getUsersBySpeciality_search").click(function(event){
+    event.preventDefault();
+    getUsersBySpeciality_search();
+  })
+
+  $(".js_getUsersByCountry_search").click(function(event){
+    event.preventDefault();
+    getUsersByCountry_search();
+  })
+
   //set active class to nav bar
   $('.nav li').click(function(){
     $('.nav li').removeClass('active');

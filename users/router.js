@@ -23,7 +23,59 @@ router.get('/', (req, res)=>{
   })
 });
 
-//get back post with a given id 
+router.get('/country', (req, res)=>{
+  Users
+  .find({}, {"country":1, '_id':0}).sort({"country":1})
+  .then(result =>{
+    res.status(200).json({'users':result})
+  })
+  .catch(err =>{
+    console.error(err);
+    res.status(500).json({message:'Internal server error'})
+  })
+});
+
+router.get('/country/:country', (req, res)=>{
+  Users
+  .find({country:{$regex: '.*' + req.params.country + '.*', $options: 'i' }} )
+  .sort({"country":1})
+  .then(result =>{
+    res.status(200).json({'users':result.map(user => user.apiRepr())})
+  })
+  .catch(err =>{
+    console.error(err);
+    res.status(500).json({message:'Internal server error'})
+  })
+});
+
+
+router.get('/speciality', (req, res)=>{
+  Users
+  .find({}, {"speciality":1, '_id':0}).sort({"speciality":1})
+  .then(result =>{
+    res.status(200).json({'users':result})
+  })
+  .catch(err =>{
+    console.error(err);
+    res.status(500).json({message:'Internal server error'})
+  })
+});
+
+router.get('/speciality/:speciality', (req, res)=>{
+  Users
+  .find({speciality:{$regex: '.*' + req.params.speciality + '.*', $options: 'i' }} )
+  .sort({"speciality":1})
+  .then(result =>{
+    res.status(200).json({'users':result.map(user => user.apiRepr())})
+  })
+  .catch(err =>{
+    console.error(err);
+    res.status(500).json({message:'Internal server error'})
+  })
+});
+
+//get back post with a given id
+/* 
 router.get('/:id', jsonParser, (req, res)=>{
   Users.findById(req.params.id)
   .then(user => res.json(user))
@@ -32,6 +84,8 @@ router.get('/:id', jsonParser, (req, res)=>{
     res.status(500).json({message:"Internal server error"})
   })
 });
+
+*/
 
 //get back all users  on GET endpoint
 router.get('/:searchTerm', (req, res)=>{
@@ -53,6 +107,8 @@ router.get('/:searchTerm', (req, res)=>{
     res.status(500).json({message:'Internal server error'})
   })
 });
+
+
 /*
 
 */

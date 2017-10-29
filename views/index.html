@@ -32,12 +32,9 @@
           <li class="active js_homeNav"><a href="#home">Home</a></li>
           <li class="dropdown js_searchNav"><a class="dropdown-toggle" data-toggle="dropdown" href="#search">Search <span class="caret"></span></a>
             <ul class="dropdown-menu">
-              <li class="js_countrySearchNav dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">Choose Country<span class="caret"></span></a>
-                <ul class="dropdown-menu"><!-- add list of country here trough js --> </ul>  
-              </li>
-              <li class="js_By_SpecSearchNav dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">Choose specialization<span class="caret"></span></a>
-                <ul class="dropdown-menu"><!-- add list of country here trough js --> </ul>  
-              </li>
+              <li class="js_getAllUsers"><a href="#" >Get All users</a></li>
+              <li class="js_getUsersByCountry"><a href="#" >get Users by Country</a></li>
+              <li class="js_getUsersBySpeciality"><a href="#" >Get Users by Specility</a></li>
             </ul>
           </li>
           <li class="js_contactusNav"><a href="#contactus" >Contact us</a></li>
@@ -112,8 +109,61 @@
 
             </p>
 
-          </div>
+            </div>
         </div>
+          <!-- modal box search by country -->
+          <div class="modal fade" id="modal_searchByCountry" role="dialog">
+            <div class="modal-dialog">
+              <!-- Modal content-->
+              <div class="modal-content">
+                <div class="modal-header" >
+                  <button type="button" class="close" data-dismiss="modal">&times;</button>
+                  <h4 class="modal-title"> Get all users by specialization</h4>
+                </div>
+                <div class="modal-body" >
+                  <form role="form">
+                    <div class="form-group">
+                      <label for="Country"> Choose Country</label>
+                      <select name="country" id="modal_country" > </select>
+                    </div>
+                    <button type="submit" class="btn btn-success js_getUsersByCountry_search searchButton "><span class="glyphicon glyphicon-search"></span> Search</button>
+
+                    <button type="submit" class="btn btn-danger btn-default pull-left CancelButton" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Cancel</button>
+                  </form>
+                </div>
+                <div class="modal-footer"> </div>
+
+              </div>
+            </div>
+          </div> <!-- end modal box search by country -->
+
+          <!-- modal box search by specialization -->
+          <div class="modal fade" id="modal_searchBySpeciality" role="dialog">
+            <div class="modal-dialog">
+              <!-- Modal content-->
+              <div class="modal-content">
+                <div class="modal-header" >
+                  <button type="button" class="close" data-dismiss="modal">&times;</button>
+                  <h4 class="modal-title"> Get all users by specialization</h4>
+                </div>
+                <div class="modal-body" >
+                  <form role="form">
+                    <div class="form-group">
+                      <label for="specialization"> Choose the Specialization</label>
+                      <select name="specialization" id="modal_specialization" > </select>
+                    </div>
+                    <button type="submit" class="btn btn-success js_getUsersBySpeciality_search searchButton"><span class="glyphicon glyphicon-search"></span> Search</button>
+
+                    <button type="submit" class="btn btn-danger btn-default pull-left CancelButton" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Cancel </button>
+                  </form>
+                </div>
+                <div class="modal-footer">
+                  
+                </div> 
+              </div>
+            </div>
+          </div> <!-- end modal box search by Specialization -->
+        
         <div>
           <ul class="pager" hidden>
             <li class="previous"><a href="#">Previous</a></li>
@@ -131,7 +181,6 @@
       </div>
     </div>
   </div>
-
   <footer class="container-fluid text-center">
     <p>Footer Text</p>
   </footer>

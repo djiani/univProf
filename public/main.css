@@ -111,6 +111,14 @@ fieldset{
   width: 200px;
 }
 
+.CancelButton{
+  float:left;
+}
+
+.searchButton {
+  float: right;
+}
+
 
 footer {
   background-color: #555;
