@@ -108,10 +108,25 @@ router.get('/:searchTerm', (req, res)=>{
   })
 });
 
-
 /*
+router.get('/:searchTerm', (req, res)=>{
+  console.log(req.params)
+  Users
+  .find({'name.firstName name.lastName': {$regex: '.*' + req.params.searchTerm + '.*', $options: 'i' }})
+  .then(result =>{
+    res.status(200).json({
+      'users':result.map(user => user.apiRepr())
+    });
+  })
+  .catch(err =>{
+    console.error(err);
+    res.status(500).json({message:'Internal server error'})
+  })
+});
 
 */
+
+
 //register a new user in db on POST
 router.post('/', jsonParser, (req, res)=>{
   const requiredFields = ['name', 'email', 'password', 'country', 'state', 'university', 'speciality', 'researchSum'];

@@ -415,22 +415,24 @@ $(function(){
 
   $(".js_getUsersByCountry").click(function(event){
     getUsersByCountry();
-    $("#modal_searchByCountry").modal({backdrop: "true"});
+    $("#modal_searchByCountry").modal({backdrop: true});
   })
 
   $(".js_getUsersBySpeciality").click(function(event){
     getUsersBySpecialization();
-    $("#modal_searchBySpeciality").modal({backdrop: "true"});
+    $("#modal_searchBySpeciality").modal({backdrop: true});
   })
 
   $(".js_getUsersBySpeciality_search").click(function(event){
     event.preventDefault();
     getUsersBySpeciality_search();
+    $("#modal_searchBySpeciality").modal("hide")
   })
 
   $(".js_getUsersByCountry_search").click(function(event){
     event.preventDefault();
     getUsersByCountry_search();
+    $("#modal_searchByCountry").modal("hide")
   })
 
   //set active class to nav bar

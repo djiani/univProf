@@ -3,6 +3,7 @@ body{
   height: 100%;
 }
 .jumbotron{
+  text-align: center;
   margin-bottom: 0;
   background-color: #0033cc;
   padding-top: 15px;
@@ -15,29 +16,19 @@ body{
   margin-bottom: 0;
   border-radius: 0;
 }
-.navbar.affix {
-      top: 0;
-      width: 100%;
-}
-.leftSidenav.affix{
-  top: 50px;
-  left: 0px;
-}
-.rightSidenav.affix{
-  top: 50px;
-  right: 0px;
-}
+
 
 /*main container stylle*/
 .row.content {
   /*height: 850px;*/
 }
 .mainContainer{
-  height: 400px;
+  height: 700px;
   overflow: auto;
   margin-right: auto;
   margin-left: auto;
-  border:2px solid black;
+  border-left: 2px solid black;
+  border-right: 2px solid black;
 }
 
 
@@ -124,6 +115,7 @@ footer {
   background-color: #555;
   color: white;
   padding: 15px;
+  height: 300px;
 }
 
 /* On small screens, set height to 'auto' for sidenav and grid */
