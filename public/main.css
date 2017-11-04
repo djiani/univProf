@@ -19,31 +19,57 @@ body{
 
 
 /*main container stylle*/
-.row.content {
-  /*height: 850px;*/
-}
+
 .mainContainer{
   height: 700px;
+  width: 80%;
   overflow: auto;
-  margin-right: auto;
-  margin-left: auto;
+  margin: 0 auto;
   border-left: 2px solid black;
   border-right: 2px solid black;
 }
 
+.mainContainer2{
+  width: 80%;
+  left: 10%;
+}
+
+.js_displayUsers{
+  margin: 0 auto;
+}
 
 .js_user{
   display: inline-block;
-  width: 25%;
-  height: 300px;
+  width: 250px;
+  height: 250px;
   overflow: auto;
   border:1px solid black;
-  margin:5px;
+  margin: 1%;
 }
 
+.js_prof_block{
+  width: 90%;
+  height: 130px;
+  border: 1px solid black;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 5px;
+}
+.js_profite_pict{
+  width: 100%;
+  height: 128px;
+}
+ul.js_user_info{
+  list-style-type: none;
+  padding: 5px;
+  margin: 0 auto;
+  text-align: left;
+}
 /*side container style*/
 .sidenav {
+  width: 20%;
   padding-top: 20px;
+  padding-bottom: 20px;
   background-color: #0033cc;
 }
 
@@ -55,24 +81,8 @@ body{
   width: 200px;
 }
 
-fieldset{
-  border:1px solid black;
-}
 
-/*sign up */
-.signUp textarea{
-  width: 100%;
-}
-#profileImgUpload{
-  width: 250px;
-  height:250px;
-  border:2px solid black;
-  margin-bottom: 10px;
-}
-#imgsrc{
-  width: 250px;
-  height: 250px;
-}
+
 
 /* contact us*/
 .contactContainer{
@@ -119,10 +129,14 @@ footer {
 }
 
 /* On small screens, set height to 'auto' for sidenav and grid */
-@media screen and (max-width: 767px) {
+@media only screen and (max-width: 767px) {
   .sidenav {
     height: auto;
     padding: 15px;
   }
-  .row.content {height:auto;} 
+
+  .sidenav, .mainContainer{
+    width: 100%;
+  }
+  
 }

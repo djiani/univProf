@@ -49,9 +49,9 @@ router.get('/country/:country', (req, res)=>{
 });
 
 
-router.get('/speciality', (req, res)=>{
+router.get('/department', (req, res)=>{
   Users
-  .find({}, {"speciality":1, '_id':0}).sort({"speciality":1})
+  .find({}, {"department":1, '_id':0}).sort({"department":1})
   .then(result =>{
     res.status(200).json({'users':result})
   })
@@ -61,10 +61,10 @@ router.get('/speciality', (req, res)=>{
   })
 });
 
-router.get('/speciality/:speciality', (req, res)=>{
+router.get('/department/:department', (req, res)=>{
   Users
-  .find({speciality:{$regex: '.*' + req.params.speciality + '.*', $options: 'i' }} )
-  .sort({"speciality":1})
+  .find({department:{$regex: '.*' + req.params.department + '.*', $options: 'i' }} )
+  .sort({"department":1})
   .then(result =>{
     res.status(200).json({'users':result.map(user => user.apiRepr())})
   })
@@ -92,7 +92,7 @@ router.get('/:searchTerm', (req, res)=>{
   console.log(req.params)
   Users
   .find({$or:[
-    {speciality:{$regex: '.*' + req.params.searchTerm + '.*', $options: 'i' }},
+    {department:{$regex: '.*' + req.params.searchTerm + '.*', $options: 'i' }},
     {country: {$regex: '.*' + req.params.searchTerm + '.*', $options: 'i' }},
     {'name.firstName': {$regex: '.*' + req.params.searchTerm + '.*', $options: 'i' }},
     {'name.lastName': {$regex: '.*' + req.params.searchTerm + '.*', $options: 'i' }}
@@ -129,7 +129,7 @@ router.get('/:searchTerm', (req, res)=>{
 
 //register a new user in db on POST
 router.post('/', jsonParser, (req, res)=>{
-  const requiredFields = ['name', 'email', 'password', 'country', 'state', 'university', 'speciality', 'researchSum'];
+  const requiredFields = ['name', 'email', 'password', 'country', 'state', 'university', 'department', 'researchSum'];
   for(let i=0; i < requiredFields.length; i++){
     const field = requiredFields[i];
     if(!(field in req.body)){
@@ -160,11 +160,15 @@ router.post('/', jsonParser, (req, res)=>{
       name:req.body.name,
       email:req.body.email,
       password: hash,
+      tel: req.body.tel,
+      region: req.body.region,
       country: req.body.country,
       state: req.body.state,
       university: req.body.university,
-      speciality: req.body.speciality,
-      researchSum:req.body.researchSum 
+      department: req.body.department,
+      researchSum: req.body.researchSum,
+      img: req.body.img,
+      link: req.body.link
     })
   })
   .then(

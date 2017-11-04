@@ -42,6 +42,7 @@ app.get('/', (req, res) => {
   res.sendFile(__dirname + '/views/index.html');
 });
 
+
 app.use(passport.initialize());
 passport.use(basicStrategy);
 passport.use(jwtStrategy);
@@ -61,6 +62,9 @@ app.get(
         });
     }
 );
+
+
+
 
 app.use('*', (req, res) => {
     return res.status(404).json({message: 'Not Found'});

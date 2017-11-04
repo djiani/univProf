@@ -2,7 +2,7 @@
 const USERS_URL = '/api/users';
 const AUTH_URL_LOGIN = '/api/auth/login';
 const URL_PROTECTED = '/api/protected';
-const USERS_URL_SPECIALITY = '/api/users/speciality'
+const USERS_URL_DEPARTMENT = '/api/users/department'
 const USERS_URL_COUNTRY = '/api/users/country'
 
 /*take care of this direct message sending */
@@ -18,20 +18,44 @@ function sendEmail() {
     updateMailString();
 }
 
-
-function renderUsers(data){
-    if (data.length > 0){
-       let usersElts = data.map(function(user){
-          let element = $(userTemplate());
-          element.find('.js_user_info').append(
-            `<li>Name: ${user.name} </li>
-            <li>Email: ${user.email} </li>
+/*
+<li>Email: ${user.email} </li>
             <li>university: ${user.university} </li>
-            <li>Speciality: ${user.speciality} </li>
+            <li>Department: ${user.department} </li>
             <li>Country: ${user.country} </li>
             <li>State: ${user.state} </li>
             <li>ResearchInterest: ${user.researchSum} </li>
             <li>Created on : ${user.created} </li>
+*/
+
+function displaysMoreInfos(data){
+  console.log(data)
+  $('.mainContainer').on('click', '.js_displayMoreDetails', function(event){
+    let id = $(event.currentTarget).attr("data-id");
+    console.log(id);
+    let user = data.find(function(usr){
+      if(usr.id === id){
+        return usr;
+      }
+    });
+    console.log(user);
+    alert(user.name);
+  })
+  
+}
+function renderUsers(data){
+    if (data.length > 0){
+       let usersElts = data.map(function(user){
+          let element = $(userTemplate());
+          element.find('.js_displayMoreDetails').attr("data-id", user.id);
+          if(user.img){
+            element.find('.js_profite_pict').attr("src", user.img);
+          }
+          element.find('.js_user_info').append(
+            `<li>${user.name} </li>
+            <li>${user.title} </li>
+            <li>${user.university} </li>
+            <li>${user.department} </li>
             `);
           return element;
         });
@@ -43,14 +67,17 @@ function renderUsers(data){
         $('.js_displayUsers').html(html);
         $('.pager').hide();
     }
+
+    
 }
 
 function renderUsers2(data){
     let min = 0;
-    let stepSize = 2;
+    let stepSize = 3;
     let max = stepSize;
-    //console.log('1-min: '+min+' max: '+max +' len: '+data.length);
+    console.log('1-min: '+min+' max: '+max +' len: '+data.length);
     if(data.length > max){
+      console.log('11-min: '+min+' max: '+max +' len: '+data.length);
         $(".pager").show();
         if(min === 0){
             $(".previous").hide();
@@ -62,24 +89,24 @@ function renderUsers2(data){
         min = max;
         max +=stepSize;
     }else{
-        //console.log('2-min: '+min+' max: '+max +' len: '+data.length);
+        console.log('2-min: '+min+' max: '+max +' len: '+data.length);
         renderUsers(data);
         $(".pager").hide();
     }
 
     $(".next").click(function(event){
-        //console.log('3-min: '+min+' max: '+max +' len: '+data.length);
+        console.log('3-min: '+min+' max: '+max +' len: '+data.length);
         if(max >= data.length){
             max = data.length;
             let data1 = data.slice(min);
-            //console.log('test 3-1'+data1)
+            console.log('test 3-1'+data1)
             renderUsers(data1);
             $('.next').hide();
             $(".previous").show();
         }else{
-            //console.log('test 3-2')
+            console.log('test 3-2')
             let data1 = data.slice(min, max);
-            //console.log('test 3-2'+ data1);
+            console.log('test 3-2'+ data1);
             renderUsers(data1);
             $('.next').show();
             $(".previous").show();
@@ -113,6 +140,7 @@ function getandDisplayUsers(){
     console.log('Rendering users infos');
     console.log(data);
     renderUsers2(data.users);
+    displaysMoreInfos(data.users);
   })
 }
 
@@ -133,37 +161,95 @@ function addUser(user){
 }
 
 function handleAddUser(){
-    let url_photo= '';
-    let url_cv = '';
-    let personal_link = [];
-// get picture link and website link of the new user
-  $(".mainContainer").on('click', '.js_personalLink', function(event){
-    
+  //add event on signup button in Navbar
+  $(".js_signUpNav").on("click", function(){
+    $('.pager').hide();
+    //$('.leftSideNav').hide();
+    //$('.rightSideNav').hide();
+    //$('.mainContainer').addClass('mainContainer2');
+    $(".js_displayUsers").html(signUpForm());
+
+    setCountryValue($(".js_signUpNav"));
+  });
+
+  // Upon click this should trigger click on the .js_signUpNav file input element
+  $(".mainContainer").on('click', '.js_signUp2', function(event){
+    $(".js_signUpNav").trigger('click');
+  });
+
+  
+  
+
+  //set global variable 
+  let url_photo= '';
+  let photo_type= '';
+  let url_cv = '';
+  
+
+  // Upon click this should trigger click on the #image-to-upload file input element
+  $(".mainContainer").on('click', '#upload_image', function(event){
+    $("#image_to_upload").trigger('click');
   })
 
-  $(".mainContainer").on('', '#UploadImage', function(event){
-    //alert("value change"+ $('#UploadImage').value );
-    
+  $(".mainContainer").on('change', '#image_to_upload', function(event){
+    let file = document.getElementById("image_to_upload").files[0];
+    if (!(file.type.match('image.*'))) {
+      url_photo = "";
+    }
+    photo_type = file.type;
+    var img = document.getElementById("imgsrc");
+    img.file = file;
+    console.log("fileName: "+ file.name);
+    var reader = new FileReader();
+    reader.onload = (function(aImg) { return function(e) { 
+      url_photo = e.target.result;
+      //console.log('url_photo: '+url_photo);
+      aImg.src = url_photo; }; })(img);
+    reader.readAsDataURL(file);
   })
- // let cur_url_photo = $('#UploadImage').value;
 
+  // Upon click this should trigger click on the #cv-to-upload file input element
+  $(".mainContainer").on('click', '#upload_cv', function(event){
+    $("#cv_to_upload").trigger('click');
+  });
 
+  $(".mainContainer").on('change', '#cv_to_upload', function(event){
+    let file = document.getElementById("cv_to_upload").files[0]; 
+    $(".cv_filename").text(file.name);
+    var reader = new FileReader();
+    reader.onload = function(e) {  
+      url_cv = e.target.result
+    }
+    reader.readAsDataURL(file);
+  });
 
-  $(".mainContainer").on('click','form#submitSignUpForm', function(event){
+  //preview the upload cv
+  $(".mainContainer").on('click', '#cv_preview', function(event){
+    displaypdf(url_cv);
+  });
+  
+
+  $(".mainContainer").on('submit','form#submitSignUpForm', function(event){
     event.preventDefault();
     //alert("test submit");
+    console.log('test registering a new user!')
     let user = {
        name: {
-        firstName: $(event.currentTarget).find('#firstName').val(),
-        lastName: $(event.currentTarget).find('#lastName').val()
+        firstName: $('#firstName').val(),
+        lastName: $('#lastName').val()
       },
-      email: $(event.currentTarget).find('#email').val(),
+      email: $('#email').val(),
       country: $("#country").val(),
-      state: $(event.currentTarget).find('#state').val(),
-      university: $(event.currentTarget).find('#university').val(),
-      speciality: $(event.currentTarget).find('#speciality').val(),
-      researchSum: $(event.currentTarget).find('#researchInterest').val(),
-      password: $(event.currentTarget).find('#password').val()
+      state: $('#state').val(),
+      university: $('#university').val(),
+      Department: $('#department').val(),
+      researchSum: $('#researchInterest').val(),
+      password: $('#password').val(),
+      img: url_photo,
+      link: {
+        link1: $('#link_1').val(),
+        link2: $('#link_2').val()
+      }
     }
 
     console.log('check new user:')
@@ -305,19 +391,19 @@ function getUsersByCountry(){
 }
 
 function getUsersBySpecialization(){
-  $.getJSON(USERS_URL+'/speciality', function(data){
-    console.log('Rendering list of speciality');
+  $.getJSON(USERS_URL+'/department', function(data){
+    console.log('Rendering list of department');
     console.log(data);
     const listCountry= [];
     let optHtml = "";
     for(let i=0; i<data.users.length-1; i++){
       if(i===0){
        // listCountry.push(data.users[i].country);
-        optHtml += `<option value= ${data.users[i+1].speciality}> ${data.users[i+1].speciality} </option>`;
+        optHtml += `<option value= ${data.users[i+1].department}> ${data.users[i+1].department} </option>`;
       }
-      else if(data.users[i].speciality != data.users[i+1].speciality){
+      else if(data.users[i].department != data.users[i+1].department){
         //listCountry.push(data.users[i+1].country);
-        optHtml += `<option value= ${data.users[i+1].speciality}> ${data.users[i+1].speciality} </option>`;
+        optHtml += `<option value= ${data.users[i+1].department}> ${data.users[i+1].department} </option>`;
       }
     }
     $("#modal_specialization").html(optHtml);
@@ -325,13 +411,12 @@ function getUsersBySpecialization(){
 }
 
 
-function getUsersBySpeciality_search(){
+function getUsersByDepartment_search(){
 
-  //let targetSpeciality = $("#modal_specialization")
-  let speciality = document.getElementById("modal_specialization").value;
-  console.log("speciality: "+ speciality)
-  $.getJSON(USERS_URL_SPECIALITY+'/'+speciality, function(data){  
-      console.log('Rendering search by speciality');
+  let department = document.getElementById("modal_specialization").value;
+  console.log("department: "+ department)
+  $.getJSON(USERS_URL_department+'/'+department, function(data){  
+      console.log('Rendering search by department');
       console.log(data);
       renderUsers2(data.users);
   })
@@ -339,8 +424,6 @@ function getUsersBySpeciality_search(){
 }
 
 function getUsersByCountry_search(){
-
-  //let targetSpeciality = $("#modal_specialization")
   let country = document.getElementById("modal_country").value;
   console.log("country: "+ country)
   $.getJSON(USERS_URL_COUNTRY+'/'+ country, function(data){  
@@ -356,19 +439,8 @@ $(function(){
   //populate the interface with the data initial
   //getandDisplayUsers();
   handleSearch();
-
-  $(".js_signUpNav").on("click", function(){
-    $('.pager').hide();
-    $(".js_displayUsers").html(signUpForm());
-    setCountryValue($(".js_signUpNav"));
-  });
-
-  $(".mainContainer").on('click', '.js_signUp2', function(event){
-    event.preventDefault();
-    $('.pager').hide();
-    $(".js_displayUsers").html(signUpForm());
-    setCountryValue();
-  })
+  //displaypdf();
+  
 
   $(".js_signInNav").on("click", function(){
     $('.pager').hide();
@@ -391,9 +463,6 @@ $(function(){
     $(".js_displayUsers").html('<h1> Please, come back later, we are still working on it! </h1>');
   })
 
-   $(".js_searchNav").click(function(event){
-    
-  })
 
   $(".mainContainer").on('click','#mail-link', function(event){
     $('.pager').hide();
@@ -418,15 +487,15 @@ $(function(){
     $("#modal_searchByCountry").modal({backdrop: true});
   })
 
-  $(".js_getUsersBySpeciality").click(function(event){
+  $(".js_getUsersByDepartment").click(function(event){
     getUsersBySpecialization();
-    $("#modal_searchBySpeciality").modal({backdrop: true});
+    $("#modal_searchByDepartment").modal({backdrop: true});
   })
 
-  $(".js_getUsersBySpeciality_search").click(function(event){
+  $(".js_getUsersByDepartment_search").click(function(event){
     event.preventDefault();
-    getUsersBySpeciality_search();
-    $("#modal_searchBySpeciality").modal("hide")
+    getUsersByDepartment_search();
+    $("#modal_searchByDepartment").modal("hide")
   })
 
   $(".js_getUsersByCountry_search").click(function(event){

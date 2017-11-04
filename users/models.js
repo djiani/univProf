@@ -14,8 +14,13 @@ const univProfSchema = mongoose.Schema({
   country: {type: String, required:true},
   state: {type: String, required:true},
   university: {type: String, required:true},
-  speciality: {type: String, required:true},
+  department: {type: String, required:true},
   researchSum: String,
+  tel: String,
+  region: String,
+  img: String,
+  cv:  String,
+  link:{link1:String, link2:String},
   created: {type:Date, default:Date.now}
 })
 
@@ -28,12 +33,18 @@ univProfSchema.methods.apiRepr= function(){
     id : this._id,
     name: this.userName,
     email: this.email,
+    tel: this.tel,
     password: this.password,
+    region: this.region,
     country: this.country,
     state: this.state,
     university:this.university,
-    speciality:this.speciality,
+    department:this.department,
     researchSum: this.researchSum,
+    img: this.img,
+    cv: this.cv,
+    link1:this.link.link1,
+    link2: this.link.link2,
     created: this.created
   };
 
