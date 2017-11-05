@@ -5,6 +5,7 @@ mongoose.Promise = global.Promise;
 
 //create a schema for the database
 const univProfSchema = mongoose.Schema({
+  title: {type:String, required:true},
   name: {
     firstName: {type: String, required:true},
     lastName: {type: String, required:true}
@@ -31,6 +32,7 @@ univProfSchema.virtual('userName').get(function(){
 univProfSchema.methods.apiRepr= function(){
   return {
     id : this._id,
+    title: this.title,
     name: this.userName,
     email: this.email,
     tel: this.tel,

@@ -129,7 +129,7 @@ router.get('/:searchTerm', (req, res)=>{
 
 //register a new user in db on POST
 router.post('/', jsonParser, (req, res)=>{
-  const requiredFields = ['name', 'email', 'password', 'country', 'state', 'university', 'department', 'researchSum'];
+  const requiredFields = ['title','name', 'email', 'password', 'country', 'state', 'university', 'department', 'researchSum'];
   for(let i=0; i < requiredFields.length; i++){
     const field = requiredFields[i];
     if(!(field in req.body)){

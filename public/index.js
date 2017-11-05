@@ -41,9 +41,16 @@ function displaysMoreInfos(data){
     console.log(user);
     if (!user.cv){
    
-    user.cv = './sam_cv.pdf'
+    user.cv = './sample_cv.pdf'
   } 
   let pdfHtml = $(usersInfos_template(user));
+  if(user.link.link1 != ""){
+    $(pdfHtml).find("ul").append(`<li><a href="${user.link.link1}">${user.link.link1}</a></li>`);
+  }
+  if(user.link.link2 != ""){
+    $(pdfHtml).find("ul").append(`<li><a href="${user.link.link2}">${user.link.link2}</a></li>`);
+  }
+
   $('.js_users_more_details').html(pdfHtml);
   $('.modal_headerName').text(`Dr. ${user.name}`);
   displaypdf2(user.cv);
@@ -208,19 +215,24 @@ function handleAddUser(){
 
   $(".mainContainer").on('change', '#image_to_upload', function(event){
     let file = document.getElementById("image_to_upload").files[0];
+    url_photo = URL.createObjectURL(file);
     if (!(file.type.match('image.*'))) {
       url_photo = "";
     }
-    photo_type = file.type;
-    var img = document.getElementById("imgsrc");
-    img.file = file;
-    console.log("fileName: "+ file.name);
+    else{
+      var img = document.getElementById("imgsrc");
+      img.src = url_photo;
+    }
+     
+    /*img.file = file;
+    //console.log("fileName: "+ file.name);
+    url_photo = file.name
     var reader = new FileReader();
     reader.onload = (function(aImg) { return function(e) { 
-      url_photo = e.target.result;
       //console.log('url_photo: '+url_photo);
       aImg.src = url_photo; }; })(img);
     reader.readAsDataURL(file);
+    */
   })
 
   // Upon click this should trigger click on the #cv-to-upload file input element
@@ -231,11 +243,15 @@ function handleAddUser(){
   $(".mainContainer").on('change', '#cv_to_upload', function(event){
     let file = document.getElementById("cv_to_upload").files[0]; 
     $(".cv_filename").text(file.name);
-    var reader = new FileReader();
+    url_cv = URL.createObjectURL(file);
+    console.log(url_cv);
+    /*var reader = new FileReader();
     reader.onload = function(e) {  
-      url_cv = e.target.result;
+      url_cv = atob(e.target.result);
+      console.log('url_cv_atob: '+ url_cv)
     }
     reader.readAsDataURL(file);
+    */
   });
 
   //preview the upload cv
@@ -249,6 +265,7 @@ function handleAddUser(){
     //alert("test submit");
     console.log('test registering a new user!')
     let user = {
+        title: $('#title').val(),
        name: {
         firstName: $('#firstName').val(),
         lastName: $('#lastName').val()
