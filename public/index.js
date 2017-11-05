@@ -2,8 +2,8 @@
 const USERS_URL = '/api/users';
 const AUTH_URL_LOGIN = '/api/auth/login';
 const URL_PROTECTED = '/api/protected';
-const USERS_URL_DEPARTMENT = '/api/users/department'
-const USERS_URL_COUNTRY = '/api/users/country'
+const USERS_URL_DEPARTMENT = '/api/users/department';
+const USERS_URL_COUNTRY = '/api/users/country';
 
 /*take care of this direct message sending */
 function sendEmail() {
@@ -257,10 +257,11 @@ function handleAddUser(){
       country: $("#country").val(),
       state: $('#state').val(),
       university: $('#university').val(),
-      Department: $('#department').val(),
+      department: $('#department').val(),
       researchSum: $('#researchInterest').val(),
       password: $('#password').val(),
       img: url_photo,
+      cv: url_cv,
       link: {
         link1: $('#link_1').val(),
         link2: $('#link_2').val()
@@ -295,15 +296,13 @@ function logginUser(login){
             $(".js_signUpNav").hide();
             $(".profileName").html(authData.lastName);
             $(".js_accountNav").removeClass('hidden');
-            $(".js_displayUsers").html(homeForm());
+            $(".js_displayUsers").html(signInForm());
         },
-
         error: function(err){
-            console.log('login fail');
-            console.log(err);
-        },
-        dataType: 'json',
-        contentType: 'application/json'
+            console.log('oupppssss!! login fail ');
+            //console.log(err);
+        }
+        
 
     })
 }
@@ -311,7 +310,7 @@ function logginUser(login){
 function handleLoginUser(){
     $(".mainContainer").on('submit','form#submitSignInForm', function(event){
         event.preventDefault();
-        alert("test sign in form");
+        //alert("test sign in form");
         let login = {
          email: $(event.currentTarget).find('#email').val(),
          password: $(event.currentTarget).find('#password').val()
@@ -342,6 +341,7 @@ function handleSignOut(){
 
 function viewProfileUsers(){
   $(".js_profileNav").click(function(){
+    alert('view profile');
     const authData = loadAuthToken('authtoken');
     $.ajax({
       method: 'GET',
@@ -390,7 +390,7 @@ function getUsersByCountry(){
     console.log(data);
     const listCountry= [];
     let optHtml = "";
-    for(let i=0; i<data.users.length-1; i++){
+    for(let i= 0; i< data.users.length-1; i++){
       if(i===0){
        // listCountry.push(data.users[i].country);
         optHtml += `<option value= ${data.users[i+1].country}> ${data.users[i+1].country} </option>`;
@@ -430,7 +430,7 @@ function getUsersByDepartment_search(){
 
   let department = document.getElementById("modal_specialization").value;
   console.log("department: "+ department)
-  $.getJSON(USERS_URL_department+'/'+department, function(data){  
+  $.getJSON(USERS_URL_DEPARTMENT+'/'+department, function(data){  
       console.log('Rendering search by department');
       console.log(data);
       renderUsers2(data.users);
@@ -501,6 +501,12 @@ $(function(){
     getUsersByCountry();
     $("#modal_searchByCountry").modal({backdrop: true});
   })
+  $(".js_getUsersByCountry_search").click(function(event){
+    event.preventDefault();
+    getUsersByCountry_search();
+    $("#modal_searchByCountry").modal("hide")
+  })
+
 
   $(".js_getUsersByDepartment").click(function(event){
     getUsersBySpecialization();
@@ -509,15 +515,12 @@ $(function(){
 
   $(".js_getUsersByDepartment_search").click(function(event){
     event.preventDefault();
+    alert('I am click')
     getUsersByDepartment_search();
     $("#modal_searchByDepartment").modal("hide")
   })
 
-  $(".js_getUsersByCountry_search").click(function(event){
-    event.preventDefault();
-    getUsersByCountry_search();
-    $("#modal_searchByCountry").modal("hide")
-  })
+  
 
   //set active class to nav bar
   $('.nav li').click(function(){

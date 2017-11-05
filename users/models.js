@@ -54,6 +54,10 @@ univProfSchema.methods.validatePassword = function(password) {
     return bcrypt.compare(password, this.password);
 };
 
+univProfSchema.methods.validatePasswordExpiration = function(password) {
+    return (Date.now()- this.created)  //check on the password expiration
+};
+
 univProfSchema.statics.hashPassword = function(password) {
     return bcrypt.hash(password, 10);
 };
