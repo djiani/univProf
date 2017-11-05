@@ -2,9 +2,7 @@
   
 }
 
-#image_to_upload, #cv_to_upload{
-  display: none;
-}
+
 
 #pdf-main-container {
   width: 400px;
@@ -46,14 +44,25 @@
 }
 
 #pdf-canvas {
+  
   border: 1px solid rgba(0,0,0,0.2);
-  margin-right: auto;
-  margin-left: auto;
-  width: 40%;
+  margin:0 3%;
+  width: 50%;
+  display: inline-block;
+}
+
+.js_users_more_details{
+  float: left;
+  border: 1px solid black;
+  margin:0 3%;
+
+  width: 30%;
+  display: inline-block;
+
 }
 
 .modal-dialog{
-  width: 100%;
+  width: 70%;
 }
 
 #page-loader {

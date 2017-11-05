@@ -42,7 +42,7 @@ univProfSchema.methods.apiRepr= function(){
     department:this.department,
     researchSum: this.researchSum,
     img: this.img,
-    cv: this.cv,
+    cv: this.cv || "",
     link1:this.link.link1,
     link2: this.link.link2,
     created: this.created

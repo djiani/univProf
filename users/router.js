@@ -168,6 +168,7 @@ router.post('/', jsonParser, (req, res)=>{
       department: req.body.department,
       researchSum: req.body.researchSum,
       img: req.body.img,
+      cv: req.body.cv,
       link: req.body.link
     })
   })

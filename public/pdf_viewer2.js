@@ -1,13 +1,9 @@
-
 var __PDF_DOC,
   __CURRENT_PAGE,
   __TOTAL_PAGES,
   __PAGE_RENDERING_IN_PROGRESS = 0,
   __CANVAS = $('#pdf-canvas').get(0),
   __CANVAS_CTX = __CANVAS.getContext('2d');
-
-var url_cv_test = "";
-
 
 function showPDF(pdf_url) {
   $("#pdf-loader").show();
@@ -26,7 +22,7 @@ function showPDF(pdf_url) {
   }).catch(function(error) {
     // If error re-show the upload button
     $("#pdf-loader").hide();
-    
+    $("#upload-button").show();
     
     alert(error.message);
   });;
@@ -50,9 +46,9 @@ function showPage(page_no) {
   __PDF_DOC.getPage(page_no).then(function(page) {
     // As the canvas is of a fixed width we need to set the scale of the viewport accordingly
     var scale_required = __CANVAS.width / page.getViewport(1).width;
-    console.log("__CANVAS.width= "+__CANVAS.width +" "+ page.getViewport(1).width+" scale_required= "+  scale_required);
+
     // Get viewport of the page at required scale
-    var viewport = page.getViewport(scale_required);
+    var viewport = page.getViewport(1.3);
 
     // Set canvas height
     __CANVAS.height = viewport.height;
@@ -76,13 +72,14 @@ function showPage(page_no) {
   });
 }
 
-
-
 function displaypdf(url_cv){
     // Send the object url of the pdf
+
    showPDF(url_cv);
    $("#pdfModal").modal({backdrop: true});
-  
+   $('.modal-dialog').css({"width":"60%"});
+   $('.pdf_modal').css({"width":"100%"});
+   $('.js_users_more_details').hide();
 
   // Previous page of the PDF
   $("#pdf-prev").on('click', function() {
@@ -97,14 +94,15 @@ function displaypdf(url_cv){
   });
 
 }
-
 
 function displaypdf2(url_cv){
     // Send the object url of the pdf
-  $('.pager').hide();
+   $('.js_users_more_details').show();
+   $('.modal-dialog').css({"width":"80%"});
+   $('.pdf_modal').css({"width":"60%"});
    showPDF(url_cv);
-   //$("#pdfModal").modal({backdrop: true});
-  
+   $("#pdfModal").modal({backdrop: true});
+   
 
   // Previous page of the PDF
   $("#pdf-prev").on('click', function() {
@@ -117,12 +115,24 @@ function displaypdf2(url_cv){
     if(__CURRENT_PAGE != __TOTAL_PAGES)
       showPage(++__CURRENT_PAGE);
   });
-
 }
 
 
+function displayPDF(url){
+  // Send the object url of the pdf
+  showPDF(url);
 
 
+// Previous page of the PDF
+$("#pdf-prev").on('click', function() {
+  if(__CURRENT_PAGE != 1)
+    showPage(--__CURRENT_PAGE);
+});
 
+// Next page of the PDF
+$("#pdf-next").on('click', function() {
+  if(__CURRENT_PAGE != __TOTAL_PAGES)
+    showPage(++__CURRENT_PAGE);
+});
 
-
+}

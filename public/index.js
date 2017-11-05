@@ -39,10 +39,25 @@ function displaysMoreInfos(data){
       }
     });
     console.log(user);
-    alert(user.name);
-  })
+    if (!user.cv){
+   
+    user.cv = './sam_cv.pdf'
+  } 
+  let pdfHtml = $(usersInfos_template(user));
+  $('.js_users_more_details').html(pdfHtml);
+  $('.modal_headerName').text(`Dr. ${user.name}`);
+  displaypdf2(user.cv);
+  //displayPDF(user.cv);
+  //$('.js_displayUsers').hide();
+  //$('.pager').hide();
+  });
+
   
 }
+
+
+
+
 function renderUsers(data){
     if (data.length > 0){
        let usersElts = data.map(function(user){
@@ -218,7 +233,7 @@ function handleAddUser(){
     $(".cv_filename").text(file.name);
     var reader = new FileReader();
     reader.onload = function(e) {  
-      url_cv = e.target.result
+      url_cv = e.target.result;
     }
     reader.readAsDataURL(file);
   });

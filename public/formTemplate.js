@@ -252,5 +252,27 @@ function userTemplate(){
 }
 
 
+function usersInfos_template(user){
+ return `
+  <div class="modal_users-info">
+    <div class="modal_prof_pict_block"> 
+      <img src="${user.img}" alt="profile picture" class="modal_prof_pict">  
+    </div>
+    <h4> ${user.title} </h4>
+    <h4>Department of ${user.department} </h4>
+    <h4>${user.university} </h4>
+    <h4>Country: ${user.country} </h4>
+    <h4>State: ${user.state} </h4>
+    <h3> My contact Infomation<h3>
+    <h5>Email: ${user.email} </h5>
+    <h5>tel: ${user.email} </h5>
+    <h3> A Little bit About Myself<h3>
+    <h5>${user.researchSum} </h5>
+    <h3> My research summary<h3>
+    <h5>${user.researchSum} </h5>
+  <div>
+    `;
+}
+
  
       

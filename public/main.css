@@ -101,6 +101,33 @@ ul.js_user_info{
   width: 200px;
 }
 
+/*  signUP Form css */
+#image_to_upload, #cv_to_upload{
+  display: none;
+}
+
+.signUp_headerText{
+  text-align: center;
+}
+
+fieldset{
+  padding: 10px;
+  border:1px solid black;
+}
+
+
+#profileImgUpload{
+  width: 200px;
+  height:200px;
+  border:2px solid black;
+  margin: 10px auto;
+}
+
+#imgsrc{
+  width: 196px;
+  height: 196px;
+}
+
 /* style sign in  */
 .loginContainer{
   width: 50%;

@@ -8,7 +8,7 @@
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
   <link rel="stylesheet" type="text/css" href="/main.css">
-  <link rel="stylesheet" type="text/css" href="/pdf_viewer.css">
+  <link rel="stylesheet" type="text/css" href="/pdf_viewer2.css">
   <script src="pdf.js"></script>
   <script src="pdf.worker.js"></script>
 </head>
@@ -177,12 +177,31 @@
             </div>
           </div> <!-- end modal box search by Specialization -->
         </div>
+
+
+
         <div>
           <ul class="pager" hidden>
             <li class="previous"><a href="#">Previous</a></li>
             <li class="next"><a href="#">Next</a></li>
           </ul>
         </div>
+<!--
+         <div id="pdf-main-container">
+          <div id="pdf-loader">Loading document ...</div>
+          <div id="pdf-contents">
+            <div id="pdf-meta">
+              <div id="pdf-buttons">
+                <button id="pdf-prev">Previous</button>
+                <button id="pdf-next">Next</button>
+              </div>
+              <div id="page-count-container">Page <div id="pdf-current-page"></div> of <div id="pdf-total-pages"></div></div>
+            </div>
+            <canvas id="pdf-canvas" width="800"></canvas>
+            <div id="page-loader">Loading page ...</div>
+          </div>
+        </div>
+-->
 
         <!-- modal to display pdf cv -->
         <div class="modal fade" id="pdfModal" role="dialog">
@@ -191,25 +210,30 @@
             <!-- Modal content-->
             <div class="modal-content">
               <div class="modal-header">
-                <div id="pdf-buttons">
-                  <button id="pdf-prev">Previous</button>
-                  <button id="pdf-next">Next</button>
-                </div>
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h2 class="modal_headerName"></h2>
               </div>
 
               <div class="modal-body" >
                 <div id="pdf-contents">
-                  <div> <h2>Test more infos</h2></div>
-                  <canvas id="pdf-canvas" ></canvas>
+                  <div class="js_users_more_details"></div>
+                  <div class="pdf_modal">
+                    <div id="pdf-buttons">
+                      <button id="pdf-prev">Previous</button>
+                      <button id="pdf-next">Next</button>
+                    </div>
+                    <canvas id="pdf-canvas" width="800" ></canvas>
+                    <div id="pdf-meta"> 
+                      <div id="page-count-container">Page <div id="pdf-current-page"></div> of <div id="pdf-total-pages"></div></div>
+                    </div>
+                  </div>
                   <div id="page-loader">Loading page ...</div>
+                  
                 </div>
               </div>
               <div class="modal-footer">
                 <button type="submit" class="btn btn-default btn-default pull-left" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Cancel</button>
-                <div id="pdf-meta"> 
-                  <div id="page-count-container">Page <div id="pdf-current-page"></div> of <div id="pdf-total-pages"></div></div>
-                </div>
+                
               </div>
             </div>
           </div>
@@ -226,7 +250,7 @@
   <script type="text/javascript" src="/formTemplate.js"></script>
   <script type="text/javascript" src="/city_state.js"></script>
   <script type="text/javascript" src="/local-storage.js"></script>
-  <script type="text/javascript" src="/pdf_viewer.js"></script>
+  <script type="text/javascript" src="/pdf_viewer2.js"></script>
   <script type="text/javascript" src="/index.js"></script>
 </body>
 </html>
