@@ -13,15 +13,21 @@ const createAuthToken = user => {
 };
 
 const router = express.Router();
-
+//{'authToken':authToken,'lastName':req.user.name.lastName, 'id':req.user.id
 router.post(
     '/login',
     // The user provides email and password to login
     passport.authenticate('basic', {session: false}),
     (req, res) => {
         const authToken = createAuthToken(req.user.apiRepr());
-        res.json({'authToken':authToken,'lastName':req.user.name.lastName, 'id':req.user.id});
+        let userRes = {
+            'userName': req.user.userName, 
+            'id': req.user._id,  
+            'authToken': authToken,      
+        }
+        res.json(userRes);
     }
+    
 );
 
 router.post(

@@ -248,7 +248,6 @@ function userTemplate(){
           <ul class="js_user_info"> </ul>
       </div>
   `
-
 }
 
 

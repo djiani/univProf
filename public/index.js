@@ -41,13 +41,16 @@ function displaysMoreInfos(data){
     console.log(user);
     if (!user.cv){
    
-    user.cv = './sample_cv.pdf'
+    user.cv = './sample_cv.pdf';
+  }
+  if(!user.img){
+    user.img = 'http://www.cameraegg.org/wp-content/uploads/2016/01/Nikon-D500-Sample-Images-2.jpg';
   } 
   let pdfHtml = $(usersInfos_template(user));
-  if(user.link.link1 != ""){
+  if(user.link.link1){
     $(pdfHtml).find("ul").append(`<li><a href="${user.link.link1}">${user.link.link1}</a></li>`);
   }
-  if(user.link.link2 != ""){
+  if(user.link.link2){
     $(pdfHtml).find("ul").append(`<li><a href="${user.link.link2}">${user.link.link2}</a></li>`);
   }
 
@@ -265,8 +268,8 @@ function handleAddUser(){
     //alert("test submit");
     console.log('test registering a new user!')
     let user = {
-        title: $('#title').val(),
-       name: {
+      title: $('#title').val(),
+      name: {
         firstName: $('#firstName').val(),
         lastName: $('#lastName').val()
       },
@@ -302,18 +305,22 @@ function logginUser(login){
         url: AUTH_URL_LOGIN,
         headers: {
                 // Provide our username and password as login credentials
-                Authorization: `Basic ${token}`
+                "Authorization": `Basic ${token}`
+                
             },
         success: function(authData){
             console.log('successful login! welcome To this website');
             //console.log(authData);
             //save this to the local storage
-            saveAuthToken(authData);
+            saveAuth("authToken", authData.authToken);
+            saveAuth("authUserName", authData.userName);
+            saveAuth("authId", authData.id);
             $(".js_signInNav").hide();
             $(".js_signUpNav").hide();
-            $(".profileName").html(authData.lastName);
+            $(".profileName").html(authData.userName);
             $(".js_accountNav").removeClass('hidden');
-            $(".js_displayUsers").html(signInForm());
+            //$(".js_displayUsers").html(signInForm());
+            $(".js_homeNav").trigger('click');
         },
         error: function(err){
             console.log('oupppssss!! login fail ');
@@ -343,43 +350,101 @@ function handleSignOut(){
     $(".js_signOutNav").click(function(event){
         $.get('/api/auth/logout', function(data, status){
           if (status == 'success'){
-            const token = loadAuthToken('authtoken');
-            clearAuthToken(token);
+            //const token = loadAuth('authToken');
+            clearAuth('authToken');
+            clearAuth('authUserName');
+            clearAuth('authId');
             console.log("successful sign out " + status);
             $(".js_signInNav").show();
             $(".js_signUpNav").show();
             $(".js_accountNav").addClass('hidden');
-            $(".js_displayUsers").html(homeForm());
+            //$(".js_displayUsers").html(homeForm());
+            $(".js_homeNav").trigger('click');
           }
           
         })
     })
 }
 
+function handle_deleteAccount(){
+   console.log('about to delete account');
+  $('.js_deleteAccountNav').click(function(event){
+    console.log('delete account');
+    $('#modal_deleteAccount').modal({backdrop:true});
+  })
+  $('.button_delete_ok').click(function(event){
+    const authToken = loadAuth('authToken');
+    const id = loadAuth('authId');
+    $.ajax({
+      method: 'DELETE',
+      url: '/api/users/delete/id',
+      headers: {
+              // Provide our username and password as login credentials
+        Authorization: `Bearer ${authToken}`
+      },
+      success: function(data){
+        console.log('successful delete the user'+data);
+        //going back to home s
+        $(".js_signInNav").show();
+        $(".js_signUpNav").show();
+        $(".js_accountNav").addClass('hidden');
+        //$(".js_displayUsers").html(homeForm());
+        $(".js_homeNav").trigger('click');
+      },
+      error: function(err){
+        console.log('Acess denied: Unauthorized users');
+        console.log(err);
+      }
+         
+
+    })
+  })
+}
 function viewProfileUsers(){
   $(".js_profileNav").click(function(){
     alert('view profile');
-    const authData = loadAuthToken('authtoken');
+    const authToken = loadAuth('authToken');
     $.ajax({
       method: 'GET',
       url: '/api/protected',
       headers: {
               // Provide our username and password as login credentials
-        Authorization: `bearer ${authData.authtoken}`
+        Authorization: `Bearer ${authToken}`
       },
       success: function(data){
         console.log('successful access authentification data');
         console.log(data);
           // get user form  the data based with id. 
-        $(".js_displayUsers").html('<p> Access protected data '+data+' <p>');
-      },
+        $(".js_displayUsers").html('<p> Access protected data '+data.user.name+' <p>');
+        $('#title').val(data.user.title),
+        $('#firstName').val(data.user.firstName),
+        $('#lastName').val(data.user.lastName)
+        $('#email').val(data.user.email),
+        $("#country").val(data.user.country),
+        $('#state').val(data.user.state),
+        $('#university').val(data.user.university),
+        $('#department').val(data.user.department),
+        $('#researchInterest').val(data.user.researchSum),
+        $('#password').val(data.user.pa),
+        url_photo,
+        url_cv,
+       
+        $('#link_1').val(data.user),
+        $('#link_2').val(data.user)
+        
+    }
 
+    console.log('check new user:')
+    console.log(user);
+    addUser(user);
+  })
+      },
       error: function(err){
+        alert('Acess denied: Unauthorized users');
         console.log('Acess denied: Unauthorized users');
         console.log(err);
-      },
-      dataType: 'json',
-      contentType: 'application/json'     
+      }
+         
 
     })
   })
@@ -508,6 +573,7 @@ $(function(){
   //post siggn form
   handleLoginUser();
   handleSignOut();
+  handle_deleteAccount();
   viewProfileUsers();
   //Displayed users
   $(".js_getAllUsers").click(function(event){

@@ -164,6 +164,7 @@ router.post('/', jsonParser, (req, res)=>{
       region: req.body.region,
       country: req.body.country,
       state: req.body.state,
+      title: req.body.title,
       university: req.body.university,
       department: req.body.department,
       researchSum: req.body.researchSum,
@@ -185,7 +186,18 @@ router.post('/', jsonParser, (req, res)=>{
 });
 
 //ToDo delete user and update
-
+router.delete('/:id', (req, res) => {
+  console.log('About to remove user: '+req.params.id+ 'from the database!!!!')
+  Users.remove({"_id": req.params.id},1)
+  .then(status =>{
+    res.status(204).end()
+    //res.redirect('/');
+  })
+  .catch(err =>{
+    res.status(500).json({message:'Internal server error'});
+  })
+ 
+})
 
 
 

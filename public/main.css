@@ -76,11 +76,11 @@ ul.js_user_info{
 .pager{
   border-top: 4px solid black
 }
-/* set the input submit button */
+/* set the input submit button 
 .searchButton {
-  width: 200px;
+  
 }
-
+*/
 
 
 
@@ -141,12 +141,17 @@ fieldset{
 
 .CancelButton{
   float:left;
+  width: 100px;
 }
 
 .searchButton {
   float: right;
+  width: 100px;
 }
 
+.modal-header h3{
+  text-align: center;
+}
 
 footer {
   background-color: #555;

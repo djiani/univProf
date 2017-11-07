@@ -45,8 +45,7 @@ univProfSchema.methods.apiRepr= function(){
     researchSum: this.researchSum,
     img: this.img,
     cv: this.cv || "",
-    link1:this.link.link1,
-    link2: this.link.link2,
+    link: this.link,
     created: this.created
   };
 
