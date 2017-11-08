@@ -419,7 +419,7 @@ function viewProfileUsers(){
       success: function(data){
         console.log('successful access authentification data');
         console.log(data);
-        //console.log(data);
+  
           // get user form  the data based with id. 
         //$(".js_displayUsers").html('<p> Access protected data '+data.user.name+' <p>');
         $('.js_displayUsers').html(signUpForm());
@@ -440,6 +440,8 @@ function viewProfileUsers(){
         $('#link_1').val(data.user.link1);
         $('#link_2').val(data.user.link2);
         
+        $('.cv_filename').text(data.user.cv);
+        $('#imgsrc').src = data.user.img;
         $('#loginAccount').hide();
         $('#speciality').disable = true;
         $('#contact').disable = true;

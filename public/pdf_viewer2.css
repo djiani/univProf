@@ -110,10 +110,10 @@
 }
 
 @media only screen and (max-width: 767px){
-  .pdf_modal, .js_users_more_details{
+  .pdf_modal, .js_users_more_details, .modal-dialog_pdf{
     width: 100%;
   }
   .modal_prof_pict, .modal_prof_pict_block{
-    height: 250px;
+    height: 150px;
   }
 }
