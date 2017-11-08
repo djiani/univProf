@@ -171,6 +171,15 @@ footer {
   .sidenav, .mainContainer{
     width: 100%;
   }
+  #newsPanel{
+    display: none;
+  }
+
+  .js_user{
+    width: 100%;
+  }
+
+ 
   
 }
 
