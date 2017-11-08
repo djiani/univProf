@@ -15,10 +15,10 @@ chai.use(chaiHttp);
 function seedUsersData(){
   console.info('seeding Users data');
   const seedData = [];
-  for (let i=0; i<10; i++){
+  for (let i=0; i<2; i++){
     seedData.push(generateUsersData());
   }
-  return Users.insertMany(seedUsersData());
+  return Users.insertMany(seedData);
 }
 
 
