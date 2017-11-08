@@ -25,6 +25,7 @@ router.post(
             'id': req.user._id,  
             'authToken': authToken,      
         }
+        
         res.json(userRes);
     }
     

@@ -6,7 +6,7 @@ mongoose.Promise = global.Promise;
 //create a schema for the database
 const univProfSchema = mongoose.Schema({
   title: {type:String, required:true},
-  name: {
+  userName: {
     firstName: {type: String, required:true},
     lastName: {type: String, required:true}
   },
@@ -17,6 +17,7 @@ const univProfSchema = mongoose.Schema({
   university: {type: String, required:true},
   department: {type: String, required:true},
   researchSum: String,
+  biography: String,
   tel: String,
   region: String,
   img: String,
@@ -25,24 +26,25 @@ const univProfSchema = mongoose.Schema({
   created: {type:Date, default:Date.now}
 })
 
-univProfSchema.virtual('userName').get(function(){
-  return `${this.name.firstName} ${this.name.lastName}`.trim();
-});
+//univProfSchema.virtual('userName').get(function(){
+ // return `${this.name.firstName} ${this.name.lastName}`.trim();
+//});
 
 univProfSchema.methods.apiRepr= function(){
   return {
     id : this._id,
     title: this.title,
-    name: this.userName,
+    userName: this.userName,
     email: this.email,
     tel: this.tel,
     password: this.password,
-    region: this.region,
+    region: this.region || "",
     country: this.country,
     state: this.state,
     university:this.university,
     department:this.department,
     researchSum: this.researchSum,
+    biography: this.biography,
     img: this.img,
     cv: this.cv || "",
     link: this.link,

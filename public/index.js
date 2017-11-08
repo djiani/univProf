@@ -55,7 +55,7 @@ function displaysMoreInfos(data){
   }
 
   $('.js_users_more_details').html(pdfHtml);
-  $('.modal_headerName').text(`Dr. ${user.name}`);
+  $('.modal_headerName').text(`Dr. ${user.userName.firstName} ${user.userName.lastName}`);
   displaypdf2(user.cv);
   //displayPDF(user.cv);
   //$('.js_displayUsers').hide();
@@ -77,7 +77,7 @@ function renderUsers(data){
             element.find('.js_profite_pict').attr("src", user.img);
           }
           element.find('.js_user_info').append(
-            `<li>${user.name} </li>
+            `<li>${user.userName.firstName} ${user.userName.lastName} </li>
             <li>${user.title} </li>
             <li>${user.university} </li>
             <li>${user.department} </li>
@@ -177,11 +177,12 @@ function addUser(user){
     method: 'POST',
     url: USERS_URL,
     data: JSON.stringify(user),
+    dataType: 'json',
+    contentType: 'application/json',
     success: function(data){
       getandDisplayUsers();
-    },
-    dataType: 'json',
-    contentType: 'application/json'
+    }
+    
   })
 }
 
@@ -207,7 +208,6 @@ function handleAddUser(){
 
   //set global variable 
   let url_photo= '';
-  let photo_type= '';
   let url_cv = '';
   
 
@@ -219,6 +219,7 @@ function handleAddUser(){
   $(".mainContainer").on('change', '#image_to_upload', function(event){
     let file = document.getElementById("image_to_upload").files[0];
     url_photo = URL.createObjectURL(file);
+    console.log(url_photo);
     if (!(file.type.match('image.*'))) {
       url_photo = "";
     }
@@ -266,19 +267,22 @@ function handleAddUser(){
   $(".mainContainer").on('submit','form#submitSignUpForm', function(event){
     event.preventDefault();
     //alert("test submit");
-    console.log('test registering a new user!')
+    console.log('registering a new user!')
     let user = {
       title: $('#title').val(),
-      name: {
+      userName: {
         firstName: $('#firstName').val(),
         lastName: $('#lastName').val()
       },
       email: $('#email').val(),
+      tel: $('#tel').val(),
+      region: $('#region').val(),
       country: $("#country").val(),
       state: $('#state').val(),
       university: $('#university').val(),
       department: $('#department').val(),
       researchSum: $('#researchInterest').val(),
+      biography: $('#biography').val(),
       password: $('#password').val(),
       img: url_photo,
       cv: url_cv,
@@ -323,7 +327,7 @@ function logginUser(login){
             $(".js_homeNav").trigger('click');
         },
         error: function(err){
-            console.log('oupppssss!! login fail ');
+          console.log('oupppssss!! login fail '+ err);
             //console.log(err);
         }
         
@@ -350,7 +354,6 @@ function handleSignOut(){
     $(".js_signOutNav").click(function(event){
         $.get('/api/auth/logout', function(data, status){
           if (status == 'success'){
-            //const token = loadAuth('authToken');
             clearAuth('authToken');
             clearAuth('authUserName');
             clearAuth('authId');
@@ -367,7 +370,6 @@ function handleSignOut(){
 }
 
 function handle_deleteAccount(){
-   console.log('about to delete account');
   $('.js_deleteAccountNav').click(function(event){
     console.log('delete account');
     $('#modal_deleteAccount').modal({backdrop:true});
@@ -377,19 +379,22 @@ function handle_deleteAccount(){
     const id = loadAuth('authId');
     $.ajax({
       method: 'DELETE',
-      url: '/api/users/delete/id',
+      url: '/api/users/delete/'+id,
       headers: {
               // Provide our username and password as login credentials
         Authorization: `Bearer ${authToken}`
       },
-      success: function(data){
+      success: function(err, data){
         console.log('successful delete the user'+data);
         //going back to home s
         $(".js_signInNav").show();
         $(".js_signUpNav").show();
         $(".js_accountNav").addClass('hidden');
         //$(".js_displayUsers").html(homeForm());
-        $(".js_homeNav").trigger('click');
+        //$(".js_homeNav").trigger('click');
+        clearAuth('authToken');
+        clearAuth('authId');
+        clearAuth('authUserName');
       },
       error: function(err){
         console.log('Acess denied: Unauthorized users');
@@ -414,30 +419,29 @@ function viewProfileUsers(){
       success: function(data){
         console.log('successful access authentification data');
         console.log(data);
+        //console.log(data);
           // get user form  the data based with id. 
-        $(".js_displayUsers").html('<p> Access protected data '+data.user.name+' <p>');
-        $('#title').val(data.user.title),
-        $('#firstName').val(data.user.firstName),
-        $('#lastName').val(data.user.lastName)
-        $('#email').val(data.user.email),
-        $("#country").val(data.user.country),
-        $('#state').val(data.user.state),
-        $('#university').val(data.user.university),
-        $('#department').val(data.user.department),
-        $('#researchInterest').val(data.user.researchSum),
-        $('#password').val(data.user.pa),
-        url_photo,
-        url_cv,
-       
-        $('#link_1').val(data.user),
-        $('#link_2').val(data.user)
+        //$(".js_displayUsers").html('<p> Access protected data '+data.user.name+' <p>');
+        $('.js_displayUsers').html(signUpForm());
+        $('.signUp_headerText').html(`<h2> Welcome ${data.user.userName.firstName} ${data.user.userName.lastName} </h2> `);
+        $('#firstName').val(data.user.userName.firstName);
+        $('#lastName').val(data.user.userName.lastName);
+        $('#tel').val(data.user.tel);
+        $('#email').val(data.user.email);
+        $('#region').value = data.user.region;
+        $("#country").value = data.user.country;
+        $('#state').value = data.user.state;
+        $('#title').val(data.user.title);
+        $('#university').val(data.user.university);
+        $('#department').val(data.user.department);
+        $('#biography').val(data.user.biography);
+        $('#researchInterest').val(data.user.researchSum);
+        $('#link_1').val(data.user.link1);
+        $('#link_2').val(data.user.link2);
         
-    }
-
-    console.log('check new user:')
-    console.log(user);
-    addUser(user);
-  })
+        $('#loginAccount').hide();
+        $('#speciality').disable = true;
+        $('#contact').disable = true;
       },
       error: function(err){
         alert('Acess denied: Unauthorized users');

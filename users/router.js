@@ -94,8 +94,8 @@ router.get('/:searchTerm', (req, res)=>{
   .find({$or:[
     {department:{$regex: '.*' + req.params.searchTerm + '.*', $options: 'i' }},
     {country: {$regex: '.*' + req.params.searchTerm + '.*', $options: 'i' }},
-    {'name.firstName': {$regex: '.*' + req.params.searchTerm + '.*', $options: 'i' }},
-    {'name.lastName': {$regex: '.*' + req.params.searchTerm + '.*', $options: 'i' }}
+    {'userName.firstName': {$regex: '.*' + req.params.searchTerm + '.*', $options: 'i' }},
+    {'userName.lastName': {$regex: '.*' + req.params.searchTerm + '.*', $options: 'i' }}
   ]})
   .then(result =>{
     res.status(200).json({
@@ -129,7 +129,7 @@ router.get('/:searchTerm', (req, res)=>{
 
 //register a new user in db on POST
 router.post('/', jsonParser, (req, res)=>{
-  const requiredFields = ['title','name', 'email', 'password', 'country', 'state', 'university', 'department', 'researchSum'];
+  const requiredFields = ['title','userName', 'email', 'password', 'country', 'state', 'university', 'department', 'researchSum'];
   for(let i=0; i < requiredFields.length; i++){
     const field = requiredFields[i];
     if(!(field in req.body)){
@@ -145,7 +145,7 @@ router.post('/', jsonParser, (req, res)=>{
   .count()
   .then(count => {
     if(count > 0){
-      return promise.reject({
+      return Promise.reject({
         code: 422,
         reason:'ValidatorError',
         message:'email already taken',
@@ -157,7 +157,7 @@ router.post('/', jsonParser, (req, res)=>{
   .then(hash => {
     return Users
     .create({
-      name:req.body.name,
+      userName:req.body.userName,
       email:req.body.email,
       password: hash,
       tel: req.body.tel,
@@ -168,6 +168,7 @@ router.post('/', jsonParser, (req, res)=>{
       university: req.body.university,
       department: req.body.department,
       researchSum: req.body.researchSum,
+      biography: req.body.biography,
       img: req.body.img,
       cv: req.body.cv,
       link: req.body.link
@@ -188,10 +189,10 @@ router.post('/', jsonParser, (req, res)=>{
 //ToDo delete user and update
 router.delete('/:id', (req, res) => {
   console.log('About to remove user: '+req.params.id+ 'from the database!!!!')
-  Users.remove({"_id": req.params.id},1)
+  Users.remove({"_id": req.params.id})
   .then(status =>{
-    res.status(204).end()
-    //res.redirect('/');
+    //res.status(204).json({message:'Account successfully deleted'});
+    res.redirect('/');
   })
   .catch(err =>{
     res.status(500).json({message:'Internal server error'});
