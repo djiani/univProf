@@ -5,7 +5,7 @@ const faker = require('faker');
 
 const {app, runServer, closeServer} = require('../server');
 const {Users} = require('../users');
-const {DATABASE_URL} = require('../config');
+const {TEST_DATABASE_URL} = require('../config');
 
 const should = chai.should();
 
@@ -15,10 +15,10 @@ chai.use(chaiHttp);
 function seedUsersData(){
   console.info('seeding Users data');
   const seedData = [];
-  for (let i=1; i<10; i++){
+  for (let i=0; i<10; i++){
     seedData.push(generateUsersData());
   }
-  return Users.insertMany(seedUsersData);
+  return Users.insertMany(seedUsersData());
 }
 
 
@@ -36,8 +36,8 @@ function generateUsersData(){
     state: faker.address.state(),
     university: "New Mexico State University",
     department: "Computer Science",
-    researchSum: faker.lorem.sentences(3),
-    biography: faker.lorem.sentences(3),
+    researchSum: faker.lorem.sentence(),
+    biography: faker.lorem.sentence(),
     password: "pass1",
     img: faker.image.imageUrl,
     cv: "",
@@ -56,7 +56,7 @@ function tearDownDb() {
 describe('University Api Resource', function(){
 
   before(function() {
-    return runServer(DATABASE_URL);
+    return runServer(TEST_DATABASE_URL);
   });
 
   beforeEach(function() {
