@@ -41,11 +41,21 @@ function displaysMoreInfos(data){
     console.log(user);
     if (!user.cv){
    
-    user.cv = './sam_cv.pdf'
+    user.cv = './sample_cv.pdf';
+  }
+  if(!user.img){
+    user.img = 'http://www.cameraegg.org/wp-content/uploads/2016/01/Nikon-D500-Sample-Images-2.jpg';
   } 
   let pdfHtml = $(usersInfos_template(user));
+  if(user.link.link1){
+    $(pdfHtml).find("ul").append(`<li><a href="${user.link.link1}">${user.link.link1}</a></li>`);
+  }
+  if(user.link.link2){
+    $(pdfHtml).find("ul").append(`<li><a href="${user.link.link2}">${user.link.link2}</a></li>`);
+  }
+
   $('.js_users_more_details').html(pdfHtml);
-  $('.modal_headerName').text(`Dr. ${user.name}`);
+  $('.modal_headerName').text(`Dr. ${user.userName.firstName} ${user.userName.lastName}`);
   displaypdf2(user.cv);
   //displayPDF(user.cv);
   //$('.js_displayUsers').hide();
@@ -67,7 +77,7 @@ function renderUsers(data){
             element.find('.js_profite_pict').attr("src", user.img);
           }
           element.find('.js_user_info').append(
-            `<li>${user.name} </li>
+            `<li>${user.userName.firstName} ${user.userName.lastName} </li>
             <li>${user.title} </li>
             <li>${user.university} </li>
             <li>${user.department} </li>
@@ -167,11 +177,12 @@ function addUser(user){
     method: 'POST',
     url: USERS_URL,
     data: JSON.stringify(user),
+    dataType: 'json',
+    contentType: 'application/json',
     success: function(data){
       getandDisplayUsers();
-    },
-    dataType: 'json',
-    contentType: 'application/json'
+    }
+    
   })
 }
 
@@ -197,7 +208,6 @@ function handleAddUser(){
 
   //set global variable 
   let url_photo= '';
-  let photo_type= '';
   let url_cv = '';
   
 
@@ -208,19 +218,25 @@ function handleAddUser(){
 
   $(".mainContainer").on('change', '#image_to_upload', function(event){
     let file = document.getElementById("image_to_upload").files[0];
+    url_photo = URL.createObjectURL(file);
+    console.log(url_photo);
     if (!(file.type.match('image.*'))) {
       url_photo = "";
     }
-    photo_type = file.type;
-    var img = document.getElementById("imgsrc");
-    img.file = file;
-    console.log("fileName: "+ file.name);
+    else{
+      var img = document.getElementById("imgsrc");
+      img.src = url_photo;
+    }
+     
+    /*img.file = file;
+    //console.log("fileName: "+ file.name);
+    url_photo = file.name
     var reader = new FileReader();
     reader.onload = (function(aImg) { return function(e) { 
-      url_photo = e.target.result;
       //console.log('url_photo: '+url_photo);
       aImg.src = url_photo; }; })(img);
     reader.readAsDataURL(file);
+    */
   })
 
   // Upon click this should trigger click on the #cv-to-upload file input element
@@ -231,11 +247,15 @@ function handleAddUser(){
   $(".mainContainer").on('change', '#cv_to_upload', function(event){
     let file = document.getElementById("cv_to_upload").files[0]; 
     $(".cv_filename").text(file.name);
-    var reader = new FileReader();
+    url_cv = URL.createObjectURL(file);
+    console.log(url_cv);
+    /*var reader = new FileReader();
     reader.onload = function(e) {  
-      url_cv = e.target.result;
+      url_cv = atob(e.target.result);
+      console.log('url_cv_atob: '+ url_cv)
     }
     reader.readAsDataURL(file);
+    */
   });
 
   //preview the upload cv
@@ -247,18 +267,22 @@ function handleAddUser(){
   $(".mainContainer").on('submit','form#submitSignUpForm', function(event){
     event.preventDefault();
     //alert("test submit");
-    console.log('test registering a new user!')
+    console.log('registering a new user!')
     let user = {
-       name: {
+      title: $('#title').val(),
+      userName: {
         firstName: $('#firstName').val(),
         lastName: $('#lastName').val()
       },
       email: $('#email').val(),
+      tel: $('#tel').val(),
+      region: $('#region').val(),
       country: $("#country").val(),
       state: $('#state').val(),
       university: $('#university').val(),
       department: $('#department').val(),
       researchSum: $('#researchInterest').val(),
+      biography: $('#biography').val(),
       password: $('#password').val(),
       img: url_photo,
       cv: url_cv,
@@ -285,21 +309,25 @@ function logginUser(login){
         url: AUTH_URL_LOGIN,
         headers: {
                 // Provide our username and password as login credentials
-                Authorization: `Basic ${token}`
+                "Authorization": `Basic ${token}`
+                
             },
         success: function(authData){
             console.log('successful login! welcome To this website');
             //console.log(authData);
             //save this to the local storage
-            saveAuthToken(authData);
+            saveAuth("authToken", authData.authToken);
+            saveAuth("authUserName", authData.userName);
+            saveAuth("authId", authData.id);
             $(".js_signInNav").hide();
             $(".js_signUpNav").hide();
-            $(".profileName").html(authData.lastName);
+            $(".profileName").html(authData.userName);
             $(".js_accountNav").removeClass('hidden');
-            $(".js_displayUsers").html(signInForm());
+            //$(".js_displayUsers").html(signInForm());
+            $(".js_homeNav").trigger('click');
         },
         error: function(err){
-            console.log('oupppssss!! login fail ');
+          console.log('oupppssss!! login fail '+ err);
             //console.log(err);
         }
         
@@ -326,43 +354,101 @@ function handleSignOut(){
     $(".js_signOutNav").click(function(event){
         $.get('/api/auth/logout', function(data, status){
           if (status == 'success'){
-            const token = loadAuthToken('authtoken');
-            clearAuthToken(token);
+            clearAuth('authToken');
+            clearAuth('authUserName');
+            clearAuth('authId');
             console.log("successful sign out " + status);
             $(".js_signInNav").show();
             $(".js_signUpNav").show();
             $(".js_accountNav").addClass('hidden');
-            $(".js_displayUsers").html(homeForm());
+            //$(".js_displayUsers").html(homeForm());
+            $(".js_homeNav").trigger('click');
           }
           
         })
     })
 }
 
+function handle_deleteAccount(){
+  $('.js_deleteAccountNav').click(function(event){
+    console.log('delete account');
+    $('#modal_deleteAccount').modal({backdrop:true});
+  })
+  $('.button_delete_ok').click(function(event){
+    const authToken = loadAuth('authToken');
+    const id = loadAuth('authId');
+    $.ajax({
+      method: 'DELETE',
+      url: '/api/users/delete/'+id,
+      headers: {
+              // Provide our username and password as login credentials
+        Authorization: `Bearer ${authToken}`
+      },
+      success: function(err, data){
+        console.log('successful delete the user'+data);
+        //going back to home s
+        $(".js_signInNav").show();
+        $(".js_signUpNav").show();
+        $(".js_accountNav").addClass('hidden');
+        //$(".js_displayUsers").html(homeForm());
+        //$(".js_homeNav").trigger('click');
+        clearAuth('authToken');
+        clearAuth('authId');
+        clearAuth('authUserName');
+      },
+      error: function(err){
+        console.log('Acess denied: Unauthorized users');
+        console.log(err);
+      }
+         
+
+    })
+  })
+}
 function viewProfileUsers(){
   $(".js_profileNav").click(function(){
     alert('view profile');
-    const authData = loadAuthToken('authtoken');
+    const authToken = loadAuth('authToken');
     $.ajax({
       method: 'GET',
       url: '/api/protected',
       headers: {
               // Provide our username and password as login credentials
-        Authorization: `bearer ${authData.authtoken}`
+        Authorization: `Bearer ${authToken}`
       },
       success: function(data){
         console.log('successful access authentification data');
         console.log(data);
+        //console.log(data);
           // get user form  the data based with id. 
-        $(".js_displayUsers").html('<p> Access protected data '+data+' <p>');
+        //$(".js_displayUsers").html('<p> Access protected data '+data.user.name+' <p>');
+        $('.js_displayUsers').html(signUpForm());
+        $('.signUp_headerText').html(`<h2> Welcome ${data.user.userName.firstName} ${data.user.userName.lastName} </h2> `);
+        $('#firstName').val(data.user.userName.firstName);
+        $('#lastName').val(data.user.userName.lastName);
+        $('#tel').val(data.user.tel);
+        $('#email').val(data.user.email);
+        $('#region').value = data.user.region;
+        $("#country").value = data.user.country;
+        $('#state').value = data.user.state;
+        $('#title').val(data.user.title);
+        $('#university').val(data.user.university);
+        $('#department').val(data.user.department);
+        $('#biography').val(data.user.biography);
+        $('#researchInterest').val(data.user.researchSum);
+        $('#link_1').val(data.user.link1);
+        $('#link_2').val(data.user.link2);
+        
+        $('#loginAccount').hide();
+        $('#speciality').disable = true;
+        $('#contact').disable = true;
       },
-
       error: function(err){
+        alert('Acess denied: Unauthorized users');
         console.log('Acess denied: Unauthorized users');
         console.log(err);
-      },
-      dataType: 'json',
-      contentType: 'application/json'     
+      }
+         
 
     })
   })
@@ -491,6 +577,7 @@ $(function(){
   //post siggn form
   handleLoginUser();
   handleSignOut();
+  handle_deleteAccount();
   viewProfileUsers();
   //Displayed users
   $(".js_getAllUsers").click(function(event){

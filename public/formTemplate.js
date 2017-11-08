@@ -45,14 +45,8 @@ function signUpForm(){
     </div>
     <div class="col-sm-8">
     <form class="form-horizontal" id='submitSignUpForm'>
-      <fieldset>
+      <fieldset id="contact">
         <legend>Contact</legend>
-        <div class="form-group">
-          <label for="title" class="control-label col-sm-3 ">title</label>
-          <div class="col-sm-8">
-            <input type="text" class="form-control" id="title"  placeholder="Associate professor" required >
-          </div>
-        </div>
         <div class="form-group">
           <label for="firstName" class="control-label col-sm-3 ">First Name</label>
           <div class="col-sm-8">
@@ -90,8 +84,14 @@ function signUpForm(){
           </div>
         </div>
       </fieldset>
-      <fieldset>
+      <fieldset id="speciality">
         <legend>Speciality</legend>
+        <div class="form-group">
+          <label for="title" class="control-label col-sm-3 ">title</label>
+          <div class="col-sm-8">
+            <input type="text" class="form-control" id="title"  placeholder="Associate professor" required >
+          </div>
+        </div>
         <div class="form-group">
           <label for="university" class="control-label col-sm-3 ">University</label>
           <div class="col-sm-8">
@@ -119,7 +119,7 @@ function signUpForm(){
           </div>
         </div>
       </fieldset>
-      <fieldset>
+      <fieldset id="loginAccount">
         <legend>Login Account</legend>
         <div class="form-group">
           <label for="email" class="control-label col-sm-2 ">Email</label>
@@ -192,6 +192,7 @@ function signUpForm(){
 }
 
 
+
 function signInForm(){
   return `
   <div class="container loginContainer">
@@ -248,7 +249,6 @@ function userTemplate(){
           <ul class="js_user_info"> </ul>
       </div>
   `
-
 }
 
 
@@ -261,15 +261,16 @@ function usersInfos_template(user){
     <h4> ${user.title} </h4>
     <h4>Department of ${user.department} </h4>
     <h4>${user.university} </h4>
-    <h4>Country: ${user.country} </h4>
-    <h4>State: ${user.state} </h4>
-    <h3> My contact Infomation<h3>
+    <h4>${user.country}-${user.state}  </h4>
+    <h3> My contact Infomation</h3>
     <h5>Email: ${user.email} </h5>
-    <h5>tel: ${user.email} </h5>
-    <h3> A Little bit About Myself<h3>
+    <h5>tel: ${user.tel} </h5>
+    <h3> A Little bit About Myself </h3>
+    <h5>${user.biography} </h5>
+    <h3> My research summary </h3>
     <h5>${user.researchSum} </h5>
-    <h3> My research summary<h3>
-    <h5>${user.researchSum} </h5>
+    <h3> Additional Link</h3>
+      <ul> </ul>
   <div>
     `;
 }

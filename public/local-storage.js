@@ -1,15 +1,11 @@
-
-const loadAuthToken = () => {
-    return localStorage.getItem('authToken');
-};
-
- const saveAuthToken = authToken => {
-    localStorage.setItem('authToken', authToken);
-};
-
- const clearAuthToken = () => {
-    localStorage.removeItem('authToken');
-};
-
-
 //module.exports = {loadAuthToken, saveAuthToken, clearAuthToken};
+const loadAuth = (authName) =>{
+  return localStorage.getItem(authName);
+}
+const saveAuth = (authName, authValue) =>{
+  return localStorage.setItem(authName, authValue);
+}
+
+const clearAuth = (authName) =>{
+  return localStorage.removeItem(authName);
+}

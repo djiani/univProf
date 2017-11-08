@@ -7,10 +7,13 @@
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+  <script src="https://cdn.jsdelivr.net/npm/pdfjs-dist@2/build/pdf.worker.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/pdfjs-dist@2/build/pdf.min.js"></script>
   <link rel="stylesheet" type="text/css" href="/main.css">
   <link rel="stylesheet" type="text/css" href="/pdf_viewer2.css">
-  <script src="pdf.js"></script>
-  <script src="pdf.worker.js"></script>
+  <!--<script src="pdf.js"></script>
+  <script src="pdf.worker.js"></script>-->
 </head>
 <body>
   <div class="jumbotron">
@@ -51,7 +54,8 @@
             <ul class="dropdown-menu">
               <li class="dropdown-header">Sign in as <span class="profileName">LastName</span> </li>
               <li class="js_profileNav" ><a href="#profile">View Profile</a></li>
-              <li class="js_signOutNav"><a href="#signOut">sign Out</a></li>
+              <li class="js_signOutNav"><a href="#signOut">Sign Out</a></li>
+              <li class="js_deleteAccountNav"><a href="#deleteAccount">Delete My Account</a></li>
             </ul>
           </li>
         </ul>
@@ -125,6 +129,31 @@
         </div>
 
 
+          <!-- modal box delete account -->
+          <div class="modal fade" id="modal_deleteAccount" role="dialog">
+            <div class="modal-dialog">
+              <!-- Modal content-->
+              <div class="modal-content">
+                <div class="modal-header" >
+                  <button type="button" class="close" data-dismiss="modal">&times;</button>
+                  <h3 class="modal-title"> Warning!! This Account is about to be deleted</h3>
+                </div>
+                <div class="modal-body" style="padding:40px 50px;">
+                  <form role="form">
+                    <h2> Ouppsss!!!!! we sorry to see you go</h2>
+                    <p>Do You really want to delete this account? </p>
+                    <p>NB: All your data will be lost and impossible to recover later!!!</p>
+                    <button type="submit" class="btn btn-danger button_delete_ok searchButton "><i class="glyphicon glyphicon-warning-sign"></i> OK</button>
+
+                    <button type="submit" class="btn btn-success btn-default pull-left CancelButton" data-dismiss="modal"><span class="glyphicon glyphicon-ok"></span> Cancel</button>
+                  </form>
+                </div>
+                  
+              </div>
+            </div>
+          </div> <!-- end modal box search by country -->
+
+
           <!-- modal box search by country -->
           <div class="modal fade" id="modal_searchByCountry" role="dialog">
             <div class="modal-dialog">
@@ -132,7 +161,7 @@
               <div class="modal-content">
                 <div class="modal-header" >
                   <button type="button" class="close" data-dismiss="modal">&times;</button>
-                  <h4 class="modal-title"> Get all users by specialization</h4>
+                  <h3 class="modal-title"> Get all users by specialization</h3>
                 </div>
                 <div class="modal-body" style="padding:40px 50px;">
                   <form role="form">
@@ -158,7 +187,7 @@
               <div class="modal-content">
                 <div class="modal-header" >
                   <button type="button" class="close" data-dismiss="modal">&times;</button>
-                  <h4 class="modal-title"> Get all users by specialization</h4>
+                  <h3 class="modal-title"> Get all users by specialization</h3>
                 </div>
                 <div class="modal-body" style="padding:40px 50px;">
                   <form role="form">
@@ -205,7 +234,7 @@
 
         <!-- modal to display pdf cv -->
         <div class="modal fade" id="pdfModal" role="dialog">
-          <div class="modal-dialog">
+          <div class="modal-dialog modal-dialog_pdf">
 
             <!-- Modal content-->
             <div class="modal-content">
