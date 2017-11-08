@@ -117,15 +117,16 @@ fieldset{
 
 
 #profileImgUpload{
-  width: 200px;
-  height:200px;
-  border:2px solid black;
+  width: 100%;
+  height:250px;
+  border:1px solid black;
   margin: 10px auto;
+  background-color: gray;
 }
 
 #imgsrc{
-  width: 196px;
-  height: 196px;
+  width: 100%;
+  height: 250px;
 }
 
 /* style sign in  */
@@ -171,4 +172,12 @@ footer {
     width: 100%;
   }
   
+}
+
+@media only screen and (min-width: 1800px) {
+ 
+ #profileImgUpload, #imgsrc{
+  height: 350px;
+ }
+
 }

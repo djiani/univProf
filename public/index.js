@@ -276,9 +276,9 @@ function handleAddUser(){
       },
       email: $('#email').val(),
       tel: $('#tel').val(),
-      region: $('#region').val(),
-      country: $("#country").val(),
-      state: $('#state').val(),
+      region: document.getElementById("regionSelect").value,
+      country: document.getElementById("country").value,
+      state: document.getElementById("state").value,
       university: $('#university').val(),
       department: $('#department').val(),
       researchSum: $('#researchInterest').val(),
@@ -317,11 +317,11 @@ function logginUser(login){
             //console.log(authData);
             //save this to the local storage
             saveAuth("authToken", authData.authToken);
-            saveAuth("authUserName", authData.userName);
+            saveAuth("authUserName", authData.userName.firstName+" "+authData.userName.lastName);
             saveAuth("authId", authData.id);
             $(".js_signInNav").hide();
             $(".js_signUpNav").hide();
-            $(".profileName").html(authData.userName);
+            $(".profileName").html(authData.userName.firstName+" "+authData.userName.lastName);
             $(".js_accountNav").removeClass('hidden');
             //$(".js_displayUsers").html(signInForm());
             $(".js_homeNav").trigger('click');
@@ -423,14 +423,15 @@ function viewProfileUsers(){
           // get user form  the data based with id. 
         //$(".js_displayUsers").html('<p> Access protected data '+data.user.name+' <p>');
         $('.js_displayUsers').html(signUpForm());
+        setCountryValue($(".js_signUpNav"));
         $('.signUp_headerText').html(`<h2> Welcome ${data.user.userName.firstName} ${data.user.userName.lastName} </h2> `);
         $('#firstName').val(data.user.userName.firstName);
         $('#lastName').val(data.user.userName.lastName);
         $('#tel').val(data.user.tel);
         $('#email').val(data.user.email);
-        $('#region').value = data.user.region;
-        $("#country").value = data.user.country;
-        $('#state').value = data.user.state;
+        document.getElementById('regionSelect').value = data.user.region;
+        document.getElementById("country").value = data.user.country;
+        document.getElementById('state').value = data.user.state;
         $('#title').val(data.user.title);
         $('#university').val(data.user.university);
         $('#department').val(data.user.department);
