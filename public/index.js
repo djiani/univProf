@@ -276,9 +276,9 @@ function handleAddUser(){
       },
       email: $('#email').val(),
       tel: $('#tel').val(),
-      region: document.getElementById("regionSelect").value,
-      country: document.getElementById("country").value,
-      state: document.getElementById("state").value,
+      region: ("#regionSelect").val(),
+      country: ("#country").val(),
+      state: ("#state").val(),
       university: $('#university').val(),
       department: $('#department').val(),
       researchSum: $('#researchInterest').val(),
@@ -423,15 +423,15 @@ function viewProfileUsers(){
           // get user form  the data based with id. 
         //$(".js_displayUsers").html('<p> Access protected data '+data.user.name+' <p>');
         $('.js_displayUsers').html(signUpForm());
-        setCountryValue($(".js_signUpNav"));
+
         $('.signUp_headerText').html(`<h2> Welcome ${data.user.userName.firstName} ${data.user.userName.lastName} </h2> `);
         $('#firstName').val(data.user.userName.firstName);
         $('#lastName').val(data.user.userName.lastName);
         $('#tel').val(data.user.tel);
         $('#email').val(data.user.email);
-        document.getElementById('regionSelect').value = data.user.region;
-        document.getElementById("country").value = data.user.country;
-        document.getElementById('state').value = data.user.state;
+        //document.getElementById('regionSelect').value = data.user.region;
+        //document.getElementById("country").value = data.user.country;
+        //document.getElementById('state').value = data.user.state;
         $('#title').val(data.user.title);
         $('#university').val(data.user.university);
         $('#department').val(data.user.department);
