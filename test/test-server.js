@@ -27,9 +27,9 @@ function generateUsersData(){
     title: "Assistant Professor",
     userName: {
       firstName: faker.name.firstName(),
-      lastName: faker.lastName()
+      lastName: faker.name.lastName()
     },
-    email: faker.email(),
+    email: faker.internet.email(),
     tel: faker.phone.phoneNumber,
     region: "North America",
     country: faker.address.country(),
