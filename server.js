@@ -4,7 +4,8 @@ const express = require('express');
 const mongoose = require('mongoose');
 const morgan = require('morgan');
 const passport = require('passport');
-
+//require('pdfjs-dist');
+var fs = require('fs'); 
 // Here we use destructuring assignment with renaming so the two variables
 // called router (from ./users and ./auth) have different names
 // For example:
@@ -62,7 +63,10 @@ app.get(
     }
 );
 
-
+app.get('/ReadPDF/:pdf_fileName', (req, res)=>{
+  var  data = fs.readFileSync('test.pdf');
+    return res.status(200).json({'data':data});
+})
 
 
 app.use('*', (req, res) => {

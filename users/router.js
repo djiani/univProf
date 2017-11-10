@@ -130,25 +130,80 @@ router.get('/:searchTerm', (req, res)=>{
 //register a new user in db on POST
 router.post('/', jsonParser, (req, res)=>{
   const requiredFields = ['title','userName', 'email', 'password', 'country', 'state', 'university', 'department', 'researchSum'];
-  for(let i=0; i < requiredFields.length; i++){
-    const field = requiredFields[i];
-    if(!(field in req.body)){
-      const message = 'Missing '+ field +' in request body';
-      console.error(message);
-      res.status(400).send(message);
+  const missingField = requiredFields.find(field => !(field in req.body));
+    if (missingField) {
+        return res.status(422).json({
+            code: 422,
+            reason: 'ValidationError',
+            message: 'Missing field',
+            location: missingField
+        });
     }
+  //throw error if email or password start or end with whitespace
+  const explicityTrimmedFields = ['email', 'password'];
+    const nonTrimmedField = explicityTrimmedFields.find(
+        field => req.body[field].trim() !== req.body[field]
+    );
+
+    if (nonTrimmedField) {
+        return res.status(422).json({
+            code: 422,
+            reason: 'ValidationError',
+            message: 'Cannot start or end with whitespace',
+            location: nonTrimmedField
+        });
+    }
+
+  const sizedFields = {
+        email: {
+            min: 1
+        },
+        password: {
+            min: 5,
+            max: 15  // bcrypt truncates after 72 characters
+        }
+    };
+    const tooSmallField = Object.keys(sizedFields).find(
+        field =>
+            'min' in sizedFields[field] &&
+            req.body[field].trim().length < sizedFields[field].min
+    );
+    const tooLargeField = Object.keys(sizedFields).find(
+        field =>
+            'max' in sizedFields[field] &&
+            req.body[field].trim().length > sizedFields[field].max
+    );
+
+    if (tooSmallField || tooLargeField) {
+        return res.status(422).json({
+            code: 422,
+            reason: 'ValidationError',
+            message: tooSmallField
+                ? `Must be at least ${sizedFields[tooSmallField]
+                      .min} characters long`
+                : `Must be at most ${sizedFields[tooLargeField]
+                      .max} characters long`,
+            location: tooSmallField || tooLargeField
+        });
+    }
+  let email = (req.body.email).trim();
+  if((email.indexOf('@') < 1 ) || email.lastIndexOf('.') < 3 || email.lastIndexOf('.') < email.indexOf('@')){
+    return res.status(422).json({
+            code: 422,
+            reason: 'ValidationError',
+            message: 'Invalid email address',
+            location: 'email'
+        });
   }
-  let email = req.body.email;
-  email = email.trim();
-  console.log(email);
+
   return Users.find({email})
   .count()
   .then(count => {
     if(count > 0){
       return Promise.reject({
         code: 422,
-        reason:'ValidatorError',
-        message:'email already taken',
+        reason:'ValidationError',
+        message:'Email already taken',
         location: 'email'
       });
     }
@@ -185,6 +240,7 @@ router.post('/', jsonParser, (req, res)=>{
     res.status(500).json({message:'Internal server error'});
   });
 });
+
 
 //ToDo delete user and update
 router.delete('/:id', (req, res) => {

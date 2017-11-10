@@ -249,6 +249,8 @@ function handleAddUser(){
     $(".cv_filename").text(file.name);
     url_cv = URL.createObjectURL(file);
     console.log(url_cv);
+    
+   
     /*var reader = new FileReader();
     reader.onload = function(e) {  
       url_cv = atob(e.target.result);
@@ -291,8 +293,7 @@ function handleAddUser(){
         link2: $('#link_2').val()
       }
     }
-
-    console.log('check new user:')
+    console.log('check new user:');
     console.log(user);
     addUser(user);
   })

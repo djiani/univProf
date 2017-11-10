@@ -38,7 +38,7 @@ univProfSchema.methods.apiRepr= function(){
     email: this.email,
     tel: this.tel,
     password: this.password,
-    region: this.region || "",
+    region: this.region ,
     country: this.country,
     state: this.state,
     university:this.university,
@@ -46,7 +46,7 @@ univProfSchema.methods.apiRepr= function(){
     researchSum: this.researchSum,
     biography: this.biography,
     img: this.img,
-    cv: this.cv || "",
+    cv: this.cv,
     link: this.link,
     created: this.created
   };
