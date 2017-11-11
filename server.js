@@ -4,8 +4,15 @@ const express = require('express');
 const mongoose = require('mongoose');
 const morgan = require('morgan');
 const passport = require('passport');
-//require('pdfjs-dist');
-var fs = require('fs'); 
+
+const S3FS = require('s3fs');
+const fs = require('fs'); 
+//const AWS = require('aws-sdk');
+
+const multiparty = require('connect-multiparty');
+const multipartyMiddleware = multiparty();
+
+
 // Here we use destructuring assignment with renaming so the two variables
 // called router (from ./users and ./auth) have different names
 // For example:
@@ -23,6 +30,7 @@ const {PORT, DATABASE_URL} = require('./config');
 const app = express();
 
 // Logging
+
 app.use(morgan('common'));
 app.use(express.static('public'))
 
@@ -63,11 +71,30 @@ app.get(
     }
 );
 
-app.get('/ReadPDF/:pdf_fileName', (req, res)=>{
-  var  data = fs.readFileSync('test.pdf');
-    return res.status(200).json({'data':data});
+//app.use(multipartyMiddleware);
+const s3fsImpl = new S3FS('awsunivprof', {
+  accesskeyId:'AKIAI3URK4C3ZXH4EKUA',
+  secretAccessKey: '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'
+});
+
+s3fsImpl.create();
+
+app.post('/api/upload', multipartyMiddleware, function(req, res){
+  var file = req.files.file; 
+  console.log(file);
+  var stream = fs.createReadStream(file.path);
+  return s3fsImpl.writeFile(file.originalFilename, stream).then(function(){
+    fs.unlink(file.path, function(err){
+      if(err){ console.error(error);}
+    })
+    res.json({message:'successfully upload the file to aws s3'});
+  })
+  .catch(function(err){
+    console.error(err);
+  })
 })
 
+app.
 
 app.use('*', (req, res) => {
     return res.status(404).json({message: 'Not Found'});

@@ -168,7 +168,7 @@ describe('University Api Resource', function(){
 *                       POST                            *
 ********************************************************/
   describe('POST', function(){
-    let newUser = {  
+    const newUser = {  
       title: "Assistant Professor",
       userName: {
         firstName: faker.name.firstName(),
@@ -576,7 +576,7 @@ describe('University Api Resource', function(){
         expect(passwordIsCorrect).to.be.true;
       })
       .catch(function(err){
-        if (err instanceof chai.AssertionError) {
+        if(err instanceof chai.AssertionError) {
             throw err;
         }
       })
@@ -585,5 +585,16 @@ describe('University Api Resource', function(){
 
   })
 
+  describe('PUT', function(){
+    it('should upate the email user', function(){
+      //TODO
+    })
+  })
 
+
+  describe('DELETE', function(){
+    it('should upate the email user', function(){
+        //TODO
+    })
+  })
 })
