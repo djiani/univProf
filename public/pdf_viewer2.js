@@ -103,7 +103,6 @@ function displaypdf2(url_cv){
    showPDF(url_cv);
    $("#pdfModal").modal({backdrop: true});
    
-
   // Previous page of the PDF
   $("#pdf-prev").on('click', function() {
     if(__CURRENT_PAGE != 1)
@@ -121,18 +120,79 @@ function displaypdf2(url_cv){
 function displayPDF(url){
   // Send the object url of the pdf
   showPDF(url);
+  // Previous page of the PDF
+  $("#pdf-prev").on('click', function() {
+    if(__CURRENT_PAGE != 1)
+      showPage(--__CURRENT_PAGE);
+  });
+
+  // Next page of the PDF
+  $("#pdf-next").on('click', function() {
+    if(__CURRENT_PAGE != __TOTAL_PAGES)
+      showPage(++__CURRENT_PAGE);
+  });
+
+}
+
+function passwordChecking(){
+ $(".mainContainer").on("keyup", "#password", function(){
+    $("#pwdChecked").html(checkStrength($("#password").val()));
+
+  })
+}
 
 
-// Previous page of the PDF
-$("#pdf-prev").on('click', function() {
-  if(__CURRENT_PAGE != 1)
-    showPage(--__CURRENT_PAGE);
-});
+function checkStrength(password){
+  var strength = 0;
+  if(password.length < 6){
+    $("#pwdChecked").removeClass();
+    $("#pwdChecked").addClass("short");
+    return 'Too short';
+  }
 
-// Next page of the PDF
-$("#pdf-next").on('click', function() {
-  if(__CURRENT_PAGE != __TOTAL_PAGES)
-    showPage(++__CURRENT_PAGE);
-});
+  if(password.length > 6){
+    strength++;
+  }
+  // If password contains both lower and uppercase characters, increase strength value.
+  if (password.match(/([a-z].*[A-Z])|([A-Z].*[a-z])/)) strength += 1
+  // If it has numbers and characters, increase strength value.
+  if (password.match(/([a-zA-Z])/) && password.match(/([0-9])/)) strength += 1
+  // If it has one special character, increase strength value.
+  if (password.match(/([!,%,&,@,#,$,^,*,?,_,~])/)) strength += 1
+  // If it has two special characters, increase strength value.
+  if (password.match(/(.*[!,%,&,@,#,$,^,*,?,_,~].*[!,%,&,@,#,$,^,*,?,_,~])/)) strength += 1
+  // Calculated strength value, we can return messages
+  if(strength < 2){
+     $("#pwdChecked").removeClass();
+     $("#pwdChecked").addClass("weak");
+    return 'Weak';
+  }
+  if (strength == 2){
+    $("#pwdChecked").removeClass();
+    $("#pwdChecked").addClass("good");
+    return 'good';
+  }
+  else{
+    $("#pwdChecked").removeClass();
+    $("#pwdChecked").addClass("strong");
+    return 'strong';
+  }
+}
 
+//password validation
+function passwordValidation(){
+  $(".mainContainer").on("keyup", "#reEnterpassword", function(){
+    if($("#reEnterpassword").val() === $("#password").val()){
+      $(".reepasspord_div").removeClass("has-error ");
+      $(".reepasspord_div").addClass("has-success");
+      ($(".reepasspord_div").find("span")).removeClass("glyphicon-remove");
+      ($(".reepasspord_div").find("span")).addClass("glyphicon-ok");
+    }
+    else{
+      $(".reepasspord_div").removeClass("has-success");
+      $(".reepasspord_div").addClass("has-error");
+      ($(".reepasspord_div").find("span")).removeClass("glyphicon-ok");
+      ($(".reepasspord_div").find("span")).addClass("glyphicon-remove");
+    }
+  })
 }

@@ -139,6 +139,18 @@ router.post('/', jsonParser, (req, res)=>{
             location: missingField
         });
     }
+
+//throw error if the field any of these field is empty or underfined
+  const validFields = ['region', 'country', 'state'];
+  const NoValidField =  validFields.find(field => (req.body[field] == underfined || req.body[field]==""))
+    if(NoValidField){
+       return res.status(422).json({
+            code: 422,
+            reason: 'ValidationError',
+            message: 'Missing field',
+            location: missingField
+        });
+    }
   //throw error if email or password start or end with whitespace
   const explicityTrimmedFields = ['email', 'password'];
     const nonTrimmedField = explicityTrimmedFields.find(

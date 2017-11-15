@@ -127,16 +127,18 @@ function signUpForm(){
             <input type="email" class="form-control" id="email"  required >
           </div>
         </div>
-        <div class="form-group">
+        <div class="form-group  has-feedback">
           <label for="password" class="control-label col-sm-2 ">Password</label>
           <div class="col-sm-8">
             <input type="password" class="form-control" id="password"  required >
           </div>
+          <span id="pwdChecked"></span>
         </div>
-        <div class="form-group">
+        <div class="form-group ">
           <label for="ReEnterpassword" class="control-label col-sm-2 ">ReEnter-Password</label>
-          <div class="col-sm-8">
+          <div class="reepasspord_div col-sm-8 has-feedback">
             <input type="password" class="form-control" id="reEnterpassword"  required>
+            <span class="glyphicon  form-control-feedback"></span>
           </div>
         </div>
       
@@ -154,11 +156,12 @@ function signUpForm(){
       <div>
         <div class="profileImage">
           <button id="upload_image" class="btn btn-default form-control">Upload Image</button>
-          <input type="file"  id="image_to_upload" accept="image/*" >
+          <input type="file" name="image" id="image_to_upload" accept="image/*" >
         </div>
         <div id="profileImgUpload" class="row"> 
           <img src="http://www.cameraegg.org/wp-content/uploads/2016/01/Nikon-D500-Sample-Images-2.jpg" alt="profile picture" id="imgsrc">
         </div>
+        <div><p>filename:<span class="photo_filename"></span></p></div>
       </div>
       <div>
         <div>
@@ -166,9 +169,9 @@ function signUpForm(){
             <button id="upload_cv" class="btn btn-default form-control" >Upload your CV</button>
             <input type="file"  id="cv_to_upload"  value="Upload CV" >
           </div>
-          <div><p>File name: <span class="cv_filename"></span></p></div>
+          <div><p>cv filename: <span class="cv_filename"></span></p></div>
           <div >
-            <button  class="btn btn-default form-control" id="cv_preview"> preview CV</button> 
+            <button  class="btn btn-default form-control" id="cv_preview" > preview CV</button> 
           </div>
         </div>
 
@@ -252,11 +255,11 @@ function userTemplate(){
 }
 
 
-function usersInfos_template(user){
+function usersInfos_template(user, url_endpoint){
  return `
   <div class="modal_users-info">
     <div class="modal_prof_pict_block"> 
-      <img src="${user.img}" alt="profile picture" class="modal_prof_pict">  
+      <img src="${url_endpoint}${user.img}" alt="profile picture" class="modal_prof_pict">  
     </div>
     <h4> ${user.title} </h4>
     <h4>Department of ${user.department} </h4>

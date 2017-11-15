@@ -5,6 +5,17 @@ const URL_PROTECTED = '/api/protected';
 const USERS_URL_DEPARTMENT = '/api/users/department';
 const USERS_URL_COUNTRY = '/api/users/country';
 
+
+//`https://s3.${S3_REGION}.amazonaws.com/${S3_BUCKET}/${fileName}
+const URL_ENDPOINT = 'https://s3.us-east-2.amazonaws.com/awsunivprof/'
+
+
+
+//set global variable 
+  let URL_FILE = '';
+  let URL_PHOTO = '';
+  let URL_CV = '';
+
 /*take care of this direct message sending */
 function sendEmail() {
     var mailString;
@@ -29,7 +40,8 @@ function sendEmail() {
 */
 
 function displaysMoreInfos(data){
-  console.log(data)
+  console.log('data:');
+  console.log(data);
   $('.mainContainer').on('click', '.js_displayMoreDetails', function(event){
     let id = $(event.currentTarget).attr("data-id");
     console.log(id);
@@ -41,12 +53,12 @@ function displaysMoreInfos(data){
     console.log(user);
     if (!user.cv){
    
-    user.cv = './sample_cv.pdf';
+    user.cv = 'sample_cv.pdf';
   }
   if(!user.img){
-    user.img = 'http://www.cameraegg.org/wp-content/uploads/2016/01/Nikon-D500-Sample-Images-2.jpg';
+    user.img = 'sample_img.jpg';
   } 
-  let pdfHtml = $(usersInfos_template(user));
+  let pdfHtml = $(usersInfos_template(user, URL_ENDPOINT));
   if(user.link.link1){
     $(pdfHtml).find("ul").append(`<li><a href="${user.link.link1}">${user.link.link1}</a></li>`);
   }
@@ -56,10 +68,7 @@ function displaysMoreInfos(data){
 
   $('.js_users_more_details').html(pdfHtml);
   $('.modal_headerName').text(`Dr. ${user.userName.firstName} ${user.userName.lastName}`);
-  displaypdf2(user.cv);
-  //displayPDF(user.cv);
-  //$('.js_displayUsers').hide();
-  //$('.pager').hide();
+  displaypdf2(URL_ENDPOINT+user.cv);
   });
 
   
@@ -67,14 +76,13 @@ function displaysMoreInfos(data){
 
 
 
-
-function renderUsers(data){
+function renderUsers(data, ){
     if (data.length > 0){
        let usersElts = data.map(function(user){
           let element = $(userTemplate());
           element.find('.js_displayMoreDetails').attr("data-id", user.id);
           if(user.img){
-            element.find('.js_profite_pict').attr("src", user.img);
+            element.find('.js_profite_pict').attr("src", URL_ENDPOINT+user.img);
           }
           element.find('.js_user_info').append(
             `<li>${user.userName.firstName} ${user.userName.lastName} </li>
@@ -159,6 +167,7 @@ function renderUsers2(data){
 }
 
 
+
 function getandDisplayUsers(){
   console.log('Retrieve users');
   $.getJSON(USERS_URL, function(data){
@@ -172,7 +181,8 @@ function getandDisplayUsers(){
 //adding to new user to db using a signup forms
 /**** SIGN UP *****/
 function addUser(user){
-  console.log('Adding a new user '+ user);
+  console.log('Adding a new user ');
+  console.log(user);
   $.ajax({
     method: 'POST',
     url: USERS_URL,
@@ -186,7 +196,112 @@ function addUser(user){
   })
 }
 
+
+function uploadFile(file, signedRequest, url){
+  const xhr = new XMLHttpRequest();
+  xhr.open('PUT', url);
+  xhr.onreadystatechange = () => {
+    if(xhr.readyState === 4){
+      if(xhr.status === 200){
+        document.getElementById('imgsrc').src = url;
+      }
+      else{
+        alert('Could not upload file.  state: '+ xhr.readyState+ " status: "+xhr.status);
+      }
+    }
+  };
+  xhr.send(file);
+}
+    /*
+      Function to get the temporary signed request from the app.
+      If request successful, continue to upload the file using this signed
+      request.
+      */
+function getSignedRequest(file){
+  const xhr = new XMLHttpRequest();
+    xhr.open('GET', `/api/upload?file-name=${encodeURIComponent(file.name)}&file-type=${file.type}`);
+    xhr.onreadystatechange = () => {
+    if(xhr.readyState === 4){
+      if(xhr.status === 200){
+        const response = JSON.parse(xhr.responseText);
+        uploadFile(file, response.signedRequest, response.url);
+      }
+      else{
+        alert('Could not get signed URL.');
+      }
+    }
+  };
+  xhr.send();
+}
+
+    /*
+     Function called when file input updated. If there is a file selected, then
+     start upload procedure by asking for a signed request from the app.
+     */
+function initUpload(files){
+      //const files = document.getElementById('image_to_upload').files;
+const file = files[0];
+  if(file == null){
+       return alert('No file selected.');
+  }
+   getSignedRequest(file);
+      
+}
+
+
+//save pdf to aws s3 bucket
+function uploadFile_pdf(file, signedRequest, url){
+  const xhr = new XMLHttpRequest();
+  xhr.open('PUT', url);
+  xhr.onreadystatechange = () => {
+    if(xhr.readyState === 4){
+      if(xhr.status === 200){
+        alert('files successful save to aws s3');
+      }
+      else{
+        alert('Could not upload file.  state: '+ xhr.readyState+ " status: "+xhr.status);
+      }
+    }
+  };
+  xhr.send(file);
+}
+    /*
+      Function to get the temporary signed request from the app.
+      If request successful, continue to upload the file using this signed
+      request.
+    */
+function getSignedRequest_pdf(file){
+  const xhr = new XMLHttpRequest();
+  xhr.open('GET', `/api/upload?file-name=${encodeURIComponent(file.name)}&file-type=${file.type}`);
+  xhr.onreadystatechange = () => {
+  if(xhr.readyState === 4){
+    if(xhr.status === 200){
+        const response = JSON.parse(xhr.responseText);
+        uploadFile_pdf(file, response.signedRequest, response.url);
+    }
+    else{
+      lert('Could not get signed URL.');
+    }
+  }
+};
+      xhr.send();
+    }
+    /*
+     Function called when file input updated. If there is a file selected, then
+     start upload procedure by asking for a signed request from the app.
+     */
+function initUpload_pdf(files){
+  //const files = document.getElementById('image_to_upload').files;
+  const file = files[0];
+  if(file == null){
+    return alert('No file selected.');
+  }
+  getSignedRequest_pdf(file);
+      
+}
+
 function handleAddUser(){
+  let region_selected, country_selected, state_selected;
   //add event on signup button in Navbar
   $(".js_signUpNav").on("click", function(){
     $('.pager').hide();
@@ -194,22 +309,13 @@ function handleAddUser(){
     //$('.rightSideNav').hide();
     //$('.mainContainer').addClass('mainContainer2');
     $(".js_displayUsers").html(signUpForm());
-
     setCountryValue($(".js_signUpNav"));
   });
-
+  
   // Upon click this should trigger click on the .js_signUpNav file input element
   $(".mainContainer").on('click', '.js_signUp2', function(event){
     $(".js_signUpNav").trigger('click');
   });
-
-  
-  
-
-  //set global variable 
-  let url_photo= '';
-  let url_cv = '';
-  
 
   // Upon click this should trigger click on the #image-to-upload file input element
   $(".mainContainer").on('click', '#upload_image', function(event){
@@ -217,26 +323,10 @@ function handleAddUser(){
   })
 
   $(".mainContainer").on('change', '#image_to_upload', function(event){
-    let file = document.getElementById("image_to_upload").files[0];
-    url_photo = URL.createObjectURL(file);
-    console.log(url_photo);
-    if (!(file.type.match('image.*'))) {
-      url_photo = "";
-    }
-    else{
-      var img = document.getElementById("imgsrc");
-      img.src = url_photo;
-    }
-     
-    /*img.file = file;
-    //console.log("fileName: "+ file.name);
-    url_photo = file.name
-    var reader = new FileReader();
-    reader.onload = (function(aImg) { return function(e) { 
-      //console.log('url_photo: '+url_photo);
-      aImg.src = url_photo; }; })(img);
-    reader.readAsDataURL(file);
-    */
+    let files = document.getElementById("image_to_upload").files;
+    $('.photo_filename').text(files[0].name);
+    initUpload(files);
+    //TODO, get name of the file and save it to db
   })
 
   // Upon click this should trigger click on the #cv-to-upload file input element
@@ -245,24 +335,40 @@ function handleAddUser(){
   });
 
   $(".mainContainer").on('change', '#cv_to_upload', function(event){
-    let file = document.getElementById("cv_to_upload").files[0]; 
-    $(".cv_filename").text(file.name);
-    url_cv = URL.createObjectURL(file);
-    console.log(url_cv);
-    
-   
-    /*var reader = new FileReader();
-    reader.onload = function(e) {  
-      url_cv = atob(e.target.result);
-      console.log('url_cv_atob: '+ url_cv)
-    }
-    reader.readAsDataURL(file);
-    */
+    let files = document.getElementById("cv_to_upload").files;
+    $('.cv_filename').text(files[0].name);  // set fileName 
+    initUpload_pdf(files);
+
+  });
+  //check passord strength
+  passwordChecking();
+  //validation check on password
+  passwordValidation();
+  //list on select option changed
+  $(".mainContainer").on("change", "#regionSelect", function(event){
+    let targetRegion = event.currentTarget;
+    region_selected = targetRegion.options[targetRegion.selectedIndex].text;
+  });
+
+  $(".mainContainer").on("change","#country", function(event){
+    let targetCountry= event.currentTarget;
+    country_selected = targetCountry.options[targetCountry.selectedIndex].text;
+  });
+
+  $(".mainContainer").on("change","#state", function(event){
+    let targetState = event.currentTarget;
+    state_selected = targetState.options[targetState.selectedIndex].text;
   });
 
   //preview the upload cv
   $(".mainContainer").on('click', '#cv_preview', function(event){
-    displaypdf(url_cv);
+    let cv_fileName = $('.cv_filename').text();
+    if (cv_fileName){
+      displaypdf(URL_ENDPOINT+cv_fileName);
+    }
+    else{
+      alert('ouppps!! There is no cv to visualize!!!');
+    }
   });
   
 
@@ -278,16 +384,16 @@ function handleAddUser(){
       },
       email: $('#email').val(),
       tel: $('#tel').val(),
-      region: $("#regionSelect").val(),
-      country: $("#country").val(),
-      state: $("#state").val(),
+      region: region_selected,
+      country: region_selected,
+      state: state_selected,
       university: $('#university').val(),
       department: $('#department').val(),
       researchSum: $('#researchInterest').val(),
       biography: $('#biography').val(),
       password: $('#password').val(),
-      img: url_photo,
-      cv: url_cv,
+      img: $('.photo_filename').text(),
+      cv: $('.cv_filename').text(),
       link: {
         link1: $('#link_1').val(),
         link2: $('#link_2').val()
@@ -442,7 +548,7 @@ function viewProfileUsers(){
         $('#link_2').val(data.user.link2);
         
         $('.cv_filename').text(data.user.cv);
-        $('#imgsrc').src = data.user.img;
+        $('#imgsrc').src = URL_ENDPOINT+data.user.img;
         $('#loginAccount').hide();
         $('#speciality').disable = true;
         $('#contact').disable = true;

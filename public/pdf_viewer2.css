@@ -109,6 +109,36 @@
   margin: 0 auto;
 }
 
+/*passord checking and validation */
+.short{
+font-weight:bold;
+color:#FF0000;
+font-size:larger;
+}
+.weak{
+font-weight:bold;
+color:orange;
+font-size:larger;
+}
+.good{
+font-weight:bold;
+color:#2D98F3;
+font-size:larger;
+}
+.strong{
+font-weight:bold;
+color: limegreen;
+font-size:larger;
+}
+
+.validPwd{
+border: 1px solid limegreen;
+}
+
+.InvalidPwd{
+border: 1px solid red;
+}
+
 /*.js_users_more_details, .modal-dialog_pdf,pdf_modal  */
 @media only screen and (max-width: 767px){
   .js_users_more_details, .pdf_modal{

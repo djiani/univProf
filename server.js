@@ -4,13 +4,14 @@ const express = require('express');
 const mongoose = require('mongoose');
 const morgan = require('morgan');
 const passport = require('passport');
+const fileUpload = require('express-fileupload');
 
 const S3FS = require('s3fs');
 const fs = require('fs'); 
-//const AWS = require('aws-sdk');
+const AWS = require('aws-sdk');
 
-const multiparty = require('connect-multiparty');
-const multipartyMiddleware = multiparty();
+//const multiparty = require('connect-multiparty');
+//const multipartyMiddleware = multiparty();
 
 
 // Here we use destructuring assignment with renaming so the two variables
@@ -25,7 +26,7 @@ const {router: authRouter, basicStrategy, jwtStrategy} = require('./auth');
 
 mongoose.Promise = global.Promise;
 
-const {PORT, DATABASE_URL} = require('./config');
+const {PORT, DATABASE_URL, AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY, S3_BUCKET, S3_REGION} = require('./config');
 
 const app = express();
 
@@ -71,35 +72,69 @@ app.get(
     }
 );
 
-//app.use(multipartyMiddleware);
-const s3fsImpl = new S3FS('awsunivprof', {
-  accesskeyId:'AKIAI3URK4C3ZXH4EKUA',
-  secretAccessKey: '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'
+//app.use("/node_modules",express.static(__dirname + '/node_modules'));
+//app.use(bodyParser.urlencoded({ extended: false }))
+app.use(bodyParser.json())
+//const S3_BUCKET = process.env.S3_BUCKET;
+
+AWS.config.update({accessKeyId: AWS_ACCESS_KEY_ID, secretAccessKey: AWS_SECRET_ACCESS_KEY});
+AWS.config.region = S3_REGION;
+//console.log(S3_REGION);
+
+app.get('/api/upload', (req, res) => {
+  const s3 = new AWS.S3();
+  const fileName = req.query['file-name'];
+  const fileType = req.query['file-type'];
+  const s3Params = {
+    Bucket: S3_BUCKET,
+    Key: fileName,
+    ContentType: fileType,
+    ACL: 'public-read'
+  };
+  console.log(S3_BUCKET)
+  s3.getSignedUrl('putObject', s3Params, (err, data) => {
+    if(err){
+      console.log(err);
+      return res.end();
+    }
+    const returnData = {
+      signedRequest: data,
+      url: `https://s3.${S3_REGION}.amazonaws.com/${S3_BUCKET}/${fileName}`
+      //url: `https://${S3_BUCKET}.s3.amazonaws.com/${fileName}`
+    };
+    res.write(JSON.stringify(returnData));
+    res.end();
+  });
 });
 
-s3fsImpl.create();
 
+/*
+ ContentLength: req.query.size
 app.post('/api/upload', multipartyMiddleware, function(req, res){
+
+  const s3fsImpl = new S3FS('awsunivprof', {
+      accesskeyId: AWS_ACCESS_KEY_ID,
+      secretAccessKey: AWS_SECRET_ACCESS_KEY,
+      region: 'us-east-1'
+  });
+
+  //s3fsImpl.create();
+
   var file = req.files.file; 
   console.log(file);
   var stream = fs.createReadStream(file.path);
-  return s3fsImpl.writeFile(file.originalFilename, stream).then(function(){
-    fs.unlink(file.path, function(err){
-      if(err){ console.error(error);}
-    })
-    res.json({message:'successfully upload the file to aws s3'});
-  })
-  .catch(function(err){
-    console.error(err);
+  s3fsImpl.writeFile(file.originalFilename, stream, function(err){
+    if(err) throw err;
+    console.log('successfully save data in aws s3')
   })
 })
 
-app.
+*/
 
 app.use('*', (req, res) => {
     return res.status(404).json({message: 'Not Found'});
 });
-// both runServer and closeServer need to access the same
+// both runServer and  closeServer need to access the same
 // server object, so we declare `server` here, and then when
 // runServer runs, it assigns a value.
 let server;
