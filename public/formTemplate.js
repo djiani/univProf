@@ -1,3 +1,4 @@
+const URL_ENDPOINT = 'https://s3.us-east-2.amazonaws.com/awsunivprof/';
 function homeForm(){
   return `
   <div>
@@ -36,7 +37,7 @@ function homeForm(){
   </div>
   `;
 }
-function signUpForm(){
+function previewsForm(user){
   return  `
     <div class="signUp_headerText">
       <h2>Create Your Free Account and Upload Your Resume</h2>
@@ -50,19 +51,169 @@ function signUpForm(){
         <div class="form-group">
           <label for="firstName" class="control-label col-sm-3 ">First Name</label>
           <div class="col-sm-8">
-            <input type="text" class="form-control" id="firstName"  required >
+            <input type="text" class="form-control" id="firstName" value="${user.firstName}" disabled >
           </div>
         </div>
         <div class="form-group">
           <label for="lastName" class="control-label col-sm-3 ">Last Name</label>
           <div class="col-sm-8">
-            <input type="text" class="form-control" id="lastName"  required >
+            <input type="text" class="form-control" id="lastName" value="${user.lastName}" disabled >
           </div>
         </div>
         <div class="form-group">
           <label for="tel" class="control-label  col-sm-3 ">Phone Number</label>
           <div class="col-sm-8">
-            <input type="tel" class="form-control" id="tel" >
+            <input type="tel" class="form-control" id="tel" value="${user.tel}"  disabled>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="regionSelect" class="control-label col-sm-3 ">Region</label>
+          <div class="col-sm-8">
+            <input type="text" class="form-control" id="regionSelect" value="${user.region}" disabled >
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="country" class="control-label col-sm-3 ">Country</label>
+          <div class="col-sm-8">
+            <input type="text" class="form-control" id="country"  value="${user.country}" disabled >
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="state" class="control-label col-sm-3 ">State/City</label>
+          <div class="col-sm-8">
+            <input type="text" class="form-control" id="state" value="${user.state}" disabled >
+          </div>
+        </div>
+      </fieldset>
+      <fieldset id="speciality">
+        <legend>Speciality</legend>
+        <div class="form-group">
+          <label for="title" class="control-label col-sm-3 ">title</label>
+          <div class="col-sm-8">
+            <input type="text" class="form-control" id="title" value="${user.title}" disabled >
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="university" class="control-label col-sm-3 ">University</label>
+          <div class="col-sm-8">
+            <input type="text"  class="form-control " id="university" value="${user.university}" disabled >
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="department" class="control-label col-sm-3 ">Department</label>
+          <div class="col-sm-8">
+            <input type="text" class="form-control" id="department" value="${user.department}" disabled >
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="biography" class="control-label col-sm-6 " >biography</label>
+          <div class="col-sm-12">
+            <textarea id="biography" rows="10" class="form-control" value="${user.biography}" disabled>
+            </textarea>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="researchInterest" class="control-label col-sm-6 " >Research</label>
+          <div class="col-sm-12">
+            <textarea id="researchInterest" rows="10" class="form-control" value="${user.researchSum}" disabled >
+            </textarea>
+          </div>
+        </div>
+      </fieldset>
+      <fieldset id="loginAccount">
+        <legend>Login Account</legend>
+        <div class="form-group">
+          <label for="email" class="control-label col-sm-2 ">Email</label>
+          <div class="col-sm-8">
+            <input type="email" class="form-control" id="email" value="${user.email}" disabled>
+          </div>
+        </div>
+        <div class="form-group  has-feedback">
+          <label for="password" class="control-label col-sm-2 ">Password</label>
+          <div class="col-sm-8">
+            <input type="password" class="form-control" id="password" value="${user.password}" disabled >
+          </div>
+          <span id="pwdChecked"></span>
+        </div>
+        <div class="form-group ">
+          <label for="ReEnterpassword" class="control-label col-sm-2 ">ReEnter-Password</label>
+          <div class="reepasspord_div col-sm-8 has-feedback">
+            <input type="password" class="form-control" id="reEnterpassword" value="${user.password}" disabled>
+            <span class="glyphicon  form-control-feedback"></span>
+          </div>
+        </div>
+      
+        <div class="form-group">
+          <div class="col-sm-offset-2 col-sm-8">
+            <button type="submit" class="btn btn-default form-control" > Submit</button>
+          </div>
+        </div> 
+
+      </fieldset>
+    </form>
+    </div>
+
+    <div class="col-sm-4">
+      <div>
+        <div class="profileImage">
+          <button id="upload_image" class="btn btn-default form-control" disabled>Upload Image</button>
+          <input type="file" name="image" id="image_to_upload" accept="image/*" >
+        </div>
+        <div id="profileImgUpload" class="row"> 
+          <img src= ${URL_ENDPOINT}${user.img} alt="profile picture" id="imgsrc">
+        </div>
+        <div><p>filename:<span class="photo_filename">${user.img}</span></p></div>
+      </div>
+      <div>
+        <div>
+          <div >
+            <button id="upload_cv" class="btn btn-default form-control" disabled >Upload your CV</button>
+            <input type="file"  id="cv_to_upload"  value="Upload CV"  >
+          </div>
+          <div><p>cv filename: <span class="cv_filename">${user.cv}</span></p></div>
+          <div >
+            <button  class="btn btn-default form-control" id="cv_preview" > preview CV</button> 
+          </div>
+        </div>
+
+        <div>
+          <h3>Add your personal link </h3>
+          <div class="form-group">
+            <div>
+              <input type="text"  class="form-control " id="link_1" value=${user.link1} disabled>
+            </div>
+          </div>
+          <div class="form-group">
+            <div>
+              <input type="text"  class="form-control " id="link_2" value=${user.link_2} disabled>
+            </div>
+          </div>
+        </div>  
+      </div>
+
+    </div>
+        `
+}
+function signUpContactForm(user){
+  return `
+  <fieldset id="contact">
+        <legend>Contact</legend>
+        <div class="form-group">
+          <label for="firstName" class="control-label col-sm-3 ">First Name</label>
+          <div class="col-sm-8">
+            <input type="text" class="form-control" id="firstName" value="${user.userName.firstName}" required >
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="lastName" class="control-label col-sm-3 ">Last Name</label>
+          <div class="col-sm-8">
+            <input type="text" class="form-control" id="lastName" value="${user.userName.lastName}"  required >
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="tel" class="control-label  col-sm-3 ">Phone Number</label>
+          <div class="col-sm-8">
+            <input type="tel" class="form-control" id="tel" value="${user.tel}" >
           </div>
         </div>
         <div class="form-group">
@@ -83,85 +234,95 @@ function signUpForm(){
             <select name="state" id="state" class="form-control"> </select>
           </div>
         </div>
-      </fieldset>
-      <fieldset id="speciality">
+      </fieldset>`;
+}
+
+function signUpSpecialityForm(user){
+  return `
+  <fieldset id="speciality">
         <legend>Speciality</legend>
         <div class="form-group">
           <label for="title" class="control-label col-sm-3 ">title</label>
           <div class="col-sm-8">
-            <input type="text" class="form-control" id="title"  placeholder="Associate professor" required >
+            <input type="text" class="form-control" id="title" value="${user.title}"  required >
           </div>
         </div>
         <div class="form-group">
           <label for="university" class="control-label col-sm-3 ">University</label>
           <div class="col-sm-8">
-            <input type="text"  class="form-control " id="university"  required >
+            <input type="text"  class="form-control " id="university" value="${user.university}"  required >
           </div>
         </div>
         <div class="form-group">
           <label for="department" class="control-label col-sm-3 ">Department</label>
           <div class="col-sm-8">
-            <input type="text" class="form-control" id="department"  required >
+            <input type="text" class="form-control" id="department" value="${user.department}" required >
           </div>
         </div>
         <div class="form-group">
           <label for="biography" class="control-label col-sm-6 " >biography</label>
           <div class="col-sm-12">
-            <textarea id="biography" rows="10" class="form-control" placeholder="short story about yourself" >
+            <textarea id="biography" rows="10" class="form-control" value="${user.biography}" >
             </textarea>
           </div>
         </div>
         <div class="form-group">
           <label for="researchInterest" class="control-label col-sm-6 " >Research</label>
           <div class="col-sm-12">
-            <textarea id="researchInterest" rows="10" class="form-control" placeholder="brief description of your research interest here" >
+            <textarea id="researchInterest" rows="10" class="form-control" value="${user.researchSum}" >
             </textarea>
           </div>
         </div>
-      </fieldset>
-      <fieldset id="loginAccount">
+      </fieldset>`;
+
+}
+
+function signUpLoginForm(user){
+  return `
+  <fieldset id="loginAccount">
         <legend>Login Account</legend>
         <div class="form-group">
           <label for="email" class="control-label col-sm-2 ">Email</label>
           <div class="col-sm-8">
-            <input type="email" class="form-control" id="email"  required >
+            <input type="email" class="form-control" id="email" value="${user.email}" required >
           </div>
         </div>
         <div class="form-group  has-feedback">
           <label for="password" class="control-label col-sm-2 ">Password</label>
           <div class="col-sm-8">
-            <input type="password" class="form-control" id="password"  required >
+            <input type="password" class="form-control" id="password" value="${user.password}" required >
           </div>
           <span id="pwdChecked"></span>
         </div>
         <div class="form-group ">
           <label for="ReEnterpassword" class="control-label col-sm-2 ">ReEnter-Password</label>
           <div class="reepasspord_div col-sm-8 has-feedback">
-            <input type="password" class="form-control" id="reEnterpassword"  required>
+            <input type="password" class="form-control" id="reEnterpassword" value="${user.password}"  required>
             <span class="glyphicon  form-control-feedback"></span>
           </div>
         </div>
       
-        <div class="form-group">
+        <!--<div class="form-group">
           <div class="col-sm-offset-2 col-sm-8">
-            <button type="submit" class="btn btn-default form-control" > Submit</button>
+            <button type="submit" class="btn btn-default form-control" disabled> Submit</button>
           </div>
-        </div> 
+        </div> -->
 
-      </fieldset>
-    </form>
-    </div>
+      </fieldset>`;
+}
 
-    <div class="col-sm-4">
+function signUpProfile(user){
+  return `
+  <fieldset">
       <div>
         <div class="profileImage">
           <button id="upload_image" class="btn btn-default form-control">Upload Image</button>
           <input type="file" name="image" id="image_to_upload" accept="image/*" >
         </div>
         <div id="profileImgUpload" class="row"> 
-          <img src="http://www.cameraegg.org/wp-content/uploads/2016/01/Nikon-D500-Sample-Images-2.jpg" alt="profile picture" id="imgsrc">
+          <img src=${URL_ENDPOINT}${user.img} alt="profile picture" id="imgsrc">
         </div>
-        <div><p>filename:<span class="photo_filename"></span></p></div>
+        <div><p>filename:<span class="photo_filename">${user.img}</span></p></div>
       </div>
       <div>
         <div>
@@ -169,7 +330,7 @@ function signUpForm(){
             <button id="upload_cv" class="btn btn-default form-control" >Upload your CV</button>
             <input type="file"  id="cv_to_upload"  value="Upload CV" >
           </div>
-          <div><p>cv filename: <span class="cv_filename"></span></p></div>
+          <div><p>cv filename: <span class="cv_filename">${user.cv}</span></p></div>
           <div >
             <button  class="btn btn-default form-control" id="cv_preview" > preview CV</button> 
           </div>
@@ -179,21 +340,45 @@ function signUpForm(){
           <h3>Add your personal link </h3>
           <div class="form-group">
             <div>
-              <input type="text"  class="form-control " id="link_1" placeholder="Link 1" >
+              <input type="text"  class="form-control " id="link_1" value=${user.link.link1} >
             </div>
           </div>
           <div class="form-group">
             <div>
-              <input type="text"  class="form-control " id="link_2" placeholder="Link 2" >
+              <input type="text"  class="form-control " id="link_2" value=${user.link.link2} >
             </div>
           </div>
         </div>  
       </div>
 
-    </div>
-        `
+    </fieldset>
+  `;
 }
 
+
+function signUpForm(){
+  return  `
+    <div class="signUp_headerText">
+      <h2>Create Your Free Account and Upload Your Resume</h2>
+      <p>If You are a university professor or research professor and you like to share your knowledge
+      and Collaborate with others professors, please fill the form below! </p>
+    </div>
+    <div class="col-sm-8">
+    <form class="form-horizontal" id='submitSignUpForm'>
+      
+      
+      
+    </form>
+    <div>
+          <ul class="pager pagerForm">
+            <li class="previous backForm"><a href="#">back</a></li>
+            <li class="next nextForm"><a href="#">Next</a></li>
+          </ul>
+        </div>
+    </div>
+
+        `
+}
 
 
 function signInForm(){

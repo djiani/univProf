@@ -196,3 +196,108 @@ function passwordValidation(){
     }
   })
 }
+
+
+//save pdf to aws s3 bucket
+function uploadFile_pdf(file, signedRequest, url){
+  const xhr = new XMLHttpRequest();
+  xhr.open('PUT', url);
+  xhr.onreadystatechange = () => {
+    if(xhr.readyState === 4){
+      if(xhr.status === 200){
+        alert('files successful save to aws s3');
+      }
+      else{
+        alert('Could not upload file.  state: '+ xhr.readyState+ " status: "+xhr.status);
+      }
+    }
+  };
+  xhr.send(file);
+}
+
+  /*
+    Function to get the temporary signed request from the app.
+    If request successful, continue to upload the file using this signed
+    request.
+  */
+function getSignedRequest_pdf(file){
+  const xhr = new XMLHttpRequest();
+  xhr.open('GET', `/api/upload?file-name=${encodeURIComponent(file.name)}&file-type=${file.type}`);
+  xhr.onreadystatechange = () => {
+  if(xhr.readyState === 4){
+    if(xhr.status === 200){
+        const response = JSON.parse(xhr.responseText);
+        uploadFile_pdf(file, response.signedRequest, response.url);
+    }
+    else{
+      lert('Could not get signed URL.');
+    }
+  }
+};
+      xhr.send();
+    }
+    /*
+     Function called when file input updated. If there is a file selected, then
+     start upload procedure by asking for a signed request from the app.
+     */
+function initUpload_pdf(files){
+  //const files = document.getElementById('image_to_upload').files;
+  const file = files[0];
+  if(file == null){
+    return alert('No file selected.');
+  }
+  getSignedRequest_pdf(file);
+      
+}
+
+/*Upload profile picture to aws s3 */
+function uploadFile(file, signedRequest, url){
+  const xhr = new XMLHttpRequest();
+  xhr.open('PUT', url);
+  xhr.onreadystatechange = () => {
+    if(xhr.readyState === 4){
+      if(xhr.status === 200){
+        document.getElementById('imgsrc').src = url;
+      }
+      else{
+        alert('Could not upload file.  state: '+ xhr.readyState+ " status: "+xhr.status);
+      }
+    }
+  };
+  xhr.send(file);
+}
+    /*
+      Function to get the temporary signed request from the app.
+      If request successful, continue to upload the file using this signed
+      request.
+      */
+function getSignedRequest(file){
+  const xhr = new XMLHttpRequest();
+    xhr.open('GET', `/api/upload?file-name=${encodeURIComponent(file.name)}&file-type=${file.type}`);
+    xhr.onreadystatechange = () => {
+    if(xhr.readyState === 4){
+      if(xhr.status === 200){
+        const response = JSON.parse(xhr.responseText);
+        uploadFile(file, response.signedRequest, response.url);
+      }
+      else{
+        alert('Could not get signed URL.');
+      }
+    }
+  };
+  xhr.send();
+}
+
+    /*
+     Function called when file input updated. If there is a file selected, then
+     start upload procedure by asking for a signed request from the app.
+     */
+function initUpload(files){
+      //const files = document.getElementById('image_to_upload').files;
+const file = files[0];
+  if(file == null){
+       return alert('No file selected.');
+  }
+   getSignedRequest(file);
+      
+}

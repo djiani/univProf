@@ -93,12 +93,12 @@ function renderUsers(data, ){
           return element;
         });
         $('.js_displayUsers').html(usersElts);
-        $('.pager').show();
+        $('.pagerUsers').show();
     }
     else{
         let html = '<h2> No data were found </h2>';
         $('.js_displayUsers').html(html);
-        $('.pager').hide();
+        $('.pagerUsers').hide();
     }
 
     
@@ -111,11 +111,11 @@ function renderUsers2(data){
     console.log('1-min: '+min+' max: '+max +' len: '+data.length);
     if(data.length > max){
       console.log('11-min: '+min+' max: '+max +' len: '+data.length);
-        $(".pager").show();
+        $(".pagerUsers").show();
         if(min === 0){
-            $(".previous").hide();
+            $(".previousUsers").hide();
         }else{
-           $(".previous").show(); 
+           $(".previousUsers").show(); 
         }
         let data1 = data.slice(min, max);
         renderUsers(data1);
@@ -124,41 +124,41 @@ function renderUsers2(data){
     }else{
         console.log('2-min: '+min+' max: '+max +' len: '+data.length);
         renderUsers(data);
-        $(".pager").hide();
+        $(".pagerUsers").hide();
     }
 
-    $(".next").click(function(event){
+    $(".nextUsers").click(function(event){
         console.log('3-min: '+min+' max: '+max +' len: '+data.length);
         if(max >= data.length){
             max = data.length;
             let data1 = data.slice(min);
             console.log('test 3-1'+data1)
             renderUsers(data1);
-            $('.next').hide();
-            $(".previous").show();
+            $('.nextUsers').hide();
+            $(".previousUsers").show();
         }else{
             console.log('test 3-2')
             let data1 = data.slice(min, max);
             console.log('test 3-2'+ data1);
             renderUsers(data1);
-            $('.next').show();
-            $(".previous").show();
+            $('.nextUsers').show();
+            $(".previousUsers").show();
             min = max;
             max += stepSize;
         }
     })
 
-    $(".previous").click(function(event){
+    $(".previousUsers").click(function(event){
         max = min;
         min -= stepSize;
         if(min <= 0){
             min = 0;
-            $(".previous").hide();
+            $(".previousUsers").hide();
         }else{
-            $(".previous").show();
+            $(".previousUsers").show();
         }
 
-        $(".next").show();
+        $(".nextUsers").show();
         let data1 = data.slice(min, max);
         renderUsers(data1);
     })
@@ -178,6 +178,14 @@ function getandDisplayUsers(){
   })
 }
 
+function isValidField(requiredField){
+  const missingField = requiredField.find(field => field === "" );
+    if (missingField == "") {
+        return false;
+    }else{
+      return true;
+    }
+}
 //adding to new user to db using a signup forms
 /**** SIGN UP *****/
 function addUser(user){
@@ -202,121 +210,101 @@ function addUser(user){
   })
 }
 
-
-function uploadFile(file, signedRequest, url){
-  const xhr = new XMLHttpRequest();
-  xhr.open('PUT', url);
-  xhr.onreadystatechange = () => {
-    if(xhr.readyState === 4){
-      if(xhr.status === 200){
-        document.getElementById('imgsrc').src = url;
-      }
-      else{
-        alert('Could not upload file.  state: '+ xhr.readyState+ " status: "+xhr.status);
-      }
-    }
-  };
-  xhr.send(file);
-}
-    /*
-      Function to get the temporary signed request from the app.
-      If request successful, continue to upload the file using this signed
-      request.
-      */
-function getSignedRequest(file){
-  const xhr = new XMLHttpRequest();
-    xhr.open('GET', `/api/upload?file-name=${encodeURIComponent(file.name)}&file-type=${file.type}`);
-    xhr.onreadystatechange = () => {
-    if(xhr.readyState === 4){
-      if(xhr.status === 200){
-        const response = JSON.parse(xhr.responseText);
-        uploadFile(file, response.signedRequest, response.url);
-      }
-      else{
-        alert('Could not get signed URL.');
-      }
-    }
-  };
-  xhr.send();
-}
-
-    /*
-     Function called when file input updated. If there is a file selected, then
-     start upload procedure by asking for a signed request from the app.
-     */
-function initUpload(files){
-      //const files = document.getElementById('image_to_upload').files;
-const file = files[0];
-  if(file == null){
-       return alert('No file selected.');
-  }
-   getSignedRequest(file);
-      
-}
-
-
-//save pdf to aws s3 bucket
-function uploadFile_pdf(file, signedRequest, url){
-  const xhr = new XMLHttpRequest();
-  xhr.open('PUT', url);
-  xhr.onreadystatechange = () => {
-    if(xhr.readyState === 4){
-      if(xhr.status === 200){
-        alert('files successful save to aws s3');
-      }
-      else{
-        alert('Could not upload file.  state: '+ xhr.readyState+ " status: "+xhr.status);
-      }
-    }
-  };
-  xhr.send(file);
-}
-    /*
-      Function to get the temporary signed request from the app.
-      If request successful, continue to upload the file using this signed
-      request.
-    */
-function getSignedRequest_pdf(file){
-  const xhr = new XMLHttpRequest();
-  xhr.open('GET', `/api/upload?file-name=${encodeURIComponent(file.name)}&file-type=${file.type}`);
-  xhr.onreadystatechange = () => {
-  if(xhr.readyState === 4){
-    if(xhr.status === 200){
-        const response = JSON.parse(xhr.responseText);
-        uploadFile_pdf(file, response.signedRequest, response.url);
-    }
-    else{
-      lert('Could not get signed URL.');
-    }
-  }
-};
-      xhr.send();
-    }
-    /*
-     Function called when file input updated. If there is a file selected, then
-     start upload procedure by asking for a signed request from the app.
-     */
-function initUpload_pdf(files){
-  //const files = document.getElementById('image_to_upload').files;
-  const file = files[0];
-  if(file == null){
-    return alert('No file selected.');
-  }
-  getSignedRequest_pdf(file);
-      
-}
-
 function handleAddUser(){
-  let region_selected, country_selected, state_selected;
+  //let region_selected="", country_selected="", state_selected="";
+  //let firstName="", lastName="", tel="", tile="", university="", department="", biography="", research="";
+  const newUser = {  
+      title: "",
+      userName: {
+        firstName: "",
+        lastName: ""
+      },
+      email: "",   
+      password: "",
+      tel: "",
+      region: "",
+      country: "",
+      state: "",
+      university: "",
+      department: "Computer Science",
+      researchSum: "",
+      biography: "",
+      img: "",
+      cv: "",
+      link: {
+        link1: "",
+        link2: ""
+      }
+    }
+  //let fieldSetForm = ['signUpContactForm', 'signUpSpecialityForm', 'signUpProfile', 'signUpLoginForm'];
+  let indexForm = 0; //form index to be loaded
+  let requiredField;
   //add event on signup button in Navbar
   $(".js_signUpNav").on("click", function(){
-    $('.pager').hide();
-    //$('.leftSideNav').hide();
-    //$('.rightSideNav').hide();
-    //$('.mainContainer').addClass('mainContainer2');
+    $('.pagerUsers').hide();
+    $(".pagerForm").show();
     $(".js_displayUsers").html(signUpForm());
+    $('#submitSignUpForm').html(signUpContactForm(newUser));
+    $(".backForm").hide();
     setCountryValue($(".js_signUpNav"));
   });
+  $(".mainContainer").on('click', '.nextForm', function(event){
+    //all previous information
+    switch(indexForm){
+      case 0:
+        newUser.userName.firstName = $('#firstName').val();
+        newUser.userName.lastName = $('#lastName').val();
+        newUser.tel = $('#tel').val();
+        requiredField = [newUser.userName.firstName, newUser.userName.lastName,newUser.region, newUser.country, newUser.state];
+        if(isValidField(requiredField)){
+          $('#submitSignUpForm').html(signUpSpecialityForm(newUser));
+          $(".backForm").show();
+          indexForm++;
+        }else{
+          alert('Please, fill all the required field');
+        }
+        
+      break;
+      case 1:
+        newUser.title = $('#title').val();
+        newUser.university = $('#university').val();
+        newUser.department = $('#department').val();
+        newUser.biography = $('#biography').val();
+        newUser.research = $('#researchInterest').val();
+        requiredField = [newUser.title, newUser.university, newUser.department];
+        if(isValidField(requiredField)){
+          $('#submitSignUpForm').html(signUpProfile(newUser));
+            indexForm++;
+        }
+        else{
+          alert('Please, fill all the required field');
+        }
+      break;
+      case 2:
+        newUser.img = $('.photo_filename').text();
+        newUser.cv = $('.cv_filename').text();
+        newUser.link.link1 = $('#link_1').val();
+        newUser.link.link2 = $('#link_2').val();
+        $('#submitSignUpForm').html(signUpLoginForm(newUser));
+        indexForm++;
+      break;
+      case 3:
+        newUser.email = $('#email').val();
+        newUser.password = $('#password').val();
+        requiredField = [newUser.email, newUser.password];
+      if(isValidField(requiredField)){
+        $('#submitSignUpForm').html(previewsForm(newUser));
+        $(".pagerForm").hide();
+        indexForm++;
+      }
+      else{
+        alert('Please, fill all the required field');
+      }
+    }
+
+
+
+  })
   
   // Upon click this should trigger click on the .js_signUpNav file input element
   $(".mainContainer").on('click', '.js_signUp2', function(event){
@@ -353,17 +341,17 @@ function handleAddUser(){
   //list on select option changed
   $(".mainContainer").on("change", "#regionSelect", function(event){
     let targetRegion = event.currentTarget;
-    region_selected = targetRegion.options[targetRegion.selectedIndex].text;
+    newUser.region = targetRegion.options[targetRegion.selectedIndex].text;
   });
 
   $(".mainContainer").on("change","#country", function(event){
     let targetCountry= event.currentTarget;
-    country_selected = targetCountry.options[targetCountry.selectedIndex].text;
+    newUser.Country = targetCountry.options[targetCountry.selectedIndex].text;
   });
 
   $(".mainContainer").on("change","#state", function(event){
     let targetState = event.currentTarget;
-    state_selected = targetState.options[targetState.selectedIndex].text;
+    newUser.state = targetState.options[targetState.selectedIndex].text;
   });
 
   //preview the upload cv
@@ -376,6 +364,7 @@ function handleAddUser(){
       alert('ouppps!! There is no cv to visualize!!!');
     }
   });
+
   
 
   $(".mainContainer").on('submit','form#submitSignUpForm', function(event){
@@ -660,29 +649,29 @@ $(function(){
   
 
   $(".js_signInNav").on("click", function(){
-    $('.pager').hide();
+    $('.pagerUsers').hide();
     $(".js_displayUsers").html(signInForm());
   });
 
   $(".js_homeNav").click(function(event){
-    $('.pager').hide();
+    $('.pagerUsers').hide();
     $(".js_displayUsers").html(homeForm());
   });
 
   $(".js_contactusNav").click(function(event){
    // alert("test constactUs");
-   $('.pager').hide();
+   $('.pagerUsers').hide();
      $(".js_displayUsers").html(contactusForm());
   })
 
   $(".js_helpNav").click(function(event){
-    $('.pager').hide();
+    $('.pagerUsers').hide();
     $(".js_displayUsers").html('<h1> Please, come back later, we are still working on it! </h1>');
   })
 
 
   $(".mainContainer").on('click','#mail-link', function(event){
-    $('.pager').hide();
+    $('.pagerUsers').hide();
     sendEmail();
   });
 

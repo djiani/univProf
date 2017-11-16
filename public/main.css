@@ -73,14 +73,11 @@ ul.js_user_info{
   background-color: #0033cc;
 }
 
-.pager{
+.pagerUsers, .pagerForm{
   border-top: 4px solid black
 }
-/* set the input submit button 
-.searchButton {
-  
-}
-*/
+
+
 
 
 
