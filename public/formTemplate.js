@@ -39,25 +39,50 @@ function homeForm(){
 }
 function previewsForm(user){
   return  `
-    <div class="signUp_headerText">
-      <h2>Create Your Free Account and Upload Your Resume</h2>
-      <p>If You are a university professor or research professor and you like to share your knowledge
-      and Collaborate with others professors, please fill the form below! </p>
-    </div>
-    <div class="col-sm-8">
-    <form class="form-horizontal" id='submitSignUpForm'>
+      <fieldset>
+        <div class="profileImage">
+          <button id="upload_image" class="btn btn-default form-control" disabled>Upload Image</button>
+          <input type="file" name="image" id="image_to_upload" accept="image/*" >
+        </div>
+        <div id="profileImgUpload" class="row"> 
+          <img src= ${URL_ENDPOINT}${user.img} alt="profile picture" id="imgsrc">
+        </div>
+        <div><p>filename:<span class="photo_filename">${user.img}</span></p></div>
+      </fieldset>
+      <fieldset>
+        <div>
+          <div >
+            <button id="upload_cv" class="btn btn-default form-control" disabled >Upload your CV</button>
+            <input type="file"  id="cv_to_upload"  value="Upload CV"  >
+          </div>
+          <div><p>cv filename: <span class="cv_filename">${user.cv}</span></p></div>
+          <div >
+            <button  class="btn btn-default form-control" id="cv_preview" > preview CV</button> 
+          </div>
+        </div>
+
+        <div>
+          <h3>Add your personal link </h3>
+          <div >
+            <input type="text"  class=" form-control " id="link_2" value=${user.link.link1} disabled>
+          </div>
+          <div >
+            <input type="text"  class=" form-control " id="link_2" value=${user.link.link2} disabled>
+          </div>
+        </div>  
+      </fieldset>
       <fieldset id="contact">
         <legend>Contact</legend>
         <div class="form-group">
           <label for="firstName" class="control-label col-sm-3 ">First Name</label>
           <div class="col-sm-8">
-            <input type="text" class="form-control" id="firstName" value="${user.firstName}" disabled >
+            <input type="text" class="form-control" id="firstName" value="${user.userName.firstName}" disabled >
           </div>
         </div>
         <div class="form-group">
           <label for="lastName" class="control-label col-sm-3 ">Last Name</label>
           <div class="col-sm-8">
-            <input type="text" class="form-control" id="lastName" value="${user.lastName}" disabled >
+            <input type="text" class="form-control" id="lastName" value="${user.userName.lastName}" disabled >
           </div>
         </div>
         <div class="form-group">
@@ -88,7 +113,7 @@ function previewsForm(user){
       <fieldset id="speciality">
         <legend>Speciality</legend>
         <div class="form-group">
-          <label for="title" class="control-label col-sm-3 ">title</label>
+          <label for="title" class="control-label col-sm-3 ">Title</label>
           <div class="col-sm-8">
             <input type="text" class="form-control" id="title" value="${user.title}" disabled >
           </div>
@@ -150,48 +175,9 @@ function previewsForm(user){
         </div> 
 
       </fieldset>
-    </form>
-    </div>
-
-    <div class="col-sm-4">
-      <div>
-        <div class="profileImage">
-          <button id="upload_image" class="btn btn-default form-control" disabled>Upload Image</button>
-          <input type="file" name="image" id="image_to_upload" accept="image/*" >
-        </div>
-        <div id="profileImgUpload" class="row"> 
-          <img src= ${URL_ENDPOINT}${user.img} alt="profile picture" id="imgsrc">
-        </div>
-        <div><p>filename:<span class="photo_filename">${user.img}</span></p></div>
-      </div>
-      <div>
-        <div>
-          <div >
-            <button id="upload_cv" class="btn btn-default form-control" disabled >Upload your CV</button>
-            <input type="file"  id="cv_to_upload"  value="Upload CV"  >
-          </div>
-          <div><p>cv filename: <span class="cv_filename">${user.cv}</span></p></div>
-          <div >
-            <button  class="btn btn-default form-control" id="cv_preview" > preview CV</button> 
-          </div>
-        </div>
-
-        <div>
-          <h3>Add your personal link </h3>
-          <div class="form-group">
-            <div>
-              <input type="text"  class="form-control " id="link_1" value=${user.link1} disabled>
-            </div>
-          </div>
-          <div class="form-group">
-            <div>
-              <input type="text"  class="form-control " id="link_2" value=${user.link_2} disabled>
-            </div>
-          </div>
-        </div>  
-      </div>
-
-    </div>
+    
+    
+   
         `
 }
 function signUpContactForm(user){
@@ -242,7 +228,7 @@ function signUpSpecialityForm(user){
   <fieldset id="speciality">
         <legend>Speciality</legend>
         <div class="form-group">
-          <label for="title" class="control-label col-sm-3 ">title</label>
+          <label for="title" class="control-label col-sm-3 ">Title</label>
           <div class="col-sm-8">
             <input type="text" class="form-control" id="title" value="${user.title}"  required >
           </div>
@@ -313,22 +299,21 @@ function signUpLoginForm(user){
 
 function signUpProfile(user){
   return `
-  <fieldset">
-      <div>
+      <fieldset>
         <div class="profileImage">
-          <button id="upload_image" class="btn btn-default form-control">Upload Image</button>
+          <button id="upload_image" class="btn btn-default form-control" >Upload Image</button>
           <input type="file" name="image" id="image_to_upload" accept="image/*" >
         </div>
         <div id="profileImgUpload" class="row"> 
-          <img src=${URL_ENDPOINT}${user.img} alt="profile picture" id="imgsrc">
+          <img src= ${URL_ENDPOINT}${user.img} alt="profile picture" id="imgsrc">
         </div>
         <div><p>filename:<span class="photo_filename">${user.img}</span></p></div>
-      </div>
-      <div>
+      </fieldset>
+      <fieldset>
         <div>
           <div >
-            <button id="upload_cv" class="btn btn-default form-control" >Upload your CV</button>
-            <input type="file"  id="cv_to_upload"  value="Upload CV" >
+            <button id="upload_cv" class="btn btn-default form-control"  >Upload your CV</button>
+            <input type="file"  id="cv_to_upload"  value="Upload CV"  >
           </div>
           <div><p>cv filename: <span class="cv_filename">${user.cv}</span></p></div>
           <div >
@@ -338,46 +323,39 @@ function signUpProfile(user){
 
         <div>
           <h3>Add your personal link </h3>
-          <div class="form-group">
-            <div>
-              <input type="text"  class="form-control " id="link_1" value=${user.link.link1} >
-            </div>
+          <div >
+            <input type="text"  class=" form-control " id="link_2" value=${user.link.link1} >
           </div>
-          <div class="form-group">
-            <div>
-              <input type="text"  class="form-control " id="link_2" value=${user.link.link2} >
-            </div>
+          <div >
+            <input type="text"  class=" form-control " id="link_2" value=${user.link.link2} >
           </div>
         </div>  
-      </div>
-
-    </fieldset>
+      </fieldset>
   `;
 }
 
 
 function signUpForm(){
   return  `
+  <div>
     <div class="signUp_headerText">
       <h2>Create Your Free Account and Upload Your Resume</h2>
       <p>If You are a university professor or research professor and you like to share your knowledge
       and Collaborate with others professors, please fill the form below! </p>
     </div>
-    <div class="col-sm-8">
-    <form class="form-horizontal" id='submitSignUpForm'>
-      
-      
-      
-    </form>
-    <div>
-          <ul class="pager pagerForm">
-            <li class="previous backForm"><a href="#">back</a></li>
-            <li class="next nextForm"><a href="#">Next</a></li>
-          </ul>
-        </div>
-    </div>
+    <div >
+      <form class="form-horizontal" id='submitSignUpForm'>
+        
+      </form>
 
-        `
+      <div>
+        <ul class="pager pagerForm">
+          <li class="previous backForm"><a href="#">back</a></li>
+          <li class="next nextForm"><a href="#">Next</a></li>
+        </ul>
+      </div>
+    </div>
+  </div>`;
 }
 
 
@@ -440,11 +418,11 @@ function userTemplate(){
 }
 
 
-function usersInfos_template(user, url_endpoint){
+function usersInfos_template(user){
  return `
   <div class="modal_users-info">
     <div class="modal_prof_pict_block"> 
-      <img src="${url_endpoint}${user.img}" alt="profile picture" class="modal_prof_pict">  
+      <img src="${URL_ENDPOINT}${user.img}" alt="profile picture" class="modal_prof_pict">  
     </div>
     <h4> ${user.title} </h4>
     <h4>Department of ${user.department} </h4>

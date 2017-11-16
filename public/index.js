@@ -7,7 +7,7 @@ const USERS_URL_COUNTRY = '/api/users/country';
 
 
 //`https://s3.${S3_REGION}.amazonaws.com/${S3_BUCKET}/${fileName}
-const URL_ENDPOINT = 'https://s3.us-east-2.amazonaws.com/awsunivprof/'
+//const URL_ENDPOINT = 'https://s3.us-east-2.amazonaws.com/awsunivprof/'
 
 
 
@@ -58,7 +58,7 @@ function displaysMoreInfos(data){
   if(!user.img){
     user.img = 'sample_img.jpg';
   } 
-  let pdfHtml = $(usersInfos_template(user, URL_ENDPOINT));
+  let pdfHtml = $(usersInfos_template(user));
   if(user.link.link1){
     $(pdfHtml).find("ul").append(`<li><a href="${user.link.link1}">${user.link.link1}</a></li>`);
   }
@@ -180,6 +180,8 @@ function getandDisplayUsers(){
 
 function isValidField(requiredField){
   const missingField = requiredField.find(field => field === "" );
+    console.log('missingField='+missingField)
+    console.log(requiredField)
     if (missingField == "") {
         return false;
     }else{
@@ -213,7 +215,13 @@ function addUser(user){
 function handleAddUser(){
   //let region_selected="", country_selected="", state_selected="";
   //let firstName="", lastName="", tel="", tile="", university="", department="", biography="", research="";
-  const newUser = {  
+  let newUser = {};
+  //let fieldSetForm = ['signUpContactForm', 'signUpSpecialityForm', 'signUpProfile', 'signUpLoginForm'];
+  let indexForm ; //form index to be loaded
+  let requiredField;
+  //add event on signup button in Navbar
+  $(".js_signUpNav").on("click", function(){
+    newUser = {  
       title: "",
       userName: {
         firstName: "",
@@ -236,17 +244,16 @@ function handleAddUser(){
         link2: ""
       }
     }
-  //let fieldSetForm = ['signUpContactForm', 'signUpSpecialityForm', 'signUpProfile', 'signUpLoginForm'];
-  let indexForm = 0; //form index to be loaded
-  let requiredField;
-  //add event on signup button in Navbar
-  $(".js_signUpNav").on("click", function(){
+
+   indexForm = 0;
+   
     $('.pagerUsers').hide();
     $(".pagerForm").show();
     $(".js_displayUsers").html(signUpForm());
     $('#submitSignUpForm').html(signUpContactForm(newUser));
     $(".backForm").hide();
     setCountryValue($(".js_signUpNav"));
+    
   });
   $(".mainContainer").on('click', '.nextForm', function(event){
     //all previous information
@@ -263,7 +270,6 @@ function handleAddUser(){
         }else{
           alert('Please, fill all the required field');
         }
-        
       break;
       case 1:
         newUser.title = $('#title').val();
@@ -274,7 +280,7 @@ function handleAddUser(){
         requiredField = [newUser.title, newUser.university, newUser.department];
         if(isValidField(requiredField)){
           $('#submitSignUpForm').html(signUpProfile(newUser));
-            indexForm++;
+          indexForm++;
         }
         else{
           alert('Please, fill all the required field');
@@ -294,7 +300,7 @@ function handleAddUser(){
         requiredField = [newUser.email, newUser.password];
       if(isValidField(requiredField)){
         $('#submitSignUpForm').html(previewsForm(newUser));
-        $(".pagerForm").hide();
+        $(".nextForm").hide();
         indexForm++;
       }
       else{
@@ -304,6 +310,30 @@ function handleAddUser(){
 
 
 
+  })
+
+  $(".mainContainer").on('click', '.backForm', function(event){
+    console.log(indexForm);
+    indexForm--;
+    switch(indexForm){
+      case 0:
+        $('#submitSignUpForm').html(signUpContactForm(newUser));
+        newUser.region = "";
+        newUser.country = "";
+        newUser.state = "";
+        setCountryValue($(".js_signUpNav"));
+        $(".backForm").hide();
+      break;
+      case 1:
+         $('#submitSignUpForm').html(signUpSpecialityForm(newUser));
+      break;
+      case 2:
+        $('#submitSignUpForm').html(signUpProfile(newUser));
+      break;
+      case 3:
+        $('#submitSignUpForm').html(signUpLoginForm(newUser));
+      break; 
+    }
   })
   
   // Upon click this should trigger click on the .js_signUpNav file input element
@@ -346,7 +376,7 @@ function handleAddUser(){
 
   $(".mainContainer").on("change","#country", function(event){
     let targetCountry= event.currentTarget;
-    newUser.Country = targetCountry.options[targetCountry.selectedIndex].text;
+    newUser.country = targetCountry.options[targetCountry.selectedIndex].text;
   });
 
   $(".mainContainer").on("change","#state", function(event){
@@ -371,7 +401,7 @@ function handleAddUser(){
     event.preventDefault();
     //alert("test submit");
     console.log('registering a new user!')
-    let user = {
+    /*let user = {
       title: $('#title').val(),
       userName: {
         firstName: $('#firstName').val(),
@@ -393,10 +423,9 @@ function handleAddUser(){
         link1: $('#link_1').val(),
         link2: $('#link_2').val()
       }
-    }
-    console.log('check new user:');
-    console.log(user);
-    addUser(user);
+    }*/
+    console.log(newUser);
+    addUser(newUser);
   })
 
 }
