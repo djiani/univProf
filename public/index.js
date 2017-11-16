@@ -191,7 +191,13 @@ function addUser(user){
     contentType: 'application/json',
     success: function(data){
       getandDisplayUsers();
-    }
+    },
+    error: function(xhr, status, err){
+      if(status == 422){
+        console.log(err);
+      }
+    }      
+    
     
   })
 }

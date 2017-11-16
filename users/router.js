@@ -95,7 +95,9 @@ router.get('/:searchTerm', (req, res)=>{
     {department:{$regex: '.*' + req.params.searchTerm + '.*', $options: 'i' }},
     {country: {$regex: '.*' + req.params.searchTerm + '.*', $options: 'i' }},
     {'userName.firstName': {$regex: '.*' + req.params.searchTerm + '.*', $options: 'i' }},
-    {'userName.lastName': {$regex: '.*' + req.params.searchTerm + '.*', $options: 'i' }}
+    {'userName.lastName': {$regex: '.*' + req.params.searchTerm + '.*', $options: 'i' }},
+    {'userName.firstName': {$in: req.params.searchTerm.trim()}},
+    {'userName.lastName': {$in: req.params.searchTerm.trim()}}
   ]})
   .then(result =>{
     res.status(200).json({
@@ -142,7 +144,7 @@ router.post('/', jsonParser, (req, res)=>{
 
 //throw error if the field any of these field is empty or underfined
   const validFields = ['region', 'country', 'state'];
-  const NoValidField =  validFields.find(field => (req.body[field] == underfined || req.body[field]==""))
+  const NoValidField =  validFields.find(field => (req.body[field] == undefined || req.body[field]==""))
     if(NoValidField){
        return res.status(422).json({
             code: 422,
