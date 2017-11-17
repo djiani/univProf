@@ -220,7 +220,7 @@ function handleAddUser(){
   let newUser = {};
   //let fieldSetForm = ['signUpContactForm', 'signUpSpecialityForm', 'signUpProfile', 'signUpLoginForm'];
   let indexForm ; //form index to be loaded
-  let requiredField;
+  let requiredField, emailFlag;
   //add event on signup button in Navbar
   $(".js_signUpNav").on("click", function(){
     newUser = {  
@@ -237,7 +237,7 @@ function handleAddUser(){
       country: "",
       state: "",
       university: "",
-      department: "Computer Science",
+      department: "",
       researchSum: "",
       biography: "",
       img: "sample_img.jpg",
@@ -249,6 +249,7 @@ function handleAddUser(){
     }
 
    indexForm = 0;
+   emailFlag=true; 
     $('.sidenav').hide();
     $('.mainContainer').addClass('centerMainContainer');
     $('.pagerUsers').hide();
@@ -296,6 +297,11 @@ function handleAddUser(){
         newUser.cv = $('.cv_filename').text();
         newUser.link.link1 = $('#link_1').val();
         newUser.link.link2 = $('#link_2').val();
+        if(emailFlag){
+          newUser.email = "";
+          newUser.password =""; 
+          emailFlag = false;       
+        }
         $('#submitSignUpForm').html(signUpLoginForm(newUser));
         indexForm++;
       break;
@@ -368,6 +374,7 @@ function handleAddUser(){
     let files = document.getElementById("cv_to_upload").files;
     $('.cv_filename').text(files[0].name);  // set fileName 
     initUpload_pdf(files);
+    $('#cv_preview').show();
 
   });
   //check passord strength
