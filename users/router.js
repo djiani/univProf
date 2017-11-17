@@ -96,8 +96,10 @@ router.get('/:searchTerm', (req, res)=>{
     {country: {$regex: '.*' + req.params.searchTerm + '.*', $options: 'i' }},
     {'userName.firstName': {$regex: '.*' + req.params.searchTerm + '.*', $options: 'i' }},
     {'userName.lastName': {$regex: '.*' + req.params.searchTerm + '.*', $options: 'i' }},
-    {'userName.firstName': {$in: req.params.searchTerm.trim()}},
-    {'userName.lastName': {$in: req.params.searchTerm.trim()}}
+    {$and:[
+      {'userName.firstName':{$in: (req.params.searchTerm).split(' ')}},
+      {'userName.lastName': {$in: (req.params.searchTerm).split(' ')}}]},
+    {'fullName': {$regex: '.*' + req.params.searchTerm + '.*', $options: 'i' }}
   ]})
   .then(result =>{
     res.status(200).json({

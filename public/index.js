@@ -85,7 +85,7 @@ function renderUsers(data, ){
             element.find('.js_profite_pict').attr("src", URL_ENDPOINT+user.img);
           }
           element.find('.js_user_info').append(
-            `<li>${user.userName.firstName} ${user.userName.lastName} </li>
+            `<li>Dr. ${user.userName.firstName} ${user.userName.lastName} </li>
             <li>${user.title} </li>
             <li>${user.university} </li>
             <li>${user.department} </li>
@@ -201,6 +201,8 @@ function addUser(user){
     contentType: 'application/json',
     success: function(data){
       getandDisplayUsers();
+      $('.sidenav').hide();
+    $('.mainContainer').removeClass('centerMainContainer');
     },
     error: function(xhr, status, err){
       if(status == 422){
@@ -227,8 +229,9 @@ function handleAddUser(){
         firstName: "",
         lastName: ""
       },
-      email: "",   
-      password: "",
+      fullName: "",
+      email: "test@gmail.com",   
+      password: "pass1",
       tel: "",
       region: "",
       country: "",
@@ -237,8 +240,8 @@ function handleAddUser(){
       department: "Computer Science",
       researchSum: "",
       biography: "",
-      img: "",
-      cv: "",
+      img: "sample_img.jpg",
+      cv: "sample_cv.pdf",
       link: {
         link1: "",
         link2: ""
@@ -246,7 +249,8 @@ function handleAddUser(){
     }
 
    indexForm = 0;
-   
+    $('.sidenav').hide();
+    $('.mainContainer').addClass('centerMainContainer');
     $('.pagerUsers').hide();
     $(".pagerForm").show();
     $(".js_displayUsers").html(signUpForm());
@@ -261,6 +265,7 @@ function handleAddUser(){
       case 0:
         newUser.userName.firstName = $('#firstName').val();
         newUser.userName.lastName = $('#lastName').val();
+        newUser.fullName = (newUser.userName.firstName).trim()+ " "+ (newUser.userName.lastName).trim();
         newUser.tel = $('#tel').val();
         requiredField = [newUser.userName.firstName, newUser.userName.lastName,newUser.region, newUser.country, newUser.state];
         if(isValidField(requiredField)){
@@ -279,7 +284,7 @@ function handleAddUser(){
         newUser.research = $('#researchInterest').val();
         requiredField = [newUser.title, newUser.university, newUser.department];
         if(isValidField(requiredField)){
-          $('#submitSignUpForm').html(signUpProfile(newUser));
+          $('#submitSignUpForm').html(signUpProfileForm(newUser));
           indexForm++;
         }
         else{
@@ -328,7 +333,7 @@ function handleAddUser(){
          $('#submitSignUpForm').html(signUpSpecialityForm(newUser));
       break;
       case 2:
-        $('#submitSignUpForm').html(signUpProfile(newUser));
+        $('#submitSignUpForm').html(signUpProfileForm(newUser));
       break;
       case 3:
         $('#submitSignUpForm').html(signUpLoginForm(newUser));
@@ -347,10 +352,11 @@ function handleAddUser(){
   })
 
   $(".mainContainer").on('change', '#image_to_upload', function(event){
+    event.preventDefault();
     let files = document.getElementById("image_to_upload").files;
     $('.photo_filename').text(files[0].name);
     initUpload(files);
-    //TODO, get name of the file and save it to db
+    // 
   })
 
   // Upon click this should trigger click on the #cv-to-upload file input element
@@ -553,10 +559,10 @@ function viewProfileUsers(){
   
           // get user form  the data based with id. 
         //$(".js_displayUsers").html('<p> Access protected data '+data.user.name+' <p>');
-        $('.js_displayUsers').html(signUpForm());
+        $('.js_displayUsers').html(previewsForm(data.user));
 
         $('.signUp_headerText').html(`<h2> Welcome ${data.user.userName.firstName} ${data.user.userName.lastName} </h2> `);
-        $('#firstName').val(data.user.userName.firstName);
+        /*$('#firstName').val(data.user.userName.firstName);
         $('#lastName').val(data.user.userName.lastName);
         $('#tel').val(data.user.tel);
         $('#email').val(data.user.email);
@@ -575,7 +581,7 @@ function viewProfileUsers(){
         $('#imgsrc').src = URL_ENDPOINT+data.user.img;
         $('#loginAccount').hide();
         $('#speciality').disable = true;
-        $('#contact').disable = true;
+        $('#contact').disable = true;*/
       },
       error: function(err){
         alert('Acess denied: Unauthorized users');
@@ -631,7 +637,7 @@ function getUsersBySpecialization(){
     console.log(data);
     const listCountry= [];
     let optHtml = "";
-    for(let i=0; i<data.users.length-1; i++){
+    for(let i=0; i< data.users.length-1; i++){
       if(i===0){
        // listCountry.push(data.users[i].country);
         optHtml += `<option value= ${data.users[i+1].department}> ${data.users[i+1].department} </option>`;
@@ -679,28 +685,38 @@ $(function(){
 
   $(".js_signInNav").on("click", function(){
     $('.pagerUsers').hide();
+    $('.sidenav').hide();
+    $('.mainContainer').addClass('centerMainContainer');
     $(".js_displayUsers").html(signInForm());
   });
 
   $(".js_homeNav").click(function(event){
     $('.pagerUsers').hide();
+    $('.sidenav').show();
+    $('.mainContainer').removeClass('centerMainContainer');
     $(".js_displayUsers").html(homeForm());
   });
 
   $(".js_contactusNav").click(function(event){
    // alert("test constactUs");
    $('.pagerUsers').hide();
+   $('.sidenav').hide();
+    $('.mainContainer').addClass('centerMainContainer');
      $(".js_displayUsers").html(contactusForm());
   })
 
   $(".js_helpNav").click(function(event){
     $('.pagerUsers').hide();
+    $('.sidenav').hide();
+    $('.mainContainer').addClass('centerMainContainer');
     $(".js_displayUsers").html('<h1> Please, come back later, we are still working on it! </h1>');
   })
 
 
   $(".mainContainer").on('click','#mail-link', function(event){
     $('.pagerUsers').hide();
+    $('.sidenav').hide();
+    $('.mainContainer').addClass('centerMainContainer');
     sendEmail();
   });
 
@@ -715,6 +731,8 @@ $(function(){
   viewProfileUsers();
   //Displayed users
   $(".js_getAllUsers").click(function(event){
+    $('.sidenav').show();
+    $('.mainContainer').removeClass('centerMainContainer');
     getandDisplayUsers();
   })
 
@@ -724,6 +742,8 @@ $(function(){
   })
   $(".js_getUsersByCountry_search").click(function(event){
     event.preventDefault();
+    $('.sidenav').show();
+    $('.mainContainer').removeClass('centerMainContainer');
     getUsersByCountry_search();
     $("#modal_searchByCountry").modal("hide")
   })
@@ -736,7 +756,9 @@ $(function(){
 
   $(".js_getUsersByDepartment_search").click(function(event){
     event.preventDefault();
-    alert('I am click')
+    //alert('I am click')
+    $('.sidenav').show();
+    $('.mainContainer').removeClass('centerMainContainer');
     getUsersByDepartment_search();
     $("#modal_searchByDepartment").modal("hide")
   })

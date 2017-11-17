@@ -72,13 +72,17 @@ function showPage(page_no) {
   });
 }
 
+//previews pdf
 function displaypdf(url_cv){
     // Send the object url of the pdf
 
    showPDF(url_cv);
    $("#pdfModal").modal({backdrop: true});
-   $('.modal-dialog').css({"width":"60%"});
-   $('.pdf_modal').css({"width":"100%"});
+   $('.modal-dialog_pdf').addClass('modal_width60');
+   $('.modal-dialog_pdf').removeClass('modal_width80');
+   $('.pdf_modal').addClass('modal_width100');
+   $('.pdf_modal').removeClass('modal_width80');
+   $('.pdf_modal').removeClass('modal_width60');
    $('.js_users_more_details').hide();
 
   // Previous page of the PDF
@@ -95,11 +99,15 @@ function displaypdf(url_cv){
 
 }
 
+//dispplay pdf with users infos
 function displaypdf2(url_cv){
     // Send the object url of the pdf
    $('.js_users_more_details').show();
-   $('.modal-dialog').css({"width":"80%"});
-   $('.pdf_modal').css({"width":"60%"});
+   $('.modal-dialog_pdf').addClass('modal_width80');
+   $('.modal-dialog_pdf').removeClass('modal_width60');
+   $('.pdf_modal').addClass('modal_width60');
+   $('.pdf_modal').removeClass('modal_width80');
+   $('.pdf_modal').removeClass('modal_width100');
    showPDF(url_cv);
    $("#pdfModal").modal({backdrop: true});
    

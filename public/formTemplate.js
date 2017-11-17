@@ -40,34 +40,37 @@ function homeForm(){
 function previewsForm(user){
   return  `
       <fieldset>
-        <div class="profileImage">
-          <button id="upload_image" class="btn btn-default form-control" disabled>Upload Image</button>
-          <input type="file" name="image" id="image_to_upload" accept="image/*" >
+        <div class="block_to_Center">
+          <div class="profileImage AddSpace" >
+            <button id="upload_image" class="btn btn-default form-control" hidden>Upload Image</button>
+            <input type="file" name="image" id="image_to_upload" accept="image/*" >
+          </div>
+          <div id="profileImgUpload" class="block_to_Center"> 
+            <img src= ${URL_ENDPOINT}${user.img} alt="profile picture" id="imgsrc">
+          </div>
+          <div hidden><p>filename:<span class="photo_filename">${user.img}</span></p></div>
         </div>
-        <div id="profileImgUpload" class="row"> 
-          <img src= ${URL_ENDPOINT}${user.img} alt="profile picture" id="imgsrc">
-        </div>
-        <div><p>filename:<span class="photo_filename">${user.img}</span></p></div>
       </fieldset>
       <fieldset>
-        <div>
+        <div class="block_to_Center">
+        <h3>Upload your CV </h3>
           <div >
             <button id="upload_cv" class="btn btn-default form-control" disabled >Upload your CV</button>
             <input type="file"  id="cv_to_upload"  value="Upload CV"  >
           </div>
-          <div><p>cv filename: <span class="cv_filename">${user.cv}</span></p></div>
-          <div >
+          <div><p>CV filename: <span class="cv_filename">${user.cv}</span></p></div>
+          <div>
             <button  class="btn btn-default form-control" id="cv_preview" > preview CV</button> 
           </div>
         </div>
 
-        <div>
+        <div class="block_to_Center">
           <h3>Add your personal link </h3>
-          <div >
-            <input type="text"  class=" form-control " id="link_2" value=${user.link.link1} disabled>
+          <div class="AddSpace">
+            <input type="text"  class=" form-control " id="link_1" value="${user.link.link1}" disabled>
           </div>
-          <div >
-            <input type="text"  class=" form-control " id="link_2" value=${user.link.link2} disabled>
+          <div class="AddSpace">
+            <input type="text"  class=" form-control " id="link_2" value= "${user.link.link2}" disabled>
           </div>
         </div>  
       </fieldset>
@@ -76,7 +79,7 @@ function previewsForm(user){
         <div class="form-group">
           <label for="firstName" class="control-label col-sm-3 ">First Name</label>
           <div class="col-sm-8">
-            <input type="text" class="form-control" id="firstName" value="${user.userName.firstName}" disabled >
+            <input type="text" class="form-control" id="firstName" value="${user.userName.firstName}"  >
           </div>
         </div>
         <div class="form-group">
@@ -169,7 +172,7 @@ function previewsForm(user){
         </div>
       
         <div class="form-group">
-          <div class="col-sm-offset-2 col-sm-8">
+          <div class="col-sm-8">
             <button type="submit" class="btn btn-default form-control" > Submit</button>
           </div>
         </div> 
@@ -297,36 +300,39 @@ function signUpLoginForm(user){
       </fieldset>`;
 }
 
-function signUpProfile(user){
+function signUpProfileForm(user){
   return `
       <fieldset>
-        <div class="profileImage">
-          <button id="upload_image" class="btn btn-default form-control" >Upload Image</button>
-          <input type="file" name="image" id="image_to_upload" accept="image/*" >
+        <div class="block_to_Center">
+          <div class="profileImage AddSpace" >
+            <button id="upload_image" class="btn btn-default form-control" >Upload Image</button>
+            <input type="file" name="image" id="image_to_upload" accept="image/*" >
+          </div>
+          <div id="profileImgUpload" class="block_to_Center"> 
+            <img src= ${URL_ENDPOINT}${user.img} alt="profile picture" id="imgsrc">
+          </div>
+          <div hidden><p>filename:<span class="photo_filename">${user.img}</span></p></div>
         </div>
-        <div id="profileImgUpload" class="row"> 
-          <img src= ${URL_ENDPOINT}${user.img} alt="profile picture" id="imgsrc">
-        </div>
-        <div><p>filename:<span class="photo_filename">${user.img}</span></p></div>
       </fieldset>
       <fieldset>
-        <div>
+        <div class="block_to_Center">
+        <h3>Upload your CV </h3>
           <div >
             <button id="upload_cv" class="btn btn-default form-control"  >Upload your CV</button>
             <input type="file"  id="cv_to_upload"  value="Upload CV"  >
           </div>
-          <div><p>cv filename: <span class="cv_filename">${user.cv}</span></p></div>
-          <div >
-            <button  class="btn btn-default form-control" id="cv_preview" > preview CV</button> 
+          <div><p>CV filename: <span class="cv_filename">${user.cv}</span></p></div>
+          <div>
+            <button  class="btn btn-default form-control" id="cv_preview" disabled> preview CV</button> 
           </div>
         </div>
 
-        <div>
+        <div class="block_to_Center">
           <h3>Add your personal link </h3>
-          <div >
-            <input type="text"  class=" form-control " id="link_2" value=${user.link.link1} >
+          <div class="AddSpace">
+            <input type="text"  class=" form-control " id="link_1" value=${user.link.link1} >
           </div>
-          <div >
+          <div class="AddSpace">
             <input type="text"  class=" form-control " id="link_2" value=${user.link.link2} >
           </div>
         </div>  
@@ -337,7 +343,7 @@ function signUpProfile(user){
 
 function signUpForm(){
   return  `
-  <div>
+  <div class="signUpForm">
     <div class="signUp_headerText">
       <h2>Create Your Free Account and Upload Your Resume</h2>
       <p>If You are a university professor or research professor and you like to share your knowledge
@@ -364,18 +370,20 @@ function signInForm(){
   <div class="container loginContainer">
         <h2>Please, login </h2>
         <form id='submitSignInForm'>
+          <label for="email">Email:</label>
           <div class="form-group ">
-            <label for="email">Email:</label>
             <input type="email" class="form-control " id="email" placeholder="Enter email" name="email">
           </div>
+          <label for="password"><span class="glyphicon glyphicon-eye-open"></span>Password:</label>
           <div class="form-group ">
-            <label for="password"><span class="glyphicon glyphicon-eye-open"></span>Password:</label>
             <input type="password" class="form-control" id="password" placeholder="Enter password" name="pwd">
           </div>
           <div class="checkbox " >
-          <label><input type="checkbox" name="remember"> Remember me</label>
+            <label><input type="checkbox" name="remember"> Remember me</label>
           </div>
-          <button type="submit" class="btn btn-default ">Submit</button>
+          <div class="form-group ">
+          <button type="submit" class="btn btn-default form-control">Submit</button>
+          </div>
         </form>
         <p><a href="">Forgot your password?</a> Not a member, <a href="#signUp" class="js_signUp2">SignUp</a> </p>
       </div>
@@ -392,9 +400,9 @@ function contactusForm(){
         </p>
         <div>
           <label for="email">Email</label>
-          <input id="email" type="email" placeholder="email@example.com" class="form-control">
+          <input id="email" type="email" placeholder="email@example.com" class="form-control inputlength">
           <label for="subject">Suject</label>
-          <input id="subject" type="text" placeholder="type your subject here" class="form-control">
+          <input id="subject" type="text" placeholder="type your subject here" class="form-control inputlength">
           <label for="message" class="">Message</label>
           <textarea id="message" rows="10" required>Type your message here</textarea>  
           <a href="" id="mail-link" class="btn btn-primary">Send</a>

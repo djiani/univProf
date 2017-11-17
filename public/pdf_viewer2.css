@@ -68,6 +68,15 @@
   width: 80%;
   margin:0 auto;
 }
+.modal_width60{
+  width: 60%;
+}
+.modal_width80{
+  width: 80%;
+}
+.modal_width100{
+  width: 100%;
+}
 
 .pdf_modal, .js_users_more_details{
   display: inline-block;
@@ -89,10 +98,12 @@
 .modal_prof_pict{
   width: 100%;
   height: 290px;
+  border-radius: 15px;
 
 }
 .modal_prof_pict_block{
   border:1px solid black;
+  border-radius: 15px;
   width: 90%;
   height: 300px;
   margin-top: 5px;
@@ -104,6 +115,10 @@
 .modal_users-info{
   text-align: center;
   margin: 0 auto;
+}
+
+.modal_headerName{
+  text-align: center;
 }
 
 /*passord checking and validation */
@@ -148,7 +163,7 @@ border: 1px solid red;
   
   
   .modal_prof_pict, .modal_prof_pict_block{
-    width: 100%;
+    width: 200px;
     height: 150px;
     padding: 0px;
   }

@@ -2,6 +2,11 @@
 body{
   height: 100%;
 }
+
+.form-group{
+  height: 30px;
+}
+
 .jumbotron{
   text-align: center;
   margin-bottom: 0;
@@ -25,14 +30,14 @@ body{
   width: 80%;
   overflow: auto;
   margin: 0 auto;
-  border-left: 2px solid black;
-  border-right: 2px solid black;
+  border: 2px solid black;
+  
 }
 
-.mainContainer2{
-  width: 80%;
-  left: 10%;
+.centerMainContainer{
+  width: 100%;
 }
+
 
 .js_displayUsers{
   margin: 0 auto;
@@ -42,8 +47,8 @@ body{
 
 .js_user{
   display: inline-block;
-  width: 250px;
-  height: 250px;
+  width: 200px;
+  height: 230px;
   overflow: auto;
   border:1px solid black;
   margin: 1%;
@@ -52,14 +57,16 @@ body{
 .js_prof_block{
   width: 90%;
   height: 130px;
-  border: 1px solid black;
   margin-left: auto;
   margin-right: auto;
   margin-top: 5px;
 }
 .js_profite_pict{
   width: 100%;
-  height: 128px;
+  height: 130px;
+  border-radius: 15px;
+  border:1px solid black;
+
 }
 ul.js_user_info{
   list-style-type: none;
@@ -67,6 +74,7 @@ ul.js_user_info{
   margin: 0 auto;
   text-align: left;
 }
+
 /*side container style*/
 .sidenav {
   width: 20%;
@@ -89,7 +97,8 @@ ul.js_user_info{
  margin-right: auto;
  margin-left: auto;
 }
-#subject{
+
+.inputlength{
   width: 60%;
 }
 #message{
@@ -103,6 +112,11 @@ ul.js_user_info{
 /*  signUP Form css */
 #image_to_upload, #cv_to_upload{
   display: none;
+}
+
+.signUpForm{
+  width: 70%;
+  margin:0 auto;
 }
 
 .signUp_headerText{
@@ -122,29 +136,43 @@ fieldset{
 }
 
 
+
 #profileImgUpload{
   width: 100%;
   height:250px;
   border:1px solid black;
-  margin: 10px auto;
+  border-radius: 10px;
+  margin: 0 auto;
   background-color: gray;
 }
 
 #imgsrc{
   margin: 0 auto;
-  width: 60%;
+  width: 100%;
   height: 250px;
+  padding: 15px;
 }
 
+.block_to_Center{
+  width: 60%;
+  margin: 0 auto;
+}
+.AddSpace{
+  margin-bottom: 10px;
+}
 /* style sign in  */
 .loginContainer{
   width: 50%;
   margin-right: auto;
   margin-left: auto;
+  margin-top: 30px;
+  padding: 30px;
+  border:1px solid black;
+   
 }
 
-.loginContainer button{
-  width: 200px;
+.loginContainer h2{
+  text-align: center;
 }
 
 .CancelButton{
@@ -175,9 +203,10 @@ footer {
     padding: 15px;
   }
 
-  .sidenav, .mainContainer{
+  .sidenav, .mainContainer, .loginContainer, .signUpForm{
     width: 100%;
   }
+  
   #newsPanel{
     display: none;
   }
