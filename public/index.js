@@ -201,7 +201,7 @@ function addUser(user){
     contentType: 'application/json',
     success: function(data){
       getandDisplayUsers();
-      $('.sidenav').hide();
+      $('.sidenav').show();
     $('.mainContainer').removeClass('centerMainContainer');
     },
     error: function(xhr, status, err){
@@ -220,7 +220,7 @@ function handleAddUser(){
   let newUser = {};
   //let fieldSetForm = ['signUpContactForm', 'signUpSpecialityForm', 'signUpProfile', 'signUpLoginForm'];
   let indexForm ; //form index to be loaded
-  let requiredField, emailFlag;
+  let requiredField, emailFlag, submitFlag;
   //add event on signup button in Navbar
   $(".js_signUpNav").on("click", function(){
     newUser = {  
@@ -250,6 +250,7 @@ function handleAddUser(){
 
    indexForm = 0;
    emailFlag=true; 
+   submitFlag = false;
     $('.sidenav').hide();
     $('.mainContainer').addClass('centerMainContainer');
     $('.pagerUsers').hide();
@@ -276,6 +277,7 @@ function handleAddUser(){
         }else{
           alert('Please, fill all the required field');
         }
+        submitFlag= false;
       break;
       case 1:
         newUser.title = $('#title').val();
@@ -291,6 +293,7 @@ function handleAddUser(){
         else{
           alert('Please, fill all the required field');
         }
+        submitFlag= false;
       break;
       case 2:
         newUser.img = $('.photo_filename').text();
@@ -304,6 +307,7 @@ function handleAddUser(){
         }
         $('#submitSignUpForm').html(signUpLoginForm(newUser));
         indexForm++;
+        submitFlag= false;
       break;
       case 3:
         newUser.email = $('#email').val();
@@ -313,6 +317,7 @@ function handleAddUser(){
         $('#submitSignUpForm').html(previewsForm(newUser));
         $(".nextForm").hide();
         indexForm++;
+        submitFlag = true;
       }
       else{
         alert('Please, fill all the required field');
@@ -337,12 +342,15 @@ function handleAddUser(){
       break;
       case 1:
          $('#submitSignUpForm').html(signUpSpecialityForm(newUser));
+         submitFlag= false;
       break;
       case 2:
         $('#submitSignUpForm').html(signUpProfileForm(newUser));
+        submitFlag= false;
       break;
       case 3:
         $('#submitSignUpForm').html(signUpLoginForm(newUser));
+        submitFlag= false;
       break; 
     }
   })
@@ -374,7 +382,7 @@ function handleAddUser(){
     let files = document.getElementById("cv_to_upload").files;
     $('.cv_filename').text(files[0].name);  // set fileName 
     initUpload_pdf(files);
-    $('#cv_preview').show();
+    $('#cv_preview').attr('disabled', false);
 
   });
   //check passord strength
@@ -438,7 +446,10 @@ function handleAddUser(){
       }
     }*/
     console.log(newUser);
-    addUser(newUser);
+    if(submitFlag){
+      addUser(newUser);
+    }
+    
   })
 
 }
