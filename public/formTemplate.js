@@ -130,20 +130,20 @@ function previewsForm(user){
         <div class="form-group">
           <label for="department" class="control-label col-sm-3 ">Department</label>
           <div class="col-sm-8">
-            <input type="text" class="form-control" id="department" value="${user.department}" disabled >
+            <input type="text" class="form-control" id="department" value="${user.department}" disabled>
           </div>
         </div>
         <div class="form-group">
           <label for="biography" class="control-label col-sm-6 " >biography</label>
           <div class="col-sm-12">
-            <textarea id="biography" rows="10" class="form-control" value="${user.biography}" disabled>
+            <textarea id="biography" rows="10" class="form-control" value="${user.biography}" >
             </textarea>
           </div>
         </div>
         <div class="form-group">
           <label for="researchInterest" class="control-label col-sm-6 " >Research</label>
           <div class="col-sm-12">
-            <textarea id="researchInterest" rows="10" class="form-control" value="${user.researchSum}" disabled >
+            <textarea id="researchInterest" rows="10" class="form-control" value="${user.researchSum}"  >
             </textarea>
           </div>
         </div>
@@ -186,7 +186,7 @@ function previewsForm(user){
 function signUpContactForm(user){
   return `
   <fieldset id="contact">
-        <legend>Contact</legend>
+        <legend>Place of Residence</legend>
         <div class="form-group">
           <label for="firstName" class="control-label col-sm-3 ">First Name</label>
           <div class="col-sm-8">
@@ -251,7 +251,7 @@ function signUpSpecialityForm(user){
         <div class="form-group">
           <label for="biography" class="control-label col-sm-6 " >biography</label>
           <div class="col-sm-12">
-            <textarea id="biography" rows="10" class="form-control" value="${user.biography}" >
+            <textarea id="biography" rows="10" class="form-control" value="${user.biography}">
             </textarea>
           </div>
         </div>

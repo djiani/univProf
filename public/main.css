@@ -10,7 +10,7 @@ body{
 .jumbotron{
   text-align: center;
   margin-bottom: 0;
-  background-color: #0033cc;
+  background-color: #6699ff;
   padding-top: 15px;
   padding-bottom: 15px;
 }
@@ -20,17 +20,30 @@ body{
 .navbar {
   margin-bottom: 0;
   border-radius: 0;
+  background-color: #010c7b;
 }
 
+
+.logo{
+  float: left;
+}
+.img_logo{
+  width: 145px;
+  height: 145px;
+}
 
 /*main container stylle*/
 
 .mainContainer{
-  height: 700px;
+ 
   width: 80%;
-  overflow: auto;
+  
   margin: 0 auto;
-  border: 2px solid black;
+  padding-right: 0px;
+  padding-left: 0px;
+  /*border: 2px solid black;
+  overflow: auto;
+   height: 700px;*/
   
 }
 
@@ -41,6 +54,11 @@ body{
 
 .js_displayUsers{
   margin: 0 auto;
+}
+
+.well{
+  background-color: #010c7b;
+  color: white;
 }
 
 
@@ -75,12 +93,40 @@ ul.js_user_info{
   text-align: left;
 }
 
+.bg-1{
+  background-color: #6699ff ;
+  margin: 0 auto;
+  text-align: center;
+  height: 100vh;
+ 
+  padding-top: 10px;
+}
+
+.bg-2{
+  background-color:  #31708ff5;
+  text-align: center;
+  height: 500px;
+}
+.bg-1-img{
+padding-top: 20px;
+}
+ q{
+  font-style:italic;
+  font-family: "Lucida Console";
+  color: red;
+ }
+
+
 /*side container style*/
 .sidenav {
   width: 20%;
+  height: 100vh;
   padding-top: 20px;
   padding-bottom: 20px;
-  background-color: #0033cc;
+  background-color: #6699ff;
+  border-right: 2px solid black;
+  
+  
 }
 
 .pagerUsers, .pagerForm{
@@ -190,14 +236,25 @@ fieldset{
 }
 
 footer {
-  background-color: #555;
+  background-color: #010c7b;
   color: white;
   padding: 15px;
-  height: 300px;
+  height: 40px;
 }
+
 
 /* On small screens, set height to 'auto' for sidenav and grid */
 @media only screen and (max-width: 767px) {
+  .img_logo{
+    width: 80px;
+    height: 80px;
+  }
+ 
+
+  .brand h1{
+    font-size: 2.2em;
+  }
+
   .sidenav {
     height: auto;
     padding: 15px;

@@ -284,7 +284,7 @@ function handleAddUser(){
         newUser.university = $('#university').val();
         newUser.department = $('#department').val();
         newUser.biography = $('#biography').val();
-        newUser.research = $('#researchInterest').val();
+        newUser.researchSum = $('#researchInterest').val();
         requiredField = [newUser.title, newUser.university, newUser.department];
         if(isValidField(requiredField)){
           $('#submitSignUpForm').html(signUpProfileForm(newUser));
@@ -692,6 +692,18 @@ function getUsersByCountry_search(){
   })
   
 }
+//animate header
+
+function animate_header(){
+  let events =["discovery", "collaboration", "knowledge sharing", "sense of purpose", "recognition", "motivation"];
+  let i = 0;
+  timerInter = setInterval(function(){
+    i++;
+    //console.log(i)
+    $('.header_infos').html(events[i% events.length]);
+    }, 2000);
+}
+
 
 /* main function called when DOM has be load and ready*/
 $(function(){
@@ -704,6 +716,7 @@ $(function(){
   $(".js_signInNav").on("click", function(){
     $('.pagerUsers').hide();
     $('.sidenav').hide();
+    $('footer').hide();
     $('.mainContainer').addClass('centerMainContainer');
     $(".js_displayUsers").html(signInForm());
   });
@@ -711,6 +724,7 @@ $(function(){
   $(".js_homeNav").click(function(event){
     $('.pagerUsers').hide();
     $('.sidenav').show();
+    $('footer').show();
     $('.mainContainer').removeClass('centerMainContainer');
     $(".js_displayUsers").html(homeForm());
   });
@@ -719,6 +733,7 @@ $(function(){
    // alert("test constactUs");
    $('.pagerUsers').hide();
    $('.sidenav').hide();
+   $('footer').hide();
     $('.mainContainer').addClass('centerMainContainer');
      $(".js_displayUsers").html(contactusForm());
   })
@@ -726,6 +741,7 @@ $(function(){
   $(".js_helpNav").click(function(event){
     $('.pagerUsers').hide();
     $('.sidenav').hide();
+    $('footer').hide();
     $('.mainContainer').addClass('centerMainContainer');
     $(".js_displayUsers").html('<h1> Please, come back later, we are still working on it! </h1>');
   })
@@ -747,6 +763,7 @@ $(function(){
   handleSignOut();
   handle_deleteAccount();
   viewProfileUsers();
+  animate_header();
   //Displayed users
   $(".js_getAllUsers").click(function(event){
     $('.sidenav').show();
