@@ -607,14 +607,15 @@ describe('University Api Resource', function(){
           link1: "",
           link2: ""
         }
-      }
+      };
 
       return chai.request(app)
       .get('/api/users')
       .then(function(res){
-        UpdateUser.id = res.body[0].id;
+        expect(res).to.have.status(200);
+        UpdateUser.id = res.body.users[0].id;
         return chai.request(app)
-        .put('api/users/'+UpdateUser.id)
+        .put('/api/users/'+res.body.users[0].id)
         .send(UpdateUser);
       })
       .then(function(res){
@@ -631,7 +632,7 @@ describe('University Api Resource', function(){
         .get('/api/users')
         .then(function(res){
           return chai.request(app)
-          .delete('/api/users/'+res.body[0].id);
+          .delete('/api/users/'+res.body.users[0].id);
         })
         .then(function(res){
           expect(res).to.have.status(204);
