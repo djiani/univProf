@@ -30,19 +30,22 @@ function sendEmail2() {
 }
  */
 
-function sendEmail(){
-  var from, subject, message;
-  from = $('#from').val();
-  subject = $('#subject').val();
-  message = $('#message').val();
+function sendEmail(from, to, subject, message ){
+  
   $.get('/send', 
-    {from:from, subject:subject, message:message}, 
+    {from:from, to:to, subject:subject, message:message}, 
     function(data){
       if(data == 'sent'){
         alert('your email was successful sent');
         $('#subject').val("");
         $('#message').val("");
-        from = $('#from').val("");
+        $('#from').val("");
+
+        $('#from_email').val("");
+        $('#to_email').val("");
+        $('#subject_email').val("");
+        $('#message').val("");
+
       }else{
         alert('Oupppsss!!!, something went wrong!!!, Try again!!');
       }
@@ -63,6 +66,42 @@ function sendEmail(){
 function displaysMoreInfos(data){
   console.log('data:');
   console.log(data);
+  $('.mainContainer').on('click', '.btn_email_me', function(event){
+    let toemail = $(event.currentTarget).attr("data-email");
+    const authToken = loadAuth('authToken');
+    $.ajax({
+      method: 'GET',
+      url: '/api/protected',
+      headers: {
+              // Provide our username and password as login credentials
+        Authorization: `Bearer ${authToken}`
+      },
+      success: function(data){
+  
+    
+        $('#from_email').val(data.user.email);
+        $('#to_email').val(toemail);
+        $("#modal_email_me").modal({backdrop:true});
+      },
+      error:function(err){
+        alert('Acess denied: You are not authorized to email this user. logging first to identified yourself!');
+      }
+    });
+
+  });
+
+  $('.mainContainer').on('click', '.send_email_me', function(event){
+    event.preventDefault();
+    let from =  $('#from_email').val();
+    let to = $('#to_email').val();
+    let subject = $('#subject_email').val();
+    let message = $('#message').val();
+    if(from === "" || to=== ""){
+      alert('Please, fill all the field!!');
+    }else{
+      sendEmail(from, to, subject, message);}
+  })
+
   $('.mainContainer').on('click', '.js_displayMoreDetails', function(event){
     let id = $(event.currentTarget).attr("data-id");
     console.log(id);
@@ -102,9 +141,11 @@ function renderUsers(data, ){
        let usersElts = data.map(function(user){
           let element = $(userTemplate());
           element.find('.js_displayMoreDetails').attr("data-id", user.id);
+          element.find('.btn_email_me').attr("data-email", user.email);
           if(user.img){
             element.find('.js_profite_pict').attr("src", URL_ENDPOINT+user.img);
           }
+
           element.find('.js_user_info').append(
             `<li><b>Dr. ${user.userName.firstName} ${user.userName.lastName} </b></li>
             <li>${user.title} </li>
@@ -127,7 +168,7 @@ function renderUsers(data, ){
 
 function renderUsers2(data){
     let min = 0;
-    let stepSize = 12;
+    let stepSize = 3;
     let max = stepSize;
     //console.log('1-min: '+min+' max: '+max +' len: '+data.length);
     if(data.length > max){
@@ -146,6 +187,7 @@ function renderUsers2(data){
         //console.log('2-min: '+min+' max: '+max +' len: '+data.length);
         renderUsers(data);
         $(".pagerUsers").hide();
+
     }
 
     $(".nextUsers").click(function(event){
@@ -923,7 +965,12 @@ $(function(){
     $('.pagerUsers').hide();
     $('.sidenav').hide();
     $('.mainContainer').addClass('centerMainContainer');
-    sendEmail();
+    var from,to, subject, message;
+    from = $('#from').val();
+    subject = $('#subject').val();
+    message = $('#message').val();
+    to = 'camunivprof@gmail.com';
+    sendEmail(from, to, subject, message);
   });
 
 

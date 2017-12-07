@@ -10,6 +10,7 @@ const {
 
 const {Users} = require('../users/models');
 const {JWT_SECRET} = require('../config');
+console.log("JWT_SECRET: "+ JWT_SECRET);
 
 const basicStrategy = new BasicStrategy((email, password, callback) => {
     let user;

@@ -588,13 +588,54 @@ describe('University Api Resource', function(){
   describe('PUT', function(){
     it('should upate the email user', function(){
       //TODO
+      const UpdateUser = {  
+        title: "Assistant Professor",
+        userName: {
+          firstName: faker.name.firstName(),
+          lastName: faker.name.lastName()
+        },
+        tel: faker.phone.phoneNumber,
+        region: "North America",
+        country: faker.address.country(),
+        state: faker.address.state(),
+        university: "New Mexico State University",
+        department: "Computer Science",
+        researchSum: faker.lorem.sentence(),
+        biography: faker.lorem.sentence(),
+        img: faker.image.imageUrl,
+        link: {
+          link1: "",
+          link2: ""
+        }
+      }
+
+      return chai.request(app)
+      .get('/api/users')
+      .then(function(res){
+        UpdateUser.id = res.body[0].id;
+        return chai.request(app)
+        .put('api/users/'+UpdateUser.id)
+        .send(UpdateUser);
+      })
+      .then(function(res){
+        expect(res).to.have.status(204);
+      })
     })
   })
-
+    
 
   describe('DELETE', function(){
-    it('should upate the email user', function(){
+    it('should delete the first user in the list', function(){
         //TODO
+        return chai.request(app)
+        .get('/api/users')
+        .then(function(res){
+          return chai.request(app)
+          .delete('/api/users/'+res.body[0].id);
+        })
+        .then(function(res){
+          expect(res).to.have.status(204);
+        });
     })
   })
 })

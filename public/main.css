@@ -75,7 +75,7 @@ body{
 .js_user{
   display: inline-block;
   width: 200px;
-  height: 230px;
+  height: 250px;
   overflow: auto;
   border:1px solid black;
   margin: 5px;

@@ -419,6 +419,9 @@ function userTemplate(){
         </a>
         </div> 
           <ul class="js_user_info"> </ul>
+          <div class="email_me">
+          <button type="button" class="btn btn-primary btn_email_me" data_email="">Email Me</button>
+          </div>
       </div>
   `
 }

@@ -124,10 +124,9 @@ app.get('/send',function(req,res){
     }
   });
   var mailOptions={
-    sender: req.query.from,
     from: req.query.from,
-    to : EMAIL,
-    subject : 'from: '+req.query.from +' subject: '+ req.query.subject,
+    to : req.query.to,
+    subject : 'message from: '+req.query.from +' \nsubject: '+ req.query.subject,
     text : req.query.message
   }
   console.log(mailOptions);
