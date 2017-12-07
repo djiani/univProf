@@ -54,6 +54,8 @@ body{
 
 .js_displayUsers{
   margin: 0 auto;
+  padding-bottom: 30px;
+  background-color: #6699ff /*#f7f7f7*/;
 }
 
 .well{
@@ -93,27 +95,37 @@ ul.js_user_info{
   text-align: left;
 }
 
-.bg-1{
-  background-color: #6699ff ;
+.bg_1{
+  /*background-color: #6699ff ;*/
+
   margin: 0 auto;
   text-align: center;
   height: 100vh;
- 
+  overflow: auto;
   padding-top: 10px;
 }
 
-.bg-2{
+.bg_2{
   background-color:  #31708ff5;
   text-align: center;
   height: 500px;
 }
-.bg-1-img{
-padding-top: 20px;
+
+.bg_1_img{
+  padding: 20px;
+  width: 100%;
+  height: auto;
 }
+
+#bg_1_img2{
+  width: 80%;
+  height: auto;
+}
+
  q{
   font-style:italic;
   font-family: "Lucida Console";
-  color: red;
+  color: white;
  }
 
 
@@ -123,8 +135,8 @@ padding-top: 20px;
   height: 100vh;
   padding-top: 20px;
   padding-bottom: 20px;
-  background-color: #6699ff;
-  border-right: 2px solid black;
+  /*background-color: #6699ff;
+  border-right: 2px solid black;*/
   
   
 }
@@ -134,14 +146,20 @@ padding-top: 20px;
 }
 
 
-
-
-
 /* contact us*/
 .contactContainer{
- width: 90%;
+ width: 70%;
+ padding: 50px;
  margin-right: auto;
  margin-left: auto;
+ background-color: white;
+}
+
+.contactUsHeader{
+  text-align: center;
+}
+.contactUsHeader >h2{
+  color: #337ab7;
 }
 
 .inputlength{
@@ -163,10 +181,16 @@ padding-top: 20px;
 .signUpForm{
   width: 70%;
   margin:0 auto;
+  background-color: white;
+  padding: 30px;
 }
 
 .signUp_headerText{
+  padding-top: 20px; 
   text-align: center;
+}
+.signUp_headerText > h2{
+  color: #337ab7;
 }
 
 
@@ -180,7 +204,6 @@ fieldset{
   border:1px solid black;
   width: 60%;
 }
-
 
 
 #profileImgUpload{
@@ -199,26 +222,28 @@ fieldset{
   padding: 15px;
 }
 
-.block_to_Center{
+.block_to_Center, .btn_submit{
   width: 60%;
   margin: 0 auto;
 }
+
 .AddSpace{
   margin-bottom: 10px;
 }
 /* style sign in  */
 .loginContainer{
-  width: 50%;
+  width: 60%;
   margin-right: auto;
   margin-left: auto;
-  margin-top: 30px;
-  padding: 30px;
-  border:1px solid black;
+  padding: 50px;
+  background-color: white;
+  
    
 }
 
 .loginContainer h2{
   text-align: center;
+  color: #337ab7;
 }
 
 .CancelButton{
@@ -235,12 +260,27 @@ fieldset{
   text-align: center;
 }
 
+/*previews profile users  */
+.updateProfile{
+  margin-top: 20px;
+
+}
+
+.saveProfileUsers{
+  margin-bottom: 20px;
+}
+
+.required_field{
+  color:red;
+}
+
 footer {
   background-color: #010c7b;
   color: white;
   padding: 15px;
   height: 40px;
 }
+
 
 
 /* On small screens, set height to 'auto' for sidenav and grid */
@@ -273,6 +313,10 @@ footer {
   }
 
   fieldset{
+    width: 100%;
+  }
+
+  #bg_1_img2{
     width: 100%;
   }
 

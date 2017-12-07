@@ -1,48 +1,35 @@
 const URL_ENDPOINT = 'https://s3.us-east-2.amazonaws.com/awsunivprof/';
+
 function homeForm(){
   return `
-  <div>
-  <!-- http://www.quandora.com/10-reasons-to-share-knowledge/ -->
-  <h1>Welcome to Research Exchange Platform</h1>
-  <p>This platform is reserve to university professors: 
-  <ul>
-  <li>who love to share their researchs to the rest of the world</li>
-  <li>who love to Collaborate with others professionels in the field</li>
-  <li>who love to share their exprience</li>
-  <li>who love ...</li>
-  </ul>
-  Some benefits on sharing and collabrating on projects:
-  <ul>
-  <li>It helps you grow</li>
-  <li>It helps you stay motivated</li>
-  <li>Getting top talent access</li>
-  <li>Recognition</li>
-  <li>Generating new ideas</li>
-  <li>Future leaders discovery</li>
-  <li>Limiting the skill gap</li>
-  <li>Team cementing and silo breaking</li>
-  <li>Sense of purpose</li>
-  <li>Operational efficiency</li>
-  </ul>
+  <div class="bg_1">
+    <h1 id="big_1_h1">Connect with your colleagues around the world</h1>
+    <h3>Let other people know about your research </h3>
+    <q>Unity is strength... when there is teamwork and collaboration, wonderful things can be achieved</q>
+    <div class="bg_1_img">
+      <img src="https://s3.us-east-2.amazonaws.com/awsunivprof/univprof_img2.jpg" id="bg_1_img2">
+    </div>
 
-  <q>
-  When you dream of conquering the world and you fill your agenda with daunting projects, 
-  it’s often necessary to equip yourself with a large mug of coffee and with the right people. 
-  Any successful project, be it big or small, has one thing at its core: effective collaboration,
-  and you can achieve it with knowledge sharing
-  </q>
-
-  </p>
-
+     <q>
+        When you dream of conquering the world and you fill your agenda with daunting projects <br>
+        it’s often necessary to equip yourself with a large mug of coffee and with the right people.<br>
+        Any successful project, be it big or small, has one thing at its core:<br> effective collaboration,
+        and you can achieve it with knowledge sharing.
+      </q>
   </div>
   `;
 }
 function previewsForm(user){
   return  `
-      <fieldset>
+      <div class="form-group updateProfile">
+        <div class="col-sm-2">
+          <button type="button" class="btn btn-primary form-control btnUpdateProfile" > updateProfile </button>
+        </div>
+      </div> 
+      <fieldset id="imgProfileUsers" disabled>
         <div class="block_to_Center">
           <div class="profileImage AddSpace" >
-            <button id="upload_image" class="btn btn-default form-control" hidden>Upload Image</button>
+            <button id="upload_image" class="btn btn-default form-control" >Upload Image</button>
             <input type="file" name="image" id="image_to_upload" accept="image/*" >
           </div>
           <div id="profileImgUpload" class="block_to_Center"> 
@@ -51,11 +38,11 @@ function previewsForm(user){
           <div hidden><p>filename:<span class="photo_filename">${user.img}</span></p></div>
         </div>
       </fieldset>
-      <fieldset>
+      <fieldset id="cvProfileUsers" disabled>
         <div class="block_to_Center">
         <h3>Upload your CV </h3>
           <div >
-            <button id="upload_cv" class="btn btn-default form-control" disabled >Upload your CV</button>
+            <button id="upload_cv" class="btn btn-default form-control" >Upload your CV</button>
             <input type="file"  id="cv_to_upload"  value="Upload CV"  >
           </div>
           <div><p>CV filename: <span class="cv_filename">${user.cv}</span></p></div>
@@ -67,118 +54,126 @@ function previewsForm(user){
         <div class="block_to_Center">
           <h3>Add your personal link </h3>
           <div class="AddSpace">
-            <input type="text"  class=" form-control " id="link_1" value="${user.link.link1}" disabled>
+            <input type="text"  class=" form-control " id="link_1" value="${user.link.link1}" >
           </div>
           <div class="AddSpace">
-            <input type="text"  class=" form-control " id="link_2" value= "${user.link.link2}" disabled>
+            <input type="text"  class=" form-control " id="link_2" value= "${user.link.link2}" >
           </div>
         </div>  
       </fieldset>
-      <fieldset id="contact">
+      <div id="contactBlock">
+      <fieldset id="contact" disabled>
         <legend>Contact</legend>
         <div class="form-group">
           <label for="firstName" class="control-label col-sm-3 ">First Name</label>
           <div class="col-sm-8">
-            <input type="text" class="form-control" id="firstName" value="${user.userName.firstName}"  >
+            <input type="text" class="form-control" id="firstName" value="${user.userName.firstName}" >
           </div>
         </div>
         <div class="form-group">
           <label for="lastName" class="control-label col-sm-3 ">Last Name</label>
           <div class="col-sm-8">
-            <input type="text" class="form-control" id="lastName" value="${user.userName.lastName}" disabled >
+            <input type="text" class="form-control" id="lastName" value="${user.userName.lastName}" >
           </div>
         </div>
         <div class="form-group">
           <label for="tel" class="control-label  col-sm-3 ">Phone Number</label>
           <div class="col-sm-8">
-            <input type="tel" class="form-control" id="tel" value="${user.tel}"  disabled>
+            <input type="tel" class="form-control" id="tel" value="${user.tel}" >
           </div>
         </div>
+        
         <div class="form-group">
           <label for="regionSelect" class="control-label col-sm-3 ">Region</label>
           <div class="col-sm-8">
-            <input type="text" class="form-control" id="regionSelect" value="${user.region}" disabled >
+            <input type="text" class="form-control" id="regionSelect" value="${user.region}" >
           </div>
         </div>
         <div class="form-group">
           <label for="country" class="control-label col-sm-3 ">Country</label>
           <div class="col-sm-8">
-            <input type="text" class="form-control" id="country"  value="${user.country}" disabled >
+            <input type="text" class="form-control" id="country"  value="${user.country}" >
           </div>
         </div>
         <div class="form-group">
           <label for="state" class="control-label col-sm-3 ">State/City</label>
           <div class="col-sm-8">
-            <input type="text" class="form-control" id="state" value="${user.state}" disabled >
+            <input type="text" class="form-control" id="state" value="${user.state}"  >
           </div>
         </div>
       </fieldset>
-      <fieldset id="speciality">
+      </div>
+      <fieldset id="speciality" disabled>
         <legend>Speciality</legend>
         <div class="form-group">
-          <label for="title" class="control-label col-sm-3 ">Title</label>
+          <label for="title" class="control-label col-sm-3 ">Current Position</label>
           <div class="col-sm-8">
-            <input type="text" class="form-control" id="title" value="${user.title}" disabled >
+            <input type="text" class="form-control" id="title" value="${user.title}"  >
           </div>
         </div>
         <div class="form-group">
           <label for="university" class="control-label col-sm-3 ">University</label>
           <div class="col-sm-8">
-            <input type="text"  class="form-control " id="university" value="${user.university}" disabled >
+            <input type="text"  class="form-control " id="university" value="${user.university}"  >
           </div>
         </div>
         <div class="form-group">
           <label for="department" class="control-label col-sm-3 ">Department</label>
           <div class="col-sm-8">
-            <input type="text" class="form-control" id="department" value="${user.department}" disabled>
+            <input type="text" class="form-control" id="department" value="${user.department}" >
           </div>
         </div>
         <div class="form-group">
-          <label for="biography" class="control-label col-sm-6 " >biography</label>
+          <label for="biography" class="control-label col-sm-6 " >Biography</label>
           <div class="col-sm-12">
-            <textarea id="biography" rows="10" class="form-control" value="${user.biography}" >
+            <textarea id="biography" rows="10" class="form-control"  >
             </textarea>
           </div>
         </div>
         <div class="form-group">
           <label for="researchInterest" class="control-label col-sm-6 " >Research</label>
           <div class="col-sm-12">
-            <textarea id="researchInterest" rows="10" class="form-control" value="${user.researchSum}"  >
+            <textarea id="researchInterest" rows="10" class="form-control" >
             </textarea>
           </div>
         </div>
       </fieldset>
-      <fieldset id="loginAccount">
+      <fieldset class="loginAccount" disabled>
         <legend>Login Account</legend>
         <div class="form-group">
           <label for="email" class="control-label col-sm-2 ">Email</label>
           <div class="col-sm-8">
-            <input type="email" class="form-control" id="email" value="${user.email}" disabled>
+            <input type="email" class="form-control" id="email" value="${user.email}" >
           </div>
         </div>
         <div class="form-group  has-feedback">
           <label for="password" class="control-label col-sm-2 ">Password</label>
           <div class="col-sm-8">
-            <input type="password" class="form-control" id="password" value="${user.password}" disabled >
+            <input type="password" class="form-control" id="password" value="${user.password}"  >
           </div>
           <span id="pwdChecked"></span>
         </div>
         <div class="form-group ">
           <label for="ReEnterpassword" class="control-label col-sm-2 ">ReEnter-Password</label>
           <div class="reepasspord_div col-sm-8 has-feedback">
-            <input type="password" class="form-control" id="reEnterpassword" value="${user.password}" disabled>
+            <input type="password" class="form-control" id="reEnterpassword" value="${user.password}" >
             <span class="glyphicon  form-control-feedback"></span>
           </div>
         </div>
-      
-        <div class="form-group">
-          <div class="col-sm-8">
-            <button type="submit" class="btn btn-default form-control" > Submit</button>
-          </div>
-        </div> 
-
       </fieldset>
-    
+      <div class="form-group loginAccount block_to_Center">
+        <div class="btn_submit">
+          <button type="submit" class="btn btn-success form-control" > Submit</button>
+        </div>
+      </div>
+      <div class="form-group block_to_Center saveProfileUsers" >
+        <div class="col-sm-6">
+          <button type="button" class="btn btn-danger form-control btn_cancelUpdateProfile" > cancel</button>
+        </div>
+        <div class="col-sm-6">
+          <button type="button" class="btn btn-success form-control btn_saveUpdateProfile" > save </button>
+        </div>
+      </div> 
     
    
         `
@@ -188,13 +183,13 @@ function signUpContactForm(user){
   <fieldset id="contact">
         <legend>Place of Residence</legend>
         <div class="form-group">
-          <label for="firstName" class="control-label col-sm-3 ">First Name</label>
+          <label for="firstName" class="control-label col-sm-3 ">First Name<span class="required_field">*</span></label>
           <div class="col-sm-8">
             <input type="text" class="form-control" id="firstName" value="${user.userName.firstName}" required >
           </div>
         </div>
         <div class="form-group">
-          <label for="lastName" class="control-label col-sm-3 ">Last Name</label>
+          <label for="lastName" class="control-label col-sm-3 ">Last Name <span class="required_field">*</span> </label>
           <div class="col-sm-8">
             <input type="text" class="form-control" id="lastName" value="${user.userName.lastName}"  required >
           </div>
@@ -206,19 +201,19 @@ function signUpContactForm(user){
           </div>
         </div>
         <div class="form-group">
-          <label for="regionSelect" class="control-label col-sm-3 ">Region</label>
+          <label for="regionSelect" class="control-label col-sm-3 ">Region <span class="required_field">*</span> </label>
           <div class="col-sm-8">
             <select name="Region" class="form-control" id="regionSelect" > </select>
           </div>
         </div>
         <div class="form-group">
-          <label for="country" class="control-label col-sm-3 ">Country</label>
+          <label for="country" class="control-label col-sm-3 ">Country <span class="required_field">*</span> </label>
           <div class="col-sm-8">
             <select name="country" id="country" class="form-control"> </select>
           </div>
         </div>
         <div class="form-group">
-          <label for="state" class="control-label col-sm-3 ">State/City</label>
+          <label for="state" class="control-label col-sm-3 ">State/City <span class="required_field">*</span> </label>
           <div class="col-sm-8">
             <select name="state" id="state" class="form-control"> </select>
           </div>
@@ -231,19 +226,19 @@ function signUpSpecialityForm(user){
   <fieldset id="speciality">
         <legend>Speciality</legend>
         <div class="form-group">
-          <label for="title" class="control-label col-sm-3 ">Title</label>
+          <label for="title" class="control-label col-sm-3 ">Current Position <span class="required_field">*</span> </label>
           <div class="col-sm-8">
             <input type="text" class="form-control" id="title" value="${user.title}"  required >
           </div>
         </div>
         <div class="form-group">
-          <label for="university" class="control-label col-sm-3 ">University</label>
+          <label for="university" class="control-label col-sm-3 ">University <span class="required_field">*</span> </label>
           <div class="col-sm-8">
             <input type="text"  class="form-control " id="university" value="${user.university}"  required >
           </div>
         </div>
         <div class="form-group">
-          <label for="department" class="control-label col-sm-3 ">Department</label>
+          <label for="department" class="control-label col-sm-3 ">Department <span class="required_field">*</span> </label>
           <div class="col-sm-8">
             <input type="text" class="form-control" id="department" value="${user.department}" required >
           </div>
@@ -271,20 +266,20 @@ function signUpLoginForm(user){
   <fieldset id="loginAccount">
         <legend>Login Account</legend>
         <div class="form-group">
-          <label for="email" class="control-label col-sm-2 ">Email</label>
+          <label for="email" class="control-label col-sm-2 ">Email <span class="required_field">*</span> </label>
           <div class="col-sm-8">
             <input type="email" class="form-control" id="email" value="${user.email}" required >
           </div>
         </div>
         <div class="form-group  has-feedback">
-          <label for="password" class="control-label col-sm-2 ">Password</label>
+          <label for="password" class="control-label col-sm-2 ">Password <span class="required_field">*</span> </label>
           <div class="col-sm-8">
             <input type="password" class="form-control" id="password" value="${user.password}" required >
           </div>
           <span id="pwdChecked"></span>
         </div>
         <div class="form-group ">
-          <label for="ReEnterpassword" class="control-label col-sm-2 ">ReEnter-Password</label>
+          <label for="ReEnterpassword" class="control-label col-sm-2 ">ReEnter-Password <span class="required_field">*</span> </label>
           <div class="reepasspord_div col-sm-8 has-feedback">
             <input type="password" class="form-control" id="reEnterpassword" value="${user.password}"  required>
             <span class="glyphicon  form-control-feedback"></span>
@@ -308,7 +303,7 @@ function signUpProfileForm(user){
             <button id="upload_image" class="btn btn-default form-control" >Upload Image</button>
             <input type="file" name="image" id="image_to_upload" accept="image/*" >
           </div>
-          <div id="profileImgUpload" class="block_to_Center"> 
+          <div id="profileImgUpload" > 
             <img src= ${URL_ENDPOINT}${user.img} alt="profile picture" id="imgsrc">
           </div>
           <div hidden><p>filename:<span class="photo_filename">${user.img}</span></p></div>
@@ -345,9 +340,8 @@ function signUpForm(){
   return  `
   <div class="signUpForm">
     <div class="signUp_headerText">
-      <h2>Create Your Free Account and Upload Your Resume</h2>
-      <p>If You are a university professor or research professor and you like to share your knowledge
-      and Collaborate with others professors, please fill the form below! </p>
+      <h2>Creating Your free Account...</h2>
+      <p> Please, fill the form below and click next to continue </p>
     </div>
     <div >
       <form class="form-horizontal" id='submitSignUpForm'>
@@ -382,7 +376,7 @@ function signInForm(){
             <label><input type="checkbox" name="remember"> Remember me</label>
           </div>
           <div class="form-group ">
-          <button type="submit" class="btn btn-default form-control">Submit</button>
+          <button type="submit" class="btn btn-primary form-control">Submit</button>
           </div>
         </form>
         <p><a href="">Forgot your password?</a> Not a member, <a href="#signUp" class="js_signUp2">SignUp</a> </p>
@@ -394,18 +388,22 @@ function signInForm(){
 function contactusForm(){
   return  `
       <div class="container contactContainer">
-        <h2>We love your feedback! </h2>
-        <p>For any Questions or concerns you might have, Email us  Your feedback will help us improve your expewrience. To protect your privacy, 
-          please, do not enter personal information or account information here
-        </p>
+        <div class='contactUsHeader'>
+          <h2>We love your feedback! </h2>
+          <p>Use the form below to send us your comments or report any problems you experienced finding information on our website. 
+          Your feedback is very important to us to improve this website.</p> 
+          <p>Note: To protect your privacy, 
+            please, do not enter personal information or sensible information here.
+          </p>
+        </div>
         <div>
-          <label for="email">Email</label>
-          <input id="email" type="email" placeholder="email@example.com" class="form-control inputlength">
+          <label for="from">Email</label>
+          <input id="from" type="email" placeholder="your_email@example.com" class="form-control inputlength">
           <label for="subject">Suject</label>
           <input id="subject" type="text" placeholder="type your subject here" class="form-control inputlength">
           <label for="message" class="">Message</label>
           <textarea id="message" rows="10" required>Type your message here</textarea>  
-          <a href="" id="mail-link" class="btn btn-primary">Send</a>
+          <a href="" id="send_email" class="btn btn-primary">Send</a>
         </div>
       </div> 
   `

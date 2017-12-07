@@ -9,6 +9,7 @@ const fileUpload = require('express-fileupload');
 const S3FS = require('s3fs');
 const fs = require('fs'); 
 const AWS = require('aws-sdk');
+const nodemailer = require('nodemailer');
 
 //const multiparty = require('connect-multiparty');
 //const multipartyMiddleware = multiparty();
@@ -26,7 +27,7 @@ const {router: authRouter, basicStrategy, jwtStrategy} = require('./auth');
 
 mongoose.Promise = global.Promise;
 
-const {PORT, DATABASE_URL, AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY, S3_BUCKET, S3_REGION} = require('./config');
+const {PORT, DATABASE_URL, AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY, S3_BUCKET, S3_REGION, EMAIL, EMAIL_PASS} = require('./config');
 
 const app = express();
 
@@ -107,6 +108,41 @@ app.get('/api/upload', (req, res) => {
   });
 });
 
+
+
+//send email
+
+app.get('/send',function(req,res){
+  console.log("email:"+EMAIL +"  pass:"+EMAIL_PASS);
+  var smtpTransport = nodemailer.createTransport({
+    service: "Gmail",
+    host: "smtp.gmail.com",
+    secure: false,
+    auth: {
+        user: EMAIL,
+        pass: EMAIL_PASS
+    }
+  });
+  var mailOptions={
+    sender: req.query.from,
+    from: req.query.from,
+    to : EMAIL,
+    subject : 'from: '+req.query.from +' subject: '+ req.query.subject,
+    text : req.query.message
+  }
+  console.log(mailOptions);
+  smtpTransport.sendMail(mailOptions, function(error, response){
+    if(error){
+      console.log(error);
+      res.end("error");
+    }else{
+      console.log("Message sent: " );
+      console.log(response);
+      res.end("sent");
+    }
+  });
+
+});
 
 /*
  ContentLength: req.query.size

@@ -16,17 +16,38 @@ const USERS_URL_COUNTRY = '/api/users/country';
   let URL_PHOTO = '';
   let URL_CV = '';
 
-/*take care of this direct message sending */
-function sendEmail() {
+/*take care of this direct message sending
+function sendEmail2() {
     var mailString;
     function updateMailString() {
         mailString = '?subject=' + encodeURIComponent($('#subject').val())
         + '&body=' + encodeURIComponent($('#message').val());
-        $('#mail-link').attr('href',  'mailto:djiasara@gmail.com' + mailString);
+        $('#send_email').attr('href',  'mailto:djiasara@gmail.com' + mailString);
     }
     $( "#subject" ).focusout(function() { updateMailString(); });
     $( "#message" ).focusout(function() { updateMailString(); });
     updateMailString();
+}
+ */
+
+function sendEmail(){
+  var from, subject, message;
+  from = $('#from').val();
+  subject = $('#subject').val();
+  message = $('#message').val();
+  $.get('/send', 
+    {from:from, subject:subject, message:message}, 
+    function(data){
+      if(data == 'sent'){
+        alert('your email was successful sent');
+        $('#subject').val("");
+        $('#message').val("");
+        from = $('#from').val("");
+      }else{
+        alert('Oupppsss!!!, something went wrong!!!, Try again!!');
+      }
+    })
+
 }
 
 /*
@@ -255,10 +276,13 @@ function handleAddUser(){
     $('.mainContainer').addClass('centerMainContainer');
     $('.pagerUsers').hide();
     $(".pagerForm").show();
+    $('footer').hide();
     $(".js_displayUsers").html(signUpForm());
     $('#submitSignUpForm').html(signUpContactForm(newUser));
+    $('#signUp_headerText').html(`<h2>Creating Your free Account...</h2>
+      <p> Please, fill the form below and click next to continue </p>`);
     $(".backForm").hide();
-    setCountryValue($(".js_signUpNav"));
+    init_CountryValue();
     
   });
   $(".mainContainer").on('click', '.nextForm', function(event){
@@ -272,6 +296,8 @@ function handleAddUser(){
         requiredField = [newUser.userName.firstName, newUser.userName.lastName,newUser.region, newUser.country, newUser.state];
         if(isValidField(requiredField)){
           $('#submitSignUpForm').html(signUpSpecialityForm(newUser));
+          $('#signUp_headerText').html(`<h2>Creating Your free Account...</h2>
+      <p> Please, fill the form below and click next to continue </p>`);
           $(".backForm").show();
           indexForm++;
         }else{
@@ -288,6 +314,8 @@ function handleAddUser(){
         requiredField = [newUser.title, newUser.university, newUser.department];
         if(isValidField(requiredField)){
           $('#submitSignUpForm').html(signUpProfileForm(newUser));
+          $('#signUp_headerText').html(`<h2>Creating Your free Account...</h2>
+      <p> Please, fill the form below and click next to continue </p>`);
           indexForm++;
         }
         else{
@@ -306,6 +334,9 @@ function handleAddUser(){
           emailFlag = false;       
         }
         $('#submitSignUpForm').html(signUpLoginForm(newUser));
+        $('#signUp_headerText').html(`<h2>Creating Your free Account...</h2>
+      <p> Please, fill the form below and click next to continue </p>
+      <Note: your password should be at lease 5 characters long`);
         indexForm++;
         submitFlag= false;
       break;
@@ -315,6 +346,15 @@ function handleAddUser(){
         requiredField = [newUser.email, newUser.password];
       if(isValidField(requiredField)){
         $('#submitSignUpForm').html(previewsForm(newUser));
+        $('#signUp_headerText').html(`<h2>Creating Your free Account...</h2>
+      <p> Please, revised your information below and click submit to submit to register your free account.</p>`);
+        //update biography and researchInterest field
+        document.getElementById('biography').value= newUser.biography;
+        document.getElementById('researchInterest').value= newUser.researchSum;
+        //hidden approriate field
+        $('.saveProfileUsers').hide();
+        $('.updateProfile').hide();
+        $('.loginAccount').show();
         $(".nextForm").hide();
         indexForm++;
         submitFlag = true;
@@ -334,22 +374,32 @@ function handleAddUser(){
     switch(indexForm){
       case 0:
         $('#submitSignUpForm').html(signUpContactForm(newUser));
-        newUser.region = "";
-        newUser.country = "";
-        newUser.state = "";
-        setCountryValue($(".js_signUpNav"));
+        $('#signUp_headerText').html(`<h2>Creating Your free Account...</h2>
+      <p> Please, fill the form below and click next to continue </p>`);
+        //newUser.region = "";
+        //newUser.country = "";
+        //newUser.state = "";
+        set_CountryValue(newUser);
+        update_CountryValue();
         $(".backForm").hide();
       break;
       case 1:
          $('#submitSignUpForm').html(signUpSpecialityForm(newUser));
+         $('#signUp_headerText').html(`<h2>Creating Your free Account...</h2>
+      <p> Please, fill the form below and click next to continue </p>`);
          submitFlag= false;
       break;
       case 2:
         $('#submitSignUpForm').html(signUpProfileForm(newUser));
+        $('#signUp_headerText').html(`<h2>Creating Your free Account...</h2>
+      <p> Please, fill the form below and click next to continue </p>`);
         submitFlag= false;
       break;
       case 3:
         $('#submitSignUpForm').html(signUpLoginForm(newUser));
+        $('#signUp_headerText').html(`<h2>Creating Your free Account...</h2>
+      <p> Please, fill the form below and click next to continue </p>
+      <Note: your password should be at lease 5 characters long`);
         submitFlag= false;
       break; 
     }
@@ -393,11 +443,14 @@ function handleAddUser(){
   $(".mainContainer").on("change", "#regionSelect", function(event){
     let targetRegion = event.currentTarget;
     newUser.region = targetRegion.options[targetRegion.selectedIndex].text;
+    newUser.country = "";
+    newUser.state = "";
   });
 
   $(".mainContainer").on("change","#country", function(event){
     let targetCountry= event.currentTarget;
     newUser.country = targetCountry.options[targetCountry.selectedIndex].text;
+    newUser.state = "";
   });
 
   $(".mainContainer").on("change","#state", function(event){
@@ -462,11 +515,16 @@ function logginUser(login){
     $.ajax({
         method: 'POST',
         url: AUTH_URL_LOGIN,
-        headers: {
+        
+        //headers: {
                 // Provide our username and password as login credentials
-                "Authorization": `Basic ${token}`
+               // "Authorization": `Basic ${token}`
                 
-            },
+            //},
+        beforeSend: function (xhr){ 
+          xhr.setRequestHeader('Authorization', `Basic ${token}`); 
+          xhr.setRequestHeader('WWW-Authenticate', ""); //???? try to block the pop dialog when fail to login 
+        },
         success: function(authData){
             console.log('successful login! welcome To this website');
             //console.log(authData);
@@ -481,9 +539,8 @@ function logginUser(login){
             //$(".js_displayUsers").html(signInForm());
             $(".js_homeNav").trigger('click');
         },
-        error: function(err){
-          console.log('oupppssss!! login fail '+ err);
-            //console.log(err);
+        error: function(xhr, ajaxOptions, throwError){
+          console.log(xhr); 
         }
         
 
@@ -562,7 +619,7 @@ function handle_deleteAccount(){
 }
 function viewProfileUsers(){
   $(".js_profileNav").click(function(){
-    alert('view profile');
+    //alert('view profile');
     const authToken = loadAuth('authToken');
     $.ajax({
       method: 'GET',
@@ -577,9 +634,19 @@ function viewProfileUsers(){
   
           // get user form  the data based with id. 
         //$(".js_displayUsers").html('<p> Access protected data '+data.user.name+' <p>');
+        $('.sidenav').hide();
+        //$('footer').hide();
+        $('.mainContainer').addClass('centerMainContainer');
         $('.js_displayUsers').html(previewsForm(data.user));
-
-        $('.signUp_headerText').html(`<h2> Welcome ${data.user.userName.firstName} ${data.user.userName.lastName} </h2> `);
+        //update biography and researchInterest field
+        document.getElementById('biography').value = data.user.biography;
+        document.getElementById('researchInterest').value = data.user.researchSum;
+        //hiden appropriate field
+        $('.loginAccount').hide();
+        $('.saveProfileUsers').hide();
+        $('.updateProfile').show();
+        updateProfileUsers(data.user);
+        //$('.signUp_headerText').html(`<h2> Welcome ${data.user.userName.firstName} ${data.user.userName.lastName} </h2> `);
         /*$('#firstName').val(data.user.userName.firstName);
         $('#lastName').val(data.user.userName.lastName);
         $('#tel').val(data.user.tel);
@@ -597,7 +664,7 @@ function viewProfileUsers(){
         
         $('.cv_filename').text(data.user.cv);
         $('#imgsrc').src = URL_ENDPOINT+data.user.img;
-        $('#loginAccount').hide();
+        $('.loginAccount').hide();
         $('#speciality').disable = true;
         $('#contact').disable = true;*/
       },
@@ -611,6 +678,110 @@ function viewProfileUsers(){
     })
   })
   
+}
+
+function updateProfileUsers(user){
+  $('.mainContainer').on('click', '.btnUpdateProfile', function(event){
+    $('.btnUpdateProfile').hide();
+    $('.saveProfileUsers').show();
+    //enable all button
+    $('#imgProfileUsers').attr('disabled', false);
+    $('#cvProfileUsers').attr('disabled', false);
+    $('#contact').attr('disabled', false);
+    $('#speciality').attr('disabled', false);
+    $('#imgProfileUsers').attr('disabled', false);
+    $('#contactBlock').html(signUpContactForm(user));
+    //user.region = "";
+   //user.country = "";
+    //user.state = "";
+    //init_CountryValue();
+    set_CountryValue(user);
+    update_CountryValue();
+
+  });
+
+  $(".mainContainer").on("change", "#regionSelect", function(event){
+    let targetRegion = event.currentTarget;
+    user.region = targetRegion.options[targetRegion.selectedIndex].text;
+    user.country = "";
+    user.state = "";
+  });
+
+  $(".mainContainer").on("change","#country", function(event){
+    let targetCountry= event.currentTarget;
+    user.country = targetCountry.options[targetCountry.selectedIndex].text;
+    user.state = "";
+  });
+
+  $(".mainContainer").on("change","#state", function(event){
+    let targetState = event.currentTarget;
+    user.state = targetState.options[targetState.selectedIndex].text;
+  });
+
+  //preview the upload cv
+  $(".mainContainer").on('click', '#cv_preview', function(event){
+    let cv_fileName = $('.cv_filename').text();
+    if (cv_fileName){
+      displaypdf(URL_ENDPOINT+cv_fileName);
+    }
+    else{
+      alert('ouppps!! There is no cv to visualize!!!');
+    }
+  });
+
+  $('.mainContainer').on('click', '.btn_cancelUpdateProfile', function(event){
+    alert('cancel btn click');
+    $('.pagerUsers').hide();
+    $('.sidenav').show();
+    $('footer').show();
+    $('.mainContainer').removeClass('centerMainContainer');
+    $(".js_displayUsers").html(homeForm());
+
+  });
+
+  $('.mainContainer').on('click', '.btn_saveUpdateProfile', function(event){
+    user.userName.firstName = $('#firstName').val();
+    user.userName.lastName = $('#lastName').val();
+    user.fullName = (user.userName.firstName).trim()+ " "+ (user.userName.lastName).trim();
+    user.tel = $('#tel').val();
+    user.title = $('#title').val();
+    user.university = $('#university').val();
+    user.department = $('#department').val();
+    user.biography = $('#biography').val();
+    user.researchSum = $('#researchInterest').val();
+    user.img = $('.photo_filename').text();
+    user.cv = $('.cv_filename').text();
+    user.link.link1 = $('#link_1').val();
+    user.link.link2 = $('#link_2').val();
+
+    console.log('update user profile');
+    console.log(user);
+    requiredField = [user.title, user.userName.firstName, user.userName.lastName, user.university, user.department, user.region, user.country, user.state];
+    if(isValidField(requiredField)){
+      $.ajax({
+        url: USERS_URL + '/'+ user.id,
+        method: 'PUT',
+        //data: user,
+        data: JSON.stringify(user),
+        dataType: 'json',
+        contentType: 'application/json',
+        success: function(data){
+          console.log(data);
+          $(".js_signInNav").show();
+          $(".js_signUpNav").show();
+          $(".js_accountNav").addClass('hidden');
+          
+          $(".js_homeNav").trigger('click');
+        },
+        error: function(err){
+          console.log(err);
+        }
+      })
+    }
+    else{
+      alert('Please, fill all the required field');
+    }
+  });
 }
 
 
@@ -747,7 +918,8 @@ $(function(){
   })
 
 
-  $(".mainContainer").on('click','#mail-link', function(event){
+  $(".mainContainer").on('click','#send_email', function(event){
+    event.preventDefault();
     $('.pagerUsers').hide();
     $('.sidenav').hide();
     $('.mainContainer').addClass('centerMainContainer');
@@ -764,6 +936,7 @@ $(function(){
   handle_deleteAccount();
   viewProfileUsers();
   animate_header();
+  
   //Displayed users
   $(".js_getAllUsers").click(function(event){
     $('.sidenav').show();

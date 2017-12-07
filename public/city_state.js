@@ -340,7 +340,7 @@ function print_city_state(targetState)
 
 
 //main funtion called on signup form to set option value for region, country and state 
-function setCountryValue(target)
+function init_CountryValue()
 {
   $("#regionSelect").html(setRegions());
   $("#regionSelect").change(function(event){
@@ -357,5 +357,35 @@ function setCountryValue(target)
     let targetState = event.currentTarget;
     //print_city_state(targetState);
   });
+}
+
+function update_CountryValue()
+{
+  $("#regionSelect").change(function(event){
+    let targetRegion = event.currentTarget;
+    $("#country").html(set_country(targetRegion));
+  });
+
+  $("#country").change(function(event){
+    let targetCountry= event.currentTarget;
+    $("#state").html(set_city_state(targetCountry));
+  });
+
+  $("#state").change(function(event){
+    let targetState = event.currentTarget;
+    //print_city_state(targetState);
+  });
+}
+
+
+function set_CountryValue(user){
+  $("#regionSelect").html(setRegions());
+  document.getElementById("regionSelect").value = user.region;
+  var targetRegion = document.getElementById("regionSelect")
+  $("#country").html(set_country(targetRegion));
+  document.getElementById("country").value = user.country;
+  var targetCountry = document.getElementById("country");
+  $("#state").html(set_city_state(targetCountry));
+  document.getElementById("state").value = user.state;
 }
 

@@ -258,7 +258,64 @@ router.post('/', jsonParser, (req, res)=>{
 });
 
 
-//ToDo delete user and update
+router.put('/:id', jsonParser, (req, res)=>{
+  console.log('check required field');
+  console.log(req.body);
+  const requiredFields = ['title','userName','region', 'country', 'state', 'university', 'department'];
+  const missingField = requiredFields.find(field => !(field in req.body));
+    if (missingField) {
+        return res.status(422).json({
+            code: 422,
+            reason: 'ValidationError',
+            message: 'Missing field',
+            location: missingField
+        });
+    }
+
+  //throw error if any of these field is empty or underfined
+  const validFields = ['region', 'country', 'state'];
+  const NoValidField =  validFields.find(field => (req.body[field] == undefined || req.body[field]==""))
+    if(NoValidField){
+       return res.status(422).json({
+            code: 422,
+            reason: 'ValidationError',
+            message: 'Missing field',
+            location: missingField
+        });
+    }
+    if(req.params.id !== req.body.id){
+      const message = ( `Request path id (${req.params.id}) and request body id `
+      `(${req.body.id}) must match`);
+      console.error(message);
+      return res.status(400).send(message);
+
+    }
+    console.log('Update users profile...');
+    const userUpdate = {
+          'title': req.body.title,
+          'userName.firstName': req.body.userName.firstName,
+          'userName.lastName': req.body.userName.lastName,
+          'fullName': req.body.fullName,
+          'tel': req.body.tel,
+          'university': req.body.university, 
+          'department': req.body.department,
+          'biography': req.body.biography,
+          'researchSum': req.body.researchSum,
+          'img': req.body.img,
+          'cv': req.body.cv,
+          'link.link1': req.body.link.link1,
+          'link.link2': req.body.link.link2,
+        }
+    Users.updateOne({_id: req.body.id}, userUpdate, function(err, res){
+      if(err) throw err;
+      console.log('successfully update user profile');
+    });
+
+    return res.status(204).json({"user":"rosebad"});
+
+})
+
+
 router.delete('/:id', (req, res) => {
   console.log('About to remove user: '+req.params.id+ 'from the database!!!!')
   Users.remove({"_id": req.params.id})
