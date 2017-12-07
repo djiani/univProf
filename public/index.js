@@ -106,7 +106,7 @@ function renderUsers(data, ){
             element.find('.js_profite_pict').attr("src", URL_ENDPOINT+user.img);
           }
           element.find('.js_user_info').append(
-            `<li>Dr. ${user.userName.firstName} ${user.userName.lastName} </li>
+            `<li><b>Dr. ${user.userName.firstName} ${user.userName.lastName} </b></li>
             <li>${user.title} </li>
             <li>${user.university} </li>
             <li>${user.department} </li>
@@ -127,11 +127,11 @@ function renderUsers(data, ){
 
 function renderUsers2(data){
     let min = 0;
-    let stepSize = 3;
+    let stepSize = 12;
     let max = stepSize;
-    console.log('1-min: '+min+' max: '+max +' len: '+data.length);
+    //console.log('1-min: '+min+' max: '+max +' len: '+data.length);
     if(data.length > max){
-      console.log('11-min: '+min+' max: '+max +' len: '+data.length);
+      //console.log('11-min: '+min+' max: '+max +' len: '+data.length);
         $(".pagerUsers").show();
         if(min === 0){
             $(".previousUsers").hide();
@@ -143,24 +143,24 @@ function renderUsers2(data){
         min = max;
         max +=stepSize;
     }else{
-        console.log('2-min: '+min+' max: '+max +' len: '+data.length);
+        //console.log('2-min: '+min+' max: '+max +' len: '+data.length);
         renderUsers(data);
         $(".pagerUsers").hide();
     }
 
     $(".nextUsers").click(function(event){
-        console.log('3-min: '+min+' max: '+max +' len: '+data.length);
+        //console.log('3-min: '+min+' max: '+max +' len: '+data.length);
         if(max >= data.length){
             max = data.length;
             let data1 = data.slice(min);
-            console.log('test 3-1'+data1)
+            //console.log('test 3-1'+data1)
             renderUsers(data1);
             $('.nextUsers').hide();
             $(".previousUsers").show();
         }else{
-            console.log('test 3-2')
+            //console.log('test 3-2')
             let data1 = data.slice(min, max);
-            console.log('test 3-2'+ data1);
+            //console.log('test 3-2'+ data1);
             renderUsers(data1);
             $('.nextUsers').show();
             $(".previousUsers").show();
