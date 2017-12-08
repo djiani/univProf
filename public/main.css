@@ -250,9 +250,14 @@ legend{
   padding: 15px;
 }
 
-.block_to_Center, .btn_submit{
-  width: 60%;
+.block_to_Center{
+  width: 70%;
   margin: 0 auto;
+}
+
+.btn_submit{
+  margin-left: 50%;
+  width: 60%;
 }
 
 .AddSpace{

@@ -321,7 +321,7 @@ function handleAddUser(){
     $('footer').hide();
     $(".js_displayUsers").html(signUpForm());
     $('#submitSignUpForm').html(signUpContactForm(newUser));
-    $('#signUp_headerText').html(`<h2>Creating Your free Account...</h2>
+    $('.signUp_headerText').html(`<h2>Creating Your free Account...</h2>
       <p> Please, fill the form below and click next to continue </p>`);
     $(".backForm").hide();
     init_CountryValue();
@@ -338,7 +338,7 @@ function handleAddUser(){
         requiredField = [newUser.userName.firstName, newUser.userName.lastName,newUser.region, newUser.country, newUser.state];
         if(isValidField(requiredField)){
           $('#submitSignUpForm').html(signUpSpecialityForm(newUser));
-          $('#signUp_headerText').html(`<h2>Creating Your free Account...</h2>
+          $('.signUp_headerText').html(`<h2>Creating Your free Account...</h2>
       <p> Please, fill the form below and click next to continue </p>`);
           $(".backForm").show();
           indexForm++;
@@ -356,7 +356,7 @@ function handleAddUser(){
         requiredField = [newUser.title, newUser.university, newUser.department];
         if(isValidField(requiredField)){
           $('#submitSignUpForm').html(signUpProfileForm(newUser));
-          $('#signUp_headerText').html(`<h2>Creating Your free Account...</h2>
+          $('.signUp_headerText').html(`<h2>Creating Your free Account...</h2>
       <p> Please, fill the form below and click next to continue </p>`);
           indexForm++;
         }
@@ -376,9 +376,9 @@ function handleAddUser(){
           emailFlag = false;       
         }
         $('#submitSignUpForm').html(signUpLoginForm(newUser));
-        $('#signUp_headerText').html(`<h2>Creating Your free Account...</h2>
+        $('.signUp_headerText').html(`<h2>Creating Your free Account...</h2>
       <p> Please, fill the form below and click next to continue </p>
-      <Note: your password should be at lease 5 characters long`);
+      <p>Note: your password should be at least 5 characters long</p>`);
         indexForm++;
         submitFlag= false;
       break;
@@ -388,7 +388,7 @@ function handleAddUser(){
         requiredField = [newUser.email, newUser.password];
       if(isValidField(requiredField)){
         $('#submitSignUpForm').html(previewsForm(newUser));
-        $('#signUp_headerText').html(`<h2>Creating Your free Account...</h2>
+        $('.signUp_headerText').html(`<h2>Creating Your free Account...</h2>
       <p> Please, revised your information below and click submit to submit to register your free account.</p>`);
         //update biography and researchInterest field
         document.getElementById('biography').value= newUser.biography;
@@ -416,7 +416,7 @@ function handleAddUser(){
     switch(indexForm){
       case 0:
         $('#submitSignUpForm').html(signUpContactForm(newUser));
-        $('#signUp_headerText').html(`<h2>Creating Your free Account...</h2>
+        $('.signUp_headerText').html(`<h2>Creating Your free Account...</h2>
       <p> Please, fill the form below and click next to continue </p>`);
         //newUser.region = "";
         //newUser.country = "";
@@ -427,19 +427,19 @@ function handleAddUser(){
       break;
       case 1:
          $('#submitSignUpForm').html(signUpSpecialityForm(newUser));
-         $('#signUp_headerText').html(`<h2>Creating Your free Account...</h2>
+         $('.signUp_headerText').html(`<h2>Creating Your free Account...</h2>
       <p> Please, fill the form below and click next to continue </p>`);
          submitFlag= false;
       break;
       case 2:
         $('#submitSignUpForm').html(signUpProfileForm(newUser));
-        $('#signUp_headerText').html(`<h2>Creating Your free Account...</h2>
+        $('.signUp_headerText').html(`<h2>Creating Your free Account...</h2>
       <p> Please, fill the form below and click next to continue </p>`);
         submitFlag= false;
       break;
       case 3:
         $('#submitSignUpForm').html(signUpLoginForm(newUser));
-        $('#signUp_headerText').html(`<h2>Creating Your free Account...</h2>
+        $('.signUp_headerText').html(`<h2>Creating Your free Account...</h2>
       <p> Please, fill the form below and click next to continue </p>
       <Note: your password should be at lease 5 characters long`);
         submitFlag= false;
@@ -772,7 +772,6 @@ function updateProfileUsers(user){
   });
 
   $('.mainContainer').on('click', '.btn_cancelUpdateProfile', function(event){
-    alert('cancel btn click');
     $('.pagerUsers').hide();
     $('.sidenav').show();
     $('footer').show();
