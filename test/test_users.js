@@ -635,7 +635,7 @@ describe('University Api Resource', function(){
           .delete('/api/users/'+res.body.users[0].id);
         })
         .then(function(res){
-          expect(res).to.have.status(204);
+          expect(res).to.have.status(200);
         });
     })
   })

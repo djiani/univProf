@@ -2,21 +2,38 @@ const URL_ENDPOINT = 'https://s3.us-east-2.amazonaws.com/awsunivprof/';
 
 function homeForm(){
   return `
-  <div class="bg_1">
-    <h1 id="big_1_h1">Connect with your colleagues around the world</h1>
-    <h3>Let other people know about your research </h3>
-    <q>Unity is strength... when there is teamwork and collaboration, wonderful things can be achieved</q>
-    <div class="bg_1_img">
-      <img src="https://s3.us-east-2.amazonaws.com/awsunivprof/univprof_img2.jpg" id="bg_1_img2">
-    </div>
-
-     <q>
-        When you dream of conquering the world and you fill your agenda with daunting projects <br>
-        it’s often necessary to equip yourself with a large mug of coffee and with the right people.<br>
-        Any successful project, be it big or small, has one thing at its core:<br> effective collaboration,
-        and you can achieve it with knowledge sharing.
-      </q>
-  </div>
+  <div class="main">
+              <div id="section1">    
+                <h1>Connect with your colleagues around the world</h1>
+                <h3>Unity is strength... when there is teamwork and collaboration, wonderful things can be achieved</h3>
+                <img src="https://s3.us-east-2.amazonaws.com/awsunivprof/univprof_img2.jpg" id="bg_1_img2">
+              </div>
+              <div id="section2"> 
+                <h1>Let other people know about your research</h1>
+                <div class="row">
+                <div class="col-sm-8">
+                  <p class="section2_text">
+                    "When you dream of conquering the world and you fill your agenda with daunting projects 
+                    it’s often necessary to equip yourself with a large mug of coffee and with the right people.
+                    Any successful project, be it big or small, has one thing at its core: effective collaboration,
+                    and you can achieve it with knowledge sharing."
+                  </p>-Anonymous
+                </div>
+                <div class="col-sm-4"><img src="https://s3.us-east-2.amazonaws.com/awsunivprof/research.png" alt="" class="section_img"></div>
+                </div>
+              </div>        
+              <div id="section3">         
+                <h1>Upload your CV and share a research interest with collegues</h1>
+                
+                  <h2>Register your free account and let others find you!</h2>
+                 <h2> Query the database to find collegues or collaborators</h2>
+              <div class="row">
+                <div class="col-sm-4"><img src="https://s3.us-east-2.amazonaws.com/awsunivprof/pen.jpg" alt="" class="section_img"></div>
+                <div class="col-sm-8"><p class="section2_text">"We could learn a lot from crayons: some are sharp, some are pretty, some are dull, while others are bright, some have weird names, but we have to learn to live in the same box." </p> -Anonymous</div>
+               </div> 
+                
+              </div>
+          </div>
   `;
 }
 function previewsForm(user){
@@ -29,7 +46,7 @@ function previewsForm(user){
       <fieldset id="imgProfileUsers" disabled>
         <div class="block_to_Center">
           <div class="profileImage AddSpace" >
-            <button id="upload_image" class="btn btn-default form-control" >Upload Image</button>
+            <button id="upload_image" class="btn btn-primary form-control" >Upload Image</button>
             <input type="file" name="image" id="image_to_upload" accept="image/*" >
           </div>
           <div id="profileImgUpload" class="block_to_Center"> 
@@ -42,12 +59,12 @@ function previewsForm(user){
         <div class="block_to_Center">
         <h3>Upload your CV </h3>
           <div >
-            <button id="upload_cv" class="btn btn-default form-control" >Upload your CV</button>
+            <button id="upload_cv" class="btn btn-primary form-control" >Upload your CV</button>
             <input type="file"  id="cv_to_upload"  value="Upload CV"  >
           </div>
           <div><p>CV filename: <span class="cv_filename">${user.cv}</span></p></div>
           <div>
-            <button  class="btn btn-default form-control" id="cv_preview" > preview CV</button> 
+            <button  class="btn btn-primary form-control" id="cv_preview" > preview CV</button> 
           </div>
         </div>
 
@@ -124,14 +141,14 @@ function previewsForm(user){
           </div>
         </div>
         <div class="form-group">
-          <label for="biography" class="control-label col-sm-6 " >Biography</label>
+          <label for="biography" class="control-label col-sm-12 " >Biography</label>
           <div class="col-sm-12">
             <textarea id="biography" rows="10" class="form-control"  >
             </textarea>
           </div>
         </div>
         <div class="form-group">
-          <label for="researchInterest" class="control-label col-sm-6 " >Research</label>
+          <label for="researchInterest" class="control-label col-sm-12 " >Research</label>
           <div class="col-sm-12">
             <textarea id="researchInterest" rows="10" class="form-control" >
             </textarea>
@@ -183,37 +200,37 @@ function signUpContactForm(user){
   <fieldset id="contact">
         <legend>Place of Residence</legend>
         <div class="form-group">
-          <label for="firstName" class="control-label col-sm-3 ">First Name<span class="required_field">*</span></label>
+          <label for="firstName" class="control-label col-sm-4 ">First Name<span class="required_field">*</span></label>
           <div class="col-sm-8">
             <input type="text" class="form-control" id="firstName" value="${user.userName.firstName}" required >
           </div>
         </div>
         <div class="form-group">
-          <label for="lastName" class="control-label col-sm-3 ">Last Name <span class="required_field">*</span> </label>
+          <label for="lastName" class="control-label col-sm-4 ">Last Name <span class="required_field">*</span> </label>
           <div class="col-sm-8">
             <input type="text" class="form-control" id="lastName" value="${user.userName.lastName}"  required >
           </div>
         </div>
         <div class="form-group">
-          <label for="tel" class="control-label  col-sm-3 ">Phone Number</label>
+          <label for="tel" class="control-label  col-sm-4 ">Phone Number</label>
           <div class="col-sm-8">
             <input type="tel" class="form-control" id="tel" value="${user.tel}" >
           </div>
         </div>
         <div class="form-group">
-          <label for="regionSelect" class="control-label col-sm-3 ">Region <span class="required_field">*</span> </label>
+          <label for="regionSelect" class="control-label col-sm-4 ">Region <span class="required_field">*</span> </label>
           <div class="col-sm-8">
             <select name="Region" class="form-control" id="regionSelect" > </select>
           </div>
         </div>
         <div class="form-group">
-          <label for="country" class="control-label col-sm-3 ">Country <span class="required_field">*</span> </label>
+          <label for="country" class="control-label col-sm-4 ">Country <span class="required_field">*</span> </label>
           <div class="col-sm-8">
             <select name="country" id="country" class="form-control"> </select>
           </div>
         </div>
         <div class="form-group">
-          <label for="state" class="control-label col-sm-3 ">State/City <span class="required_field">*</span> </label>
+          <label for="state" class="control-label col-sm-4 ">State/City <span class="required_field">*</span> </label>
           <div class="col-sm-8">
             <select name="state" id="state" class="form-control"> </select>
           </div>
@@ -288,7 +305,7 @@ function signUpLoginForm(user){
       
         <!--<div class="form-group">
           <div class="col-sm-offset-2 col-sm-8">
-            <button type="submit" class="btn btn-default form-control" disabled> Submit</button>
+            <button type="submit" class="btn btn-primary form-control" disabled> Submit</button>
           </div>
         </div> -->
 
@@ -300,7 +317,7 @@ function signUpProfileForm(user){
       <fieldset>
         <div class="block_to_Center">
           <div class="profileImage AddSpace" >
-            <button id="upload_image" class="btn btn-default form-control" >Upload Image</button>
+            <button id="upload_image" class="btn btn-primary form-control" >Upload Image</button>
             <input type="file" name="image" id="image_to_upload" accept="image/*" >
           </div>
           <div id="profileImgUpload" > 
@@ -313,12 +330,12 @@ function signUpProfileForm(user){
         <div class="block_to_Center">
         <h3>Upload your CV </h3>
           <div >
-            <button id="upload_cv" class="btn btn-default form-control"  >Upload your CV</button>
+            <button id="upload_cv" class="btn btn-primary form-control"  >Upload your CV</button>
             <input type="file"  id="cv_to_upload"  value="Upload CV"  >
           </div>
           <div><p>CV filename: <span class="cv_filename">${user.cv}</span></p></div>
           <div>
-            <button  class="btn btn-default form-control" id="cv_preview" disabled> preview CV</button> 
+            <button  class="btn btn-primary form-control" id="cv_preview" disabled> preview CV</button> 
           </div>
         </div>
 
@@ -362,6 +379,7 @@ function signUpForm(){
 function signInForm(){
   return `
   <div class="container loginContainer">
+      <div class="mainloginContainer">
         <h2>Please, login </h2>
         <form id='submitSignInForm'>
           <label for="email">Email:</label>
@@ -379,8 +397,9 @@ function signInForm(){
           <button type="submit" class="btn btn-primary form-control">Submit</button>
           </div>
         </form>
-        <p><a href="">Forgot your password?</a> Not a member, <a href="#signUp" class="js_signUp2">SignUp</a> </p>
+        <p><a href="#">Forgot your password?</a> Not a member, <a href="#signUp" class="js_signUp2">SignUp</a> </p>
       </div>
+    </div>
 
   `
 }
@@ -388,13 +407,11 @@ function signInForm(){
 function contactusForm(){
   return  `
       <div class="container contactContainer">
+      <div class="mainContactContainer">
         <div class='contactUsHeader'>
-          <h2>We love your feedback! </h2>
-          <p>Use the form below to send us your comments or report any problems you experienced finding information on our website. 
-          Your feedback is very important to us to improve this website.</p> 
-          <p>Note: To protect your privacy, 
-            please, do not enter personal information or sensible information here.
-          </p>
+          <h1>We love your feedback! </h1>
+          <h4>Use the form below to send us your comments or report any problems you experienced finding information on our website. 
+          Your feedback is very important to us!</h4> 
         </div>
         <div>
           <label for="from">Email</label>

@@ -918,8 +918,14 @@ function animate_header(){
 }
 
 
+
+
 /* main function called when DOM has be load and ready*/
 $(function(){
+  //clear local storage
+  clearAuth('authToken');
+  clearAuth('authUserName');
+  clearAuth('authId');
   //populate the interface with the data initial
   //getandDisplayUsers();
   handleSearch();
@@ -941,6 +947,10 @@ $(function(){
     $('.mainContainer').removeClass('centerMainContainer');
     $(".js_displayUsers").html(homeForm());
   });
+
+  $(".js_brand").click(function(event){
+    $(".js_homeNav").trigger('click');
+  })
 
   $(".js_contactusNav").click(function(event){
    // alert("test constactUs");
