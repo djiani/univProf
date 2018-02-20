@@ -70,8 +70,8 @@ color: yellow;
 }
 
 .well{
-  background-color: #010c7b;
-  color: white;
+  background: linear-gradient(to bottom, #003399 0%, #ffffff 160%);
+  color: black;
 }
 
 
@@ -83,7 +83,7 @@ color: yellow;
   overflow: auto;
   border:1px solid black;
   margin: 5px;
-  background-color: #010c7b;
+  background: linear-gradient(to bottom, #003399 0%, #ffffff 160%);
 }
 
 .js_prof_block{
@@ -323,16 +323,17 @@ footer {
   text-align: center;
   margin:0 auto;
 }
-#section1 {padding-top:50px;height:100%;color: black; background-color: white;}
-#section2 {padding-top:50px; padding-bottom:50px;height:100%;color: black; background-color: #f2f2f2; }
-#section3 {padding-top:100px;height:100%;color: black; background: white; }
+#section1 {padding-top:0px;height:100%;color: black; background: linear-gradient(to bottom, #003399 -4%, #ffffff 25%);}
+#section2 {padding-top:20px; padding-bottom:50px;height:100%;color: black;  background: linear-gradient(to bottom, #003399 -4%, #ffffff 25%); }
+#section3 {padding-top:20px;height:100%;color: black; background: linear-gradient(to bottom, #003399 -4%, #ffffff 29%); }
 
 .section2_text{
   text-align: justify;
   font-style: italic;
   font-size: 1.5em;
   padding: 50px;
-  color: #6699ff;
+  color: black;
+  margin-top: 70px;
 
 }
 .section_img{

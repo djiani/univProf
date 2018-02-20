@@ -3,42 +3,37 @@ const URL_ENDPOINT = 'https://s3.us-east-2.amazonaws.com/awsunivprof/';
 function homeForm(){
   return `
   <div class="main">
-              <div id="section1">    
-                <h1>Connect with your colleagues around the world</h1>
-                <img src="https://s3.us-east-2.amazonaws.com/awsunivprof/univprof_img2.jpg" id="bg_1_img2">
-              </div>
-              <div id="section2"> 
-                <h1>Let other people know about your research</h1>
-                <div class="row">
-                <div class="col-sm-8">
-                  <p class="section2_text">
-                    "When you dream of conquering the world and you fill your agenda with daunting projects 
-                    it’s often necessary to equip yourself with a large mug of coffee and with the right people.
-                    Any successful project, be it big or small, has one thing at its core: effective collaboration,
-                    and you can achieve it with knowledge sharing."
-                  </p>-Anonymous
-                </div>
-                <div class="col-sm-4"><img src="https://s3.us-east-2.amazonaws.com/awsunivprof/research.png" alt="" class="section_img"></div>
-                </div>
-              </div>        
-              <div id="section3">         
-                <h1>Upload your CV and share a research interest with collegues</h1>
-              <div class="row">
-                <div class="col-sm-4"><img src="https://s3.us-east-2.amazonaws.com/awsunivprof/pen.jpg" alt="" class="section_img"></div>
-                <div class="col-sm-8">
-                  <h4>Register your free account and let others find you!</h4>
-                  <h4> Query the database to find collegues or collaborators</h4>
-                  <q class="section2_text">
-                    "We could learn a lot from crayons: some are sharp, some are pretty, 
-                    some are dull, while others are bright, some have weird names, 
-                    but we have to learn to live in the same box." 
-                  </q> -Anonymous
-                </div>
-               </div> 
-                
-              </div>
-          </div>
-  `;
+    <div id="section1">    
+      <img src="https://s3.us-east-2.amazonaws.com/awsunivprof/univprof_img2.jpg" id="bg_1_img2">
+    </div>
+    <div id="section2"> 
+      <h1>Learn from others</h1>
+      <div class="row">
+      <div class="col-sm-8">
+        <p class="section2_text">
+          "When you dream of conquering the world and you fill your agenda with daunting projects 
+          it’s often necessary to equip yourself with a large mug of coffee and with the right people.
+          Any successful project, be it big or small, has one thing at its core: effective collaboration,
+          and you can achieve it with knowledge sharing." 
+        </p>-Anonymous
+      </div>
+      <div class="col-sm-4"><img src="https://s3.us-east-2.amazonaws.com/awsunivprof/research.png" alt="" class="section_img"></div>
+      </div>
+    </div>        
+    <div id="section3">         
+      <h1>Share your research's interest</h1>
+      
+    <div class="row">
+      <div class="col-sm-4"><img src="https://s3.us-east-2.amazonaws.com/awsunivprof/pen.jpg" alt="" class="section_img"></div>
+      <div class="col-sm-8">
+       <p class="section2_text">
+        "We could learn a lot from crayons: some are sharp, some are pretty, some are dull, while others are bright, some have weird names, but we have to learn to live in the same box." 
+      </p> -Anonymous</div>
+     </div> 
+      
+    </div>
+</div>
+`;
 }
 function previewsForm(user){
   return  `
@@ -413,9 +408,9 @@ function contactusForm(){
       <div class="container contactContainer">
       <div class="mainContactContainer">
         <div class='contactUsHeader'>
-          <h1>We love your feedback! </h1>
+          <h1>Your feedback is very important to us! </h1>
           <h4>Use the form below to send us your comments or report any problems you experienced finding information on our website. 
-          </h4> <h4>Your feedback is very important to us!</h4> 
+          </h4> 
         </div>
         <div>
           <label for="from">Email</label>
