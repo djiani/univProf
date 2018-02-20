@@ -72,6 +72,7 @@ color: yellow;
 .well{
   background: linear-gradient(to bottom, #003399 0%, #ffffff 160%);
   color: black;
+  overflow: hidden;
 }
 
 
@@ -365,8 +366,8 @@ cite{
 /* On small screens, set height to 'auto' for sidenav and grid */
 @media only screen and (max-width: 767px) {
   .img_logo{
-    width: 80px;
-    height: 80px;
+    width: 0px;
+    height: 0px;
   }
  
 
@@ -376,7 +377,7 @@ cite{
 
   .sidenav {
     height: auto;
-    padding: 15px;
+    padding: 5px;
   }
 
   .sidenav, .mainContainer, .loginContainer, .signUpForm, .contactContainer, .mainContactContainer, .mainloginContainer{
@@ -403,9 +404,27 @@ cite{
 
   textarea.form-control {
     height: 34px;
-}
+  }
  
   
+}
+
+@media only screen and (max-width: 992px) {
+  .img_logo{
+    width: 80px;
+    height: 80px;
+  }
+ 
+
+  .brand h1{
+    font-size: 2.2em;
+  }
+
+  .sidenav {
+    height: auto;
+    padding: 5px;
+  }
+
 }
 
 @media only screen and (min-width: 1800px) {
