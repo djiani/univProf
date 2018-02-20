@@ -1,7 +1,7 @@
 
 body{
   height: 100%;
-  background-color: #6699ff
+  background-color: #F5F5F5;
 }
 
 .form-group{
@@ -314,21 +314,23 @@ legend{
 footer {
   background-color: #010c7b;
   color: white;
-  padding: 15px;
-  height: 40px;
+  padding: 10px;
+  height: 50px;
 }
+
 .main{
   width: 100%;
   text-align: center;
   margin:0 auto;
 }
-#section1 {padding-top:50px;height:100%;color: #fff; background-color: #1E88E5;}
-  #section2 {padding-top:50px;height:100%;color: #fff; background-color: #673ab7;}
-  #section3 {padding-top:50px;height:100%;color: #fff; background-color: #ff9800;}
+#section1 {padding-top:50px;height:100%;color: black; background-color: white;}
+#section2 {padding-top:50px; padding-bottom:50px;height:100%;color: black; background-color: white; }
+#section3 {padding-top:100px;height:100%;color: black; background: white; }
 
 .section2_text{
   text-align: justify;
-  font-size: 2em;
+  font-style: italic;
+  font-size: 1.5em;
   padding: 50px;
   color: #6699ff;
 
@@ -344,6 +346,15 @@ footer {
 }
 #newsPanel{
   margin-top: 100px;
+  text-align: center;
+}
+
+#section1 h5{
+  color: #6699ff;
+}
+
+.input-group-btn{
+  background-color: 
 }
 
 cite{

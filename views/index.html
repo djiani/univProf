@@ -18,7 +18,7 @@
 <body>
   <div class="jumbotron">
     <div class="logo">
-      <img src="https://s3.us-east-2.amazonaws.com/awsunivprof/univ_logo6.png" alt="app logo" class="img_logo">
+      <a href="#home" class="js_homeNav" data-toggle="tooltip" data-placement="top" title="Click to go to home"><img src="https://s3.us-east-2.amazonaws.com/awsunivprof/univ_logo6.png" alt="app logo" class="img_logo"> </a>
     </div>
     <div class="brand">
       <h1>Cameroon Research Platform</h1>
@@ -34,16 +34,16 @@
           <span class="icon-bar"></span>
           <span class="icon-bar"></span>                        
         </button>
-        <a class="navbar-brand js_brand" href="#">CRP</a>
+        <a class="navbar-brand js_brand js_homeNav" href="#home" data-toggle="tooltip" data-placement="auto" title="home">CRP</a>
       </div>
-      <div class="collapse navbar-collapse" id="myNavbar">
+      <div class="collapse navbar-collapse" id="myNavbar" >
         <ul class="nav navbar-nav">
-          <li class="active js_homeNav"><a href="#home">Home</a></li>
+          <!--li class="active js_homeNav"><a href="#home">Home</a></li> -->
           <li class="dropdown js_searchNav"><a class="dropdown-toggle" data-toggle="dropdown" href="#search">Search <span class="caret"></span></a>
             <ul class="dropdown-menu">
-              <li class="js_getAllUsers"><a href="#" >Find All users</a></li>
-              <li class="js_getUsersByCountry"><a href="#" >Find Users by Country</a></li>
-              <li class="js_getUsersByDepartment"><a href="#" >Find Users by Specility</a></li>
+              <li class="js_getAllUsers"><a href="#" >Get all users</a></li>
+              <li class="js_getUsersByCountry"><a href="#" >Find users by country</a></li> 
+              <li class="js_getUsersByDepartment"><a href="#" >Find users by speciality</a></li>
             </ul>
           </li>
           <li class="js_contactusNav"><a href="#contactus" >Contact us</a></li>
@@ -70,22 +70,23 @@
     <div class="row">
       <div class="col-sx-12 col-sm-2  sidenav">
         <div class="well">
-          <div><p>Find collaborators here</p></div>
+          <h2>Find collaborators!!</h2>
           <form class="submitSearch">
             <div class="input-group">
               <label class="sr-only" for="searchInput">search</label>
               <input type="search" name="search" class="form-control" id="searchInput" placeholder="search">
               <div class="input-group-btn">
-                <button class="btn btn-default " type="submit">
+                <button class="btn btn-primary " type="submit">
                   <i class="glyphicon glyphicon-search "></i>
                 </button>
               </div>
             </div>
           </form>
+          <p> You can search by collaborator' name, country, or speciality</p>
 
         </div>
         <div id="newsPanel">
-          <h3>Great sources of inspiration</h3>
+          <h2>Great Sources Of Inspiration</h2>
           <div class="well">
             <p>
               <q>Many ideas grow better when transplanted into another mind than the one where they sprang up</q>
@@ -100,8 +101,8 @@
           </div>
           <div class="well">
             <p>
-              <q>Coming together is a beginning, staying together is progress, and working together is success </q>
-              <cite><br>Henry Ford</cite>
+              <q>Unity is strength... when there is teamwork and collaboration, wonderful things can be achieved</q>
+              <cite><br>Anonymous</cite>
             </p>
           </div>
         </div>
@@ -113,31 +114,31 @@
           <div class="main">
               <div id="section1">    
                 <h1>Connect with your colleagues around the world</h1>
-                <h3>Unity is strength... when there is teamwork and collaboration, wonderful things can be achieved</h3>
                 <img src="https://s3.us-east-2.amazonaws.com/awsunivprof/univprof_img2.jpg" id="bg_1_img2">
               </div>
               <div id="section2"> 
-                <h1>Let other people know about your research</h1>
+                <h1>Learn from others</h1>
                 <div class="row">
                 <div class="col-sm-8">
                   <p class="section2_text">
                     "When you dream of conquering the world and you fill your agenda with daunting projects 
                     it’s often necessary to equip yourself with a large mug of coffee and with the right people.
                     Any successful project, be it big or small, has one thing at its core: effective collaboration,
-                    and you can achieve it with knowledge sharing."
+                    and you can achieve it with knowledge sharing." 
                   </p>-Anonymous
                 </div>
                 <div class="col-sm-4"><img src="https://s3.us-east-2.amazonaws.com/awsunivprof/research.png" alt="" class="section_img"></div>
                 </div>
               </div>        
               <div id="section3">         
-                <h1>Upload your CV and share a research interest with collegues</h1>
+                <h1>Share your research's interest</h1>
                 
-                  <h2>Register your free account and let others find you!</h2>
-                 <h2> Query the database to find collegues or collaborators</h2>
               <div class="row">
                 <div class="col-sm-4"><img src="https://s3.us-east-2.amazonaws.com/awsunivprof/pen.jpg" alt="" class="section_img"></div>
-                <div class="col-sm-8"><p class="section2_text">"We could learn a lot from crayons: some are sharp, some are pretty, some are dull, while others are bright, some have weird names, but we have to learn to live in the same box." </p> -Anonymous</div>
+                <div class="col-sm-8">
+                 <p class="section2_text">
+                  "We could learn a lot from crayons: some are sharp, some are pretty, some are dull, while others are bright, some have weird names, but we have to learn to live in the same box." 
+                </p> -Anonymous</div>
                </div> 
                 
               </div>
@@ -329,7 +330,7 @@
   </div>
 
   <footer class="container-fluid text-center">
-    <p>Copyright @2017 Samuel</p>
+    <p>Copyright  camProfTeam@2017</p>
   </footer>
   <script type="text/javascript" src="/formTemplate.js"></script>
   <script type="text/javascript" src="/city_state.js"></script>

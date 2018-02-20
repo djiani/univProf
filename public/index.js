@@ -136,7 +136,7 @@ function displaysMoreInfos(data){
 
 
 
-function renderUsers(data, ){
+function renderUsers(data ){
     if (data.length > 0){
        let usersElts = data.map(function(user){
           let element = $(userTemplate());
@@ -162,6 +162,8 @@ function renderUsers(data, ){
         $('.js_displayUsers').html(html);
         $('.pagerUsers').hide();
     }
+
+    $('footer').hide();
 
     
 }
@@ -1034,6 +1036,8 @@ $(function(){
     $('.nav li').removeClass('active');
     $(this).addClass('active');
   })
+
+  $('[data-toggle="tooltip"]').tooltip();
 
 
 })

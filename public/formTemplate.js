@@ -5,7 +5,6 @@ function homeForm(){
   <div class="main">
               <div id="section1">    
                 <h1>Connect with your colleagues around the world</h1>
-                <h3>Unity is strength... when there is teamwork and collaboration, wonderful things can be achieved</h3>
                 <img src="https://s3.us-east-2.amazonaws.com/awsunivprof/univprof_img2.jpg" id="bg_1_img2">
               </div>
               <div id="section2"> 
@@ -24,12 +23,17 @@ function homeForm(){
               </div>        
               <div id="section3">         
                 <h1>Upload your CV and share a research interest with collegues</h1>
-                
-                  <h2>Register your free account and let others find you!</h2>
-                 <h2> Query the database to find collegues or collaborators</h2>
               <div class="row">
                 <div class="col-sm-4"><img src="https://s3.us-east-2.amazonaws.com/awsunivprof/pen.jpg" alt="" class="section_img"></div>
-                <div class="col-sm-8"><p class="section2_text">"We could learn a lot from crayons: some are sharp, some are pretty, some are dull, while others are bright, some have weird names, but we have to learn to live in the same box." </p> -Anonymous</div>
+                <div class="col-sm-8">
+                  <h4>Register your free account and let others find you!</h4>
+                  <h4> Query the database to find collegues or collaborators</h4>
+                  <q class="section2_text">
+                    "We could learn a lot from crayons: some are sharp, some are pretty, 
+                    some are dull, while others are bright, some have weird names, 
+                    but we have to learn to live in the same box." 
+                  </q> -Anonymous
+                </div>
                </div> 
                 
               </div>
@@ -397,7 +401,7 @@ function signInForm(){
           <button type="submit" class="btn btn-primary form-control">Submit</button>
           </div>
         </form>
-        <p><a href="#">Forgot your password?</a> Not a member, <a href="#signUp" class="js_signUp2">SignUp</a> </p>
+        <p>Not a member, <a href="#signUp" class="js_signUp2">SignUp</a> </p>
       </div>
     </div>
 
@@ -411,7 +415,7 @@ function contactusForm(){
         <div class='contactUsHeader'>
           <h1>We love your feedback! </h1>
           <h4>Use the form below to send us your comments or report any problems you experienced finding information on our website. 
-          Your feedback is very important to us!</h4> 
+          </h4> <h4>Your feedback is very important to us!</h4> 
         </div>
         <div>
           <label for="from">Email</label>
@@ -430,7 +434,7 @@ function userTemplate(){
   return `
       <div class="js_user">
         <div class="js_prof_block">
-        <a href="#" class="js_displayMoreDetails" data-id="">
+        <a href="#" class="js_displayMoreDetails" data-id="" data-toggle="tooltip" data-placement="top" title="click to view more details">
           <img src="http://www.cameraegg.org/wp-content/uploads/2016/01/Nikon-D500-Sample-Images-2.jpg" class="js_profite_pict" 
           alt="profile picture">
         </a>
