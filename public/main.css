@@ -366,8 +366,7 @@ cite{
 /* On small screens, set height to 'auto' for sidenav and grid */
 @media only screen and (max-width: 767px) {
   .img_logo{
-    width: 0px;
-    height: 0px;
+    display: none;
   }
  
 
