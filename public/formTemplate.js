@@ -35,6 +35,7 @@ function homeForm(){
 </div>
 `;
 }
+
 function previewsForm(user){
   return  `
       <div class="form-group updateProfile">

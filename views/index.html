@@ -7,18 +7,17 @@
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-
   <script src="https://cdn.jsdelivr.net/npm/pdfjs-dist@2/build/pdf.worker.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/pdfjs-dist@2/build/pdf.min.js"></script>
   <link rel="stylesheet" type="text/css" href="/main.css">
   <link rel="stylesheet" type="text/css" href="/pdf_viewer2.css">
-  <!--<script src="pdf.js"></script>
-  <script src="pdf.worker.js"></script>-->
+  <script src="pdf.js"></script>
+  <script src="pdf.worker.js"></script>
 </head>
 <body>
   <div class="jumbotron">
     <div class="logo">
-      <a href="#home" class="js_homeNav" data-toggle="tooltip" data-placement="top" title="Click to go to home"><img src="https://s3.us-east-2.amazonaws.com/awsunivprof/univ_logo6.png" alt="app logo" class="img_logo"> </a>
+      <a href="#home" class="js_homeNav" data-toggle="tooltip" data-placement="top" title="Click to go to home page"><img src="https://s3.us-east-2.amazonaws.com/awsunivprof/univ_logo6.png" alt="app logo" class="img_logo"> </a>
     </div>
     <div class="brand">
       <h1>Cameroon Research Platform</h1>
@@ -34,7 +33,7 @@
           <span class="icon-bar"></span>
           <span class="icon-bar"></span>                        
         </button>
-        <a class="navbar-brand js_brand js_homeNav" href="#home" data-toggle="tooltip" data-placement="auto" title="home">CRP</a>
+        <a class="navbar-brand js_brand " href="#home" data-toggle="tooltip" data-placement="auto" title="home">CRP</a>
       </div>
       <div class="collapse navbar-collapse" id="myNavbar" >
         <ul class="nav navbar-nav">
@@ -42,8 +41,8 @@
           <li class="dropdown js_searchNav"><a class="dropdown-toggle" data-toggle="dropdown" href="#search">Search <span class="caret"></span></a>
             <ul class="dropdown-menu">
               <li class="js_getAllUsers"><a href="#" >Get all users</a></li>
-              <li class="js_getUsersByCountry"><a href="#" >Find users by country</a></li> 
-              <li class="js_getUsersByDepartment"><a href="#" >Find users by speciality</a></li>
+              <li class="js_getUsersByCountry"><a href="#country" >Find users by country</a></li> 
+              <li class="js_getUsersByDepartment"><a href="#speciality" >Find users by speciality</a></li>
             </ul>
           </li>
           <li class="js_contactusNav"><a href="#contactus" >Contact us</a></li>
@@ -52,7 +51,7 @@
         <ul class="nav navbar-nav navbar-right">
           <li class="js_signInNav"><a href="#login" ><span class="glyphicon glyphicon-log-in"></span> Sign In</a></li>
           <li class="js_signUpNav"><a href="#signUp" ><span class="glyphicon glyphicon-check"></span> SignUp</a></li>
-          <li class="dropdown js_accountNav hidden"><a class="dropdown-toggle" data-toggle="dropdown" href="#">
+          <li class="dropdown js_accountNav hidden"><a class="dropdown-toggle" data-toggle="dropdown" href="#account">
            <span class="glyphicon glyphicon-user"></span><span class="caret"></span></a>
             <ul class="dropdown-menu">
               <li class="dropdown-header">Sign in as <span class="profileName">LastName</span> </li>
@@ -331,6 +330,7 @@
   <footer class="container-fluid text-center">
     <p>Copyright  camProfTeam@2017</p>
   </footer>
+  
   <script type="text/javascript" src="/formTemplate.js"></script>
   <script type="text/javascript" src="/city_state.js"></script>
   <script type="text/javascript" src="/local-storage.js"></script>

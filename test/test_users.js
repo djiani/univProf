@@ -585,6 +585,9 @@ describe('University Api Resource', function(){
 
   })
 
+/********************************************************
+*                       PUT                             *
+********************************************************/
   describe('PUT', function(){
     it('should upate the email user', function(){
       //TODO
@@ -623,7 +626,10 @@ describe('University Api Resource', function(){
       })
     })
   })
-    
+   
+/********************************************************
+*                       DELETE                          *
+********************************************************/ 
 
   describe('DELETE', function(){
     it('should delete the first user in the list', function(){

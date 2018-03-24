@@ -26,7 +26,7 @@ color: yellow;
 .navbar {
   margin-bottom: 0;
   border-radius: 0;
-  background-color: #010c7b;
+  background-color: #091034;
 }
 
 
@@ -69,10 +69,10 @@ color: yellow;
   margin:0 auto;
 }
 
-.well{
-  background: linear-gradient(to bottom, #003399 0%, #ffffff 160%);
-  color: black;
+.well{ 
+  color: #091034;
   overflow: hidden;
+  background-color: white;
 }
 
 
@@ -145,7 +145,7 @@ section{
  q{
   font-style:italic;
   font-family: "Lucida Console";
-  color: white;
+  color: black;
  }
 
 
@@ -361,7 +361,7 @@ footer {
 
 cite{
   font-style: oblique;
-  color:yellow;
+  color: #337ab7;
 }
 /* On small screens, set height to 'auto' for sidenav and grid */
 @media only screen and (max-width: 767px) {

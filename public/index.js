@@ -942,6 +942,8 @@ $(function(){
   });
 
   $(".js_homeNav").click(function(event){
+    event.preventDefault();
+    console.log('test called')
     $('.pagerUsers').hide();
     $('.sidenav').show();
     $('footer').show();
