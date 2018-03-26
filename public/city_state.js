@@ -293,10 +293,10 @@ function set_country(targetRegion, oCountrySel, oCity_StateSel)
   regionSelect = region;
   if (countries[region])
   {
-    let optHtml = `<option value ="" > SELECT COUNTRY </option>`;
+    let optHtml = `<option value ="" selected="selected"> SELECT COUNTRY </option>`;
     countryArr = countries[region].split('|');
     for (var i = 0; i < countryArr.length; i++){
-      optHtml += `<option value= ${countryArr[i]}>${countryArr[i]} </option>`;
+      optHtml += `<option value= "${countryArr[i]}" >${countryArr[i]} </option>`;
     }
     
     return optHtml;
@@ -312,10 +312,10 @@ function set_city_state(targetCountry)
   countrySelect = country;
   if (city_states[country])
   {
-    let stateHtml = `<option value="" > SELECT State or Regions </option>`;
+    let stateHtml = `<option value="" selected="selected"> SELECT State or Regions </option>`;
     city_stateArr = city_states[country].split('|');
     for (var i = 0; i < city_stateArr.length; i++){
-      stateHtml += `<option value= ${city_stateArr[i]} > ${city_stateArr[i]} </option>`;
+      stateHtml += `<option value= "${city_stateArr[i]}" > ${city_stateArr[i]} </option>`;
     } 
     return stateHtml; 
   }
@@ -379,6 +379,8 @@ function update_CountryValue()
 
 
 function set_CountryValue(user){
+  console.log('check set_country...')
+  console.log(user)
   $("#regionSelect").html(setRegions());
   document.getElementById("regionSelect").value = user.region;
   var targetRegion = document.getElementById("regionSelect")
@@ -387,5 +389,8 @@ function set_CountryValue(user){
   var targetCountry = document.getElementById("country");
   $("#state").html(set_city_state(targetCountry));
   document.getElementById("state").value = user.state;
+  console.log('checking state..')
+  console.log(document.getElementById("state"));
+  console.log(user.state);
 }
 

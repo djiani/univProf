@@ -151,6 +151,12 @@ border: 1px solid limegreen;
 border: 1px solid red;
 }
 
+.demoAcount{
+  text-align: center;
+}
+.blue_text{
+  color: blue;
+}
 /*.js_users_more_details, .modal-dialog_pdf,pdf_modal  */
 @media only screen and (max-width: 767px){
   .js_users_more_details, .pdf_modal{

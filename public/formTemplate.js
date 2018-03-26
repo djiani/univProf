@@ -103,19 +103,19 @@ function previewsForm(user){
         <div class="form-group">
           <label for="regionSelect" class="control-label col-sm-3 ">Region</label>
           <div class="col-sm-8">
-            <input type="text" class="form-control" id="regionSelect" value="${user.region}" >
+            <input type="text" class="form-control" id="regionSelect" value="${user.region}" required  >
           </div>
         </div>
         <div class="form-group">
           <label for="country" class="control-label col-sm-3 ">Country</label>
           <div class="col-sm-8">
-            <input type="text" class="form-control" id="country"  value="${user.country}" >
+            <input type="text" class="form-control" id="country"  value="${user.country}" required>
           </div>
         </div>
         <div class="form-group">
           <label for="state" class="control-label col-sm-3 ">State/City</label>
           <div class="col-sm-8">
-            <input type="text" class="form-control" id="state" value="${user.state}"  >
+            <input type="text" class="form-control" id="state" value="${user.state}" required >
           </div>
         </div>
       </fieldset>
@@ -397,8 +397,15 @@ function signInForm(){
           <button type="submit" class="btn btn-primary form-control">Submit</button>
           </div>
         </form>
-        <p>Not a member, <a href="#signUp" class="js_signUp2">SignUp</a> </p>
+
+        <div class="demoAcount">
+        <h5>Not a member yet? <a href="#signUp" class="js_signUp2 blue_text">Sign Up Here</a> </h5>
+          <h4>Demo account:</h4>
+          <label>email: <span class="blue_text">demo@gmail.com</span></label>
+          <label>password:<span class="blue_text"> password123</span></label>
+        </div>
       </div>
+        
     </div>
 
   `

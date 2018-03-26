@@ -111,7 +111,6 @@ app.get('/api/upload', (req, res) => {
 
 
 //send email
-
 app.get('/send',function(req,res){
   console.log("email:"+EMAIL +"  pass:"+EMAIL_PASS);
   var smtpTransport = nodemailer.createTransport({
